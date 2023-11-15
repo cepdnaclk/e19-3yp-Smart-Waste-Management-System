@@ -1,30 +1,37 @@
 {
     "team": [
         {
-            "name": "Team Member Name 1",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Fahman M.H.M.",
+            "email": "e19105@eng.pdn.ac.lk",
+            "eNumber": "E/19/105"
         },
         {
-            "name": "Team Member Name 2",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Faseeh M.F.M.",
+            "email": "e19106@eng.pdn.ac.lk",
+            "eNumber": "E/19/106"
         },
         {
-            "name": "Team Member Name 3",
-            "email": "email@eng.pdn.ac.lk",
-            "eNumber": "E/yy/xxx"
+            "name": "Hamshica Mohanathas",
+            "email": "e19244@eng.pdn.ac.lk",
+            "eNumber": "E/19/244"
+        },
+        {
+            "name": "Sayumi Muthukumarana",
+            "email": "e19249@eng.pdn.ac.lk",
+            "eNumber": "E/19/249"
+        },
+        {
+            "name": "Sahan Nimantha",
+            "email": "e19205@eng.pdn.ac.lk",
+            "eNumber": "E/19/205"
         }
+        
     ],
     "supervisors": [
         {
-            "name": "Dr. Supervisor 1",
-            "email": "email@eng.pdn.ac.lk"
-        },
-        {
-            "name": "Supervisor 2",
-            "email": "email@eng.pdn.ac.lk"
+            "name": "Dr. Isuru Nawinne",
+            "email": "isurunawinne@eng.pdn.ac.lkk"
         }
     ],
-    "tags": ["Web", "Embedded Systems"]
+    "tags": ["Web", "Embedded Systems", "React", "React Native", "Node js", "JWT", "JavaScript", "MongoDB", "Network Security"]
 }
