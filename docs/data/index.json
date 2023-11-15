@@ -30,7 +30,7 @@
     "supervisors": [
         {
             "name": "Dr. Isuru Nawinne",
-            "email": "isurunawinne@eng.pdn.ac.lkk"
+            "email": "isurunawinne@eng.pdn.ac.lk"
         }
     ],
     "tags": ["Web", "Embedded Systems", "React", "React Native", "Node js", "JWT", "JavaScript", "MongoDB", "Network Security"]
