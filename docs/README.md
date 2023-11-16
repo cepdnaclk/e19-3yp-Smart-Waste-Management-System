@@ -35,7 +35,7 @@ title: Project Template
 
 ## Introduction
 
-Description of the real world problem and solution, impact
+Description of the real world problem and solution, impact.
 
 
 ## Solution Architecture
