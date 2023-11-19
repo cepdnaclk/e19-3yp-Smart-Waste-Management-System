@@ -1,4 +1,3 @@
-___
 # SMART WASTE MANAGEMENT SYSTEM 
 ___
 
