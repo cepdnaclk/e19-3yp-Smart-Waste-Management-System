@@ -31,7 +31,3 @@ We are eagerly planning to make it more automated using Machine Learning feature
 - E/19/205: [Kumara I. P. S. N. U.](https://people.ce.pdn.ac.lk/students/e19/205/)
 - E/19/244: [Mohanathas H.](https://people.ce.pdn.ac.lk/students/e19/244/)
 - E/19/249: [M.P.S.A. Muthukumarana](https://people.ce.pdn.ac.lk/students/e19/249/)
-=======
-SMART WASTE MANAGEMENT SYSTEM
-#Smart management system
-#Group 13
