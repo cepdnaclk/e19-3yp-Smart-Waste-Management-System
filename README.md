@@ -4,7 +4,7 @@ ___
 
 <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800"/>
 
-# Remote Controlled PLC Training Kit
+# SMART WASTE MANAGEMENT SYSTEM 
 
 ## Project Overview
 Our project is a smart waste management system that aims to make the process of waste collection more efficient. The system utilizes waste bins and manages them through mobile and web applications. With the help of the system, users can easily check the status of the bins and follow a schedule for waste collection based on the bin's status. Our primary focus is on house owners, garbage collectors, and municipal authorities who serve as administrators in the system. The system is designed to make waste management easier and more effective for everyone involved.
@@ -23,7 +23,7 @@ Our project is a smart waste management system that aims to make the process of 
 ## Future Enhancements
 We are eagerly planning to make it more automated using Machine Learning features, where the wastage collection is optimized according to the previous data series. 
 
-#### We hope that this would have given you a better view of our project.
+#### We hope that this description will give a better view of our project.
 
 ## Team
 - E/19/105: [M. H. M. Fahman](https://people.ce.pdn.ac.lk/students/e19/105/)
