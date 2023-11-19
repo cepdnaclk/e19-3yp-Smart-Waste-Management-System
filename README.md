@@ -1,6 +1,4 @@
 # SMART WASTE MANAGEMENT SYSTEM 
-___
-
 <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800"/>
 
 # SMART WASTE MANAGEMENT SYSTEM 
