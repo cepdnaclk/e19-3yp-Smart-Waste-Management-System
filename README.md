@@ -20,7 +20,8 @@ Our project is a smart waste management system that aims to make the process of 
 ## Future Enhancements
 We are eagerly planning to make it more automated using Machine Learning features, where the wastage collection is optimized according to the previous data series. 
 
-##### We hope that this description will give a better view of our project.
+## Project proposal presentation
+https://www.canva.com/design/DAF0WkLwZAc/GI9yocjhA9moiz78CJPeHw/edit
 
 ## Team (GROUP 13)
 - E/19/105: [M. H. M. Fahman](https://people.ce.pdn.ac.lk/students/e19/105/)
