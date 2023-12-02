@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,13 +9,15 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import React, { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView
       style={{
@@ -38,7 +41,7 @@ const LoginScreen = () => {
           </Text>
         </View>
 
-        <View styles={{ marginTop: 70 }}>
+        <View style={{ marginTop: 70 }}>
           <View
             style={{
               alignItems: "center",
@@ -70,7 +73,7 @@ const LoginScreen = () => {
           </View>
         </View>
 
-        <View styles={{ marginTop: 10 }}>
+        <View style={{ marginTop: 10 }}>
           <View
             style={{
               alignItems: "center",
@@ -144,7 +147,10 @@ const LoginScreen = () => {
           </Text>
         </Pressable>
 
-        <Pressable style={{ marginTop: 12 }}>
+        <Pressable
+          onPress={() => navigation.navigate("Register")}
+          style={{ marginTop: 12 }}
+        >
           <Text
             style={{
               textAlign: "center",
@@ -161,3 +167,5 @@ const LoginScreen = () => {
 };
 
 export default LoginScreen;
+
+const styles = StyleSheet.create({});
