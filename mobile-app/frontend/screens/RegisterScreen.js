@@ -14,8 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios"; 
-import { Picker } from '@react-native-picker/picker';
+import axios from "axios";
+import { Picker } from "@react-native-picker/picker";
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
@@ -23,9 +23,9 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState("");
   const [selectedRole, setSelectedRole] = useState("houseOwner");
   const navigation = useNavigation();
+
   const handleRegister = () => {
     const user = { name, selectedRole, email, password };
-
     // send a POST  request to the backend API to register the user
     axios
       .post("http://localhost:8000/register", user)
@@ -39,6 +39,14 @@ const RegisterScreen = () => {
         setSelectedRole("houseOwner");
         setEmail("");
         setPassword("");
+
+        // Navigate based on selectedRole
+        const role = response.data.role;
+        if (role === "Garbage Collector") {
+          navigation.replace("GarbageCollectorHomeScreen");
+        } else if (role === "House Owner") {
+          navigation.replace("HouseOwnerHomeScreen");
+        }
       })
       .catch((error) => {
         Alert.alert(
@@ -55,46 +63,52 @@ const RegisterScreen = () => {
         flex: 1,
         backgroundColor: "white",
         alignItems: "center",
-        marginTop: 50,
+        marginTop: 0,
       }}
     >
       <View>
         <Image
-          style={{ width: 150, height: 100 }}
+          style={{ marginTop: 70, width: 250, height: 150 }}
           source={require("../assets/LoginScreen/head.png")}
         />
       </View>
 
       <KeyboardAvoidingView>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ marginTop: 12, fontSize: 17, fontWeight: "bold" }}>
+          <Text
+            style={{
+              marginTop: 10,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "green",
+            }}
+          >
             Register To Your Account
           </Text>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 20 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <Ionicons
               name="person"
               style={{ marginLeft: 8 }}
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
             <TextInput
               value={name}
               onChangeText={(text) => setName(text)}
               style={{
-                color: "gray",
+                color: "green",
                 marginVertical: 10,
                 width: 300,
                 fontSize: name ? 16 : 16,
@@ -104,28 +118,27 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 20 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <MaterialIcons
               name="person-search"
               style={{ marginLeft: 8 }}
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
 
             <Picker
               selectedValue={selectedRole}
-              style={{ height: 40, width: 300, color: "black" }}
+              style={{ height: 40, width: 300, color: "green" }}
               onValueChange={(itemValue) => setSelectedRole(itemValue)}
             >
               <Picker.Item label="House Owner" value="houseOwner" />
@@ -134,29 +147,28 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 20 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <MaterialIcons
               style={{ marginLeft: 8 }}
               name="email"
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
               style={{
-                color: "gray",
+                color: "green",
                 marginVertical: 10,
                 width: 300,
                 fontSize: email ? 16 : 16,
@@ -166,30 +178,29 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 20 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <AntDesign
               style={{ marginLeft: 8 }}
               name="lock"
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
             <TextInput
               value={password}
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={true}
               style={{
-                color: "gray",
+                color: "green",
                 marginVertical: 10,
                 width: 300,
                 fontSize: password ? 16 : 16,
@@ -199,24 +210,23 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 100 }} />
+        <View style={{ marginTop: 50 }} />
         <Pressable
           onPress={handleRegister}
           style={{
             width: 200,
-            backgroundColor: "#FEBE10",
-            borderRadius: 6,
+            backgroundColor: "green",
+            borderRadius: 10,
             marginLeft: "auto",
             marginRight: "auto",
-            padding: 15,
-            marginTop: 20,
+            padding: 20,
           }}
         >
           <Text
             style={{
               textAlign: "center",
               color: "white",
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: "bold",
             }}
           >
@@ -225,7 +235,7 @@ const RegisterScreen = () => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.goBack()}
+          onPress={() => navigation.navigate("LoginScreen")}
           style={{ marginTop: 12 }}
         >
           <Text
@@ -246,4 +256,3 @@ const RegisterScreen = () => {
 export default RegisterScreen;
 
 const styles = StyleSheet.create({});
-

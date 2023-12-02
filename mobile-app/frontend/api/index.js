@@ -3,13 +3,14 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
-const cors = require("cors"); // Use 'cors' instead of 'cars'
+const cors = require("cors"); 
+const bcrypt = require("bcrypt");
+
 
 const app = express();
 const port = 8000;
 
 app.use(cors()); // Use cors middleware for handling CORS
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -32,7 +33,7 @@ app.listen(port, () => {
 });
 
 const User = require("./models/user");
-const Order = require("./models/smartBins");
+const SmartBins = require("./models/smartBins");
 
 //function to send verification email to the user
 const sendVerificationEmail = async (email, verificationToken) => {
@@ -61,7 +62,6 @@ const sendVerificationEmail = async (email, verificationToken) => {
     console.error("Error sending verification email:", error);
   }
 };
-
 //endpoint for user registration in the app
 app.post("/register", async (req, res) => {
   try {
@@ -76,6 +76,9 @@ app.post("/register", async (req, res) => {
 
     // Create a new user
     const newUser = new User({ name, selectedRole, email, password });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    newUser.password = hashedPassword;
 
     // Generate and store the verification token
     newUser.verificationToken = crypto.randomBytes(20).toString("hex");
@@ -105,7 +108,7 @@ app.get("/verify/:token", async (req, res) => {
   try {
     const token = req.params.token;
 
-    //Find the user witht the given verification token
+    //Find the user with the given verification token
     const user = await User.findOne({ verificationToken: token });
     if (!user) {
       return res.status(404).json({ message: "Invalid verification token" });
@@ -124,9 +127,35 @@ app.get("/verify/:token", async (req, res) => {
 });
 
 const generateSecretKey = () => {
-  const secretKey = crypto.randomBytes(32).toString("hex");
+  const secretKey = crypto.randomBytes(64).toString("hex");
 
   return secretKey;
 };
 
 const secretKey = generateSecretKey();
+
+//endpoint to login the user!
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    //check if the user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    // check if the password is correct using bcrypt
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    //generate a token
+    const token = jwt.sign({ userId: user._id }, secretKey);
+
+    res.status(200).json({ token });
+  } catch (error) {
+    res.status(500).json({ message: "Login Failed" });
+  }
+});

@@ -8,15 +8,42 @@ import {
   KeyboardAvoidingView,
   TextInput,
   Pressable,
+  Alert,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const handleLogin = () => {
+    const user = {
+      email: email,
+      password: password,
+    };
+
+    axios
+      .post("http://localhost:8000/login", user)
+      .then((response) => {
+        console.log(response);
+        const token = response.data.token;
+        AsyncStorage.setItem("authToken", token);
+        const role = response.data.role;
+        if (role === "Garbage Collector") {
+          navigation.replace("GarbageCollectorHomeScreen");
+        } else if (role === "House Owner") {
+          navigation.replace("HouseOwnerHomeScreen");
+        }
+      })
+      .catch((error) => {
+        Alert.alert("Login Error", "Invalid Email");
+        console.log(error);
+      });
+  };
 
   return (
     <SafeAreaView
@@ -24,46 +51,53 @@ const LoginScreen = () => {
         flex: 1,
         backgroundColor: "white",
         alignItems: "center",
-        marginTop: 50,
+        marginTop: 0,
+        backgroundSize: "cover",
       }}
     >
       <View>
         <Image
-          style={{ width: 150, height: 100 }}
+          style={{ marginTop: 70, width: 250, height: 150 }}
           source={require("../assets/LoginScreen/head.png")}
         />
       </View>
 
       <KeyboardAvoidingView>
         <View style={{ alignItems: "center" }}>
-          <Text style={{ marginTop: 12, fontSize: 17, fontWeight: "bold" }}>
+          <Text
+            style={{
+              marginTop: 20,
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "green",
+            }}
+          >
             Login In To Your Account
           </Text>
         </View>
 
-        <View style={{ marginTop: 70 }}>
+        <View style={{ marginTop: 50 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <MaterialIcons
               style={{ marginLeft: 8 }}
               name="email"
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
             <TextInput
               value={email}
               onChangeText={(text) => setEmail(text)}
               style={{
-                color: "gray",
+                color: "green",
                 marginVertical: 10,
                 width: 300,
                 fontSize: email ? 16 : 16,
@@ -73,30 +107,29 @@ const LoginScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 10 }}>
+        <View style={{ marginTop: 20 }}>
           <View
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 5,
+              gap: 10,
               backgroundColor: "#D0D0D0",
-              paddingVertical: 5,
-              borderRadius: 5,
-              marginTop: 30,
+              paddingVertical: 10,
+              borderRadius: 8,
             }}
           >
             <AntDesign
               style={{ marginLeft: 8 }}
               name="lock"
-              size={24}
-              color="gray"
+              size={30}
+              color="green"
             />
             <TextInput
               value={password}
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={true}
               style={{
-                color: "gray",
+                color: "green",
                 marginVertical: 10,
                 width: 300,
                 fontSize: password ? 16 : 16,
@@ -109,7 +142,7 @@ const LoginScreen = () => {
         <View
           style={{
             alignItems: "center",
-            marginTop: 12,
+            marginTop: 15,
             flexDirection: "row",
             justifyContent: "space-between",
           }}
@@ -118,7 +151,7 @@ const LoginScreen = () => {
             <Text style={{ color: "gray" }}>Keep me logged in</Text>
           </View>
           <View>
-            <Text style={{ color: "#007FFF", fontWeight: "500" }}>
+            <Text style={{ color: "green", fontWeight: "500" }}>
               Forgot Password
             </Text>
           </View>
@@ -126,20 +159,22 @@ const LoginScreen = () => {
 
         <View style={{ marginTop: 100 }} />
         <Pressable
+          //onPress={handleLogin}
+          onPress={() => navigation.navigate("common")}
           style={{
             width: 200,
-            backgroundColor: "#FEBE10",
-            borderRadius: 6,
+            backgroundColor: "green",
+            borderRadius: 10,
             marginLeft: "auto",
             marginRight: "auto",
-            padding: 15,
+            padding: 20,
           }}
         >
           <Text
             style={{
               textAlign: "center",
               color: "white",
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: "bold",
             }}
           >
@@ -148,8 +183,8 @@ const LoginScreen = () => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.navigate("Register")}
-          style={{ marginTop: 12 }}
+          onPress={() => navigation.navigate("RegisterScreen")}
+          style={{ marginTop: 15 }}
         >
           <Text
             style={{
@@ -158,7 +193,15 @@ const LoginScreen = () => {
               fontSize: 16,
             }}
           >
-            Don't have an account? Sign Up
+            <Text
+              style={{
+                textAlign: "center",
+                color: "green",
+                fontSize: 16,
+              }}
+            >
+              Don't have an account? Sign Up
+            </Text>
           </Text>
         </Pressable>
       </KeyboardAvoidingView>
