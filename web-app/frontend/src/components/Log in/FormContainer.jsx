@@ -1,6 +1,7 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Logo from "./Logo"; // Import the Logo component
 import { useState } from "react";
 
 function FormContainer() {
@@ -33,6 +34,7 @@ function FormContainer() {
 
   return (
     <div style={style.container}>
+      <Logo />
       <Form style={style.form} onSubmit={loginUser}>
         <Form.Group controlId="username">
           <Form.Label style={style.label}>Username</Form.Label>
@@ -66,6 +68,7 @@ function FormContainer() {
 }
 
 const style = {
+  
   container: {
     width: "350px",
     margin: "auto",
@@ -101,5 +104,7 @@ const style = {
     placeItem: "center",
   },
 };
+
+
 
 export default FormContainer;
