@@ -2,6 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Logo from "./Logo"; // Import the Logo component
+import Img from "./Img"; // Import the Img component
 import { useState } from "react";
 
 function FormContainer() {
@@ -35,6 +36,9 @@ function FormContainer() {
   return (
     <div style={style.container}>
       <Logo />
+      <Img />
+      <div style={style.welcome}>Welcome Back!</div>
+      <div style={style.login}>Login to continue</div>
       <Form style={style.form} onSubmit={loginUser}>
         <Form.Group controlId="username">
           <Form.Label style={style.label}>Username</Form.Label>
@@ -70,16 +74,29 @@ function FormContainer() {
 const style = {
   
   container: {
-    width: "350px",
+    width: "500px",
     margin: "auto",
-    marginTop: "60px",
+    marginTop: "200px",
+    marginLeft: "650px",
+    
   },
   form: {
     padding: "20px",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    //borderRadius: "8px",
+    //boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
+    //border: "none",
   },
+  welcome: {
+    color: "#005211",
+    fontWeight: "bold",
+    fontSize: "32px",
+    marginBottom: "16px",
+  },
+  login: {
+    color: "#4f9e5f",
+    marginBottom: "32px",
+  },
+
   label: {
     fontWeight: "bold",
     marginBottom: "8px",
