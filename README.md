@@ -1,8 +1,6 @@
 # SMART WASTE MANAGEMENT SYSTEM 
 <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800"/>
 
-# SMART WASTE MANAGEMENT SYSTEM 
-
 ## Project Overview
 Our project is a smart waste management system that aims to make the process of waste collection more efficient. The system utilizes waste bins and manages them through mobile and web applications. With the help of the system, users can easily check the status of the bins and follow a schedule for waste collection based on the bin's status. Our primary focus is on house owners, garbage collectors, and municipal authorities who serve as administrators in the system. The system is designed to make waste management easier and more effective for everyone involved.
 
