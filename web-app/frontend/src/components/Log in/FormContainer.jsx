@@ -119,18 +119,18 @@ const style = {
     borderColor: "#005211",
   },
   buttonContainer: {
-    display: "flex",
-    //justifyContent: "center",
-    alignItems: "center",
-    //marginTop: "20px",
-    justifyContent: "space-between",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    
+    
   },
   button: {
     width: "40%",
     backgroundColor: "#4f9e5f",
     borderColor: "#005211",
     marginTop: "20px",
-    padding: "5px",
+    padding: "10px",
     borderRadius: "100px",
     display: "grid",
     placeItem: "center",
