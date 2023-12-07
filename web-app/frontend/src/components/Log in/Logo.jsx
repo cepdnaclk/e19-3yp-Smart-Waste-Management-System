@@ -19,8 +19,8 @@ const Logo = () => {
 const styles = {
   logo: {
     position: "absolute",
-    top: "10px",
-    left: "50px",
+    top: "0px",
+    left: "20px",
   },
 };
 

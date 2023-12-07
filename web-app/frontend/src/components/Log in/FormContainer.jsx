@@ -3,6 +3,9 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Logo from "./Logo"; // Import the Logo component
 import Img from "./Img"; // Import the Img component
+import SignIn from "./SignIn"; // Import the SignIn component
+//import userLogo from "./user.png";
+
 import { useState } from "react";
 
 function FormContainer() {
@@ -36,15 +39,16 @@ function FormContainer() {
   return (
     <div style={style.container}>
       <Logo />
+      <SignIn />
       <Img />
       <div style={style.welcome}>Welcome Back!</div>
       <div style={style.login}>Login to continue</div>
       <Form style={style.form} onSubmit={loginUser}>
         <Form.Group controlId="username">
-          <Form.Label style={style.label}>Username</Form.Label>
+          <Form.Label style={style.label}>Username / Email</Form.Label>
           <Form.Control
             type="username"
-            placeholder="username"
+            placeholder="username@gmail.com"
             style={style.input}
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -54,18 +58,19 @@ function FormContainer() {
           <Form.Label style={style.label}>Password</Form.Label>
           <Form.Control
             type="password"
-            placeholder="  Password"
+            placeholder="password"
             style={style.input}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" style={style.button}>
-          Login
-        </Button>
-        <br />
-        <br />
-        <div>Forgot Password?</div>
+          <div style={style.buttonContainer}>
+            <Button variant="primary" type="submit" style={style.button}>
+              Login
+            </Button>
+          
+            <div style={style.text}>Forgot Password?</div>
+          </div>
       </Form>
     </div>
   );
@@ -99,9 +104,11 @@ const style = {
 
   label: {
     fontWeight: "bold",
-    marginBottom: "8px",
+    marginBottom: "10px",
     display: "block",
-    borderRadius: "8px",
+    borderRadius: "0px",
+    //borderColor: "#005211",
+    color: "#005211",
   },
   input: {
     width: "100%",
@@ -109,17 +116,34 @@ const style = {
     marginBottom: "16px",
     boxSizing: "border-box",
     borderRadius: "20px",
+    borderColor: "#005211",
+  },
+  buttonContainer: {
+    display: "flex",
+    //justifyContent: "center",
+    alignItems: "center",
+    //marginTop: "20px",
+    justifyContent: "space-between",
   },
   button: {
-    width: "100%",
-    backgroundColor: "#007bff",
-    borderColor: "#007bff",
-    marginTop: "16px",
+    width: "40%",
+    backgroundColor: "#4f9e5f",
+    borderColor: "#005211",
+    marginTop: "20px",
     padding: "5px",
-    borderRadius: "20px",
+    borderRadius: "100px",
     display: "grid",
     placeItem: "center",
   },
+  text: {
+    color: "#4f9e5f",
+    textAlign: "center",
+    marginTop: "30px",
+    marginBottom: "10px",
+    marginLeft: "10px",
+  },
+
+
 };
 
 
