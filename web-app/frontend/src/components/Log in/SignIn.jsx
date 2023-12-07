@@ -22,6 +22,7 @@ const style = {
         top: '10px',
         right: '10px',
         marginRight: '40px',
+        marginTop: '20px',
     },
     button: {
         width: '100%',
