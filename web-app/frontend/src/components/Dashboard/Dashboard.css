@@ -33,11 +33,12 @@ body {
 }
 
 .search-text {
-  background-color: #1d2634;
+  background-color: #efefef;
   border-color: rgb(255, 255, 255);
   color: #f0f0f0;
   width: 200px;
   height: 25px;
+  border-radius: 20px;
 }
 
 /* Header css End */
@@ -47,7 +48,7 @@ body {
 #sidebar {
   grid-area: sidebar;
   height: 100%;
-  background-color: #263043;
+  background-color: #206027;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
