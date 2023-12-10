@@ -11,9 +11,44 @@ Our project is a smart waste management system that aims to make the process of 
 
 ## Key Features
 - User-friendly web-based interface for administrators and mobile application for house owners and garbage collectors.
-- Bin status monitoring.
 - Auto-locking system while the wastage filled a certain level.
 - Direct bin lock access to garbage collectors and administrators.
+- Smart waste bins with fill level sensors and temperature monitoring.
+- Real-time data transmission to a central server.
+- Web and mobile applications for user interaction.
+- Route optimization for waste collection.
+- LED indicators on bins for visual fill level representation.
+- GPS tracking for bin location information.
+
+## Technological Stack
+
+- **Frontend:**
+  - React.js for the web application.
+  - React Native for the mobile application.
+
+- **Backend:**
+  - Node.js with Express for server development.
+  - MongoDB for the database.
+
+- **IoT Devices:**
+  - Arduino/Raspberry Pi for smart waste bins.
+  - MQTT for communication.
+
+- **Authentication:**
+  - JWT (JSON Web Tokens) for secure authentication.
+
+- **Communication:**
+  - MQTT for IoT device communication.
+  - WebSocket for real-time updates in the frontend.
+
+- **Security Measures:**
+  - Passwords hashed using bcrypt.
+  - reCAPTCHA for enhanced security.
+  - HTTPS for secure data transmission.
+
+- **Cloud and Scalability:**
+  - AWS for cloud infrastructure.
+  - Docker and Kubernetes for containerization and orchestration.
 
 ## Future Enhancements
 We are eagerly planning to make it more automated using Machine Learning features, where the wastage collection is optimized according to the previous data series. 
