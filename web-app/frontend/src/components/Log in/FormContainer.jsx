@@ -64,26 +64,24 @@ function FormContainer() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-          <div style={style.buttonContainer}>
-            <Button variant="primary" type="submit" style={style.button}>
-              Login
-            </Button>
-          
-            <div style={style.text}>Forgot Password?</div>
-          </div>
+        <div style={style.buttonContainer}>
+          <Button variant="primary" type="submit" style={style.button}>
+            Login
+          </Button>
+
+          <div style={style.text}>Forgot Password?</div>
+        </div>
       </Form>
     </div>
   );
 }
 
 const style = {
-  
   container: {
     width: "500px",
     margin: "auto",
     marginTop: "200px",
     marginLeft: "650px",
-    
   },
   form: {
     padding: "20px",
@@ -119,11 +117,9 @@ const style = {
     borderColor: "#005211",
   },
   buttonContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    
-    
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   button: {
     width: "40%",
@@ -142,10 +138,6 @@ const style = {
     marginBottom: "10px",
     marginLeft: "10px",
   },
-
-
 };
-
-
 
 export default FormContainer;
