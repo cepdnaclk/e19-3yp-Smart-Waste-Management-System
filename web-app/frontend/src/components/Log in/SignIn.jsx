@@ -5,7 +5,7 @@ const SignIn = () => {
         <div style={style.SignInContainer}>
             {/* Sign Up option */}
             <div style={style.text}>New User?</div>
-            <button style={style.button} className="sign-up-button">Sign Up</button>
+            <button style={style.button} className="sign-up-button">Sign In</button>
 
             {/* Rest of the sign in component */}
             {/* ... */}
