@@ -38,7 +38,8 @@ function RegisterForm() {
     <div style={style.container}>
       <Logo />
       <Img />
-      <h1 style={style.signIn}>Sign In</h1>
+      <h1 style={style.signIn}>Hello!</h1>
+      <div style={style.text}>Join to get started with us!</div>
       <Form style={style.form} onSubmit={registerUser}>
       <Form.Group controlId="name">
           <Form.Label style={style.label}>Name</Form.Label>
@@ -72,7 +73,7 @@ function RegisterForm() {
         </Form.Group>
           <div style={style.buttonContainer}>
             <Button variant="primary" type="submit" style={style.button}>
-              Register
+              Sign Up
             </Button>
           </div>
       </Form>
@@ -85,7 +86,7 @@ const style = {
   container: {
     width: "500px",
     margin: "auto",
-    marginTop: "180px",
+    marginTop: "150px",
     marginLeft: "650px",
     
   },
@@ -99,6 +100,11 @@ const style = {
     fontSize: "32px",
     marginBottom: "16px",
   },
+  text: {
+    color: "#4f9e5f",
+    marginBottom: "32px",
+  },
+
 
   label: {
     fontWeight: "bold",
