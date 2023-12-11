@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import Logo from "../Log in/Logo"; // Import the Logo component
+import Img from "../Log in/Img"; // Import the Img component
 
 function RegisterForm() {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function registerUser(event) {
@@ -18,7 +20,7 @@ function RegisterForm() {
       },
       body: JSON.stringify({
         name,
-        username,
+        email,
         password,
       }),
     });
@@ -32,7 +34,9 @@ function RegisterForm() {
 
   return (
     <div>
-      <h1>Register</h1>
+      <Logo />
+      <Img />
+      <h1>Sign In</h1>
       <form onSubmit={registerUser}>
         <input
           value={name}
@@ -42,10 +46,10 @@ function RegisterForm() {
         />
         <br />
         <input
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          type="username"
-          placeholder="username"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          placeholder="username@gmail.com"
         />
         <br />
         <input
