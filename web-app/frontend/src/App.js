@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Bin from "./pages/Bin";
 import "./App.css";
 
 const App = () => {
@@ -10,9 +11,10 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/bin" element={<Bin />} />
         </Routes>
       </BrowserRouter>
     </div>
