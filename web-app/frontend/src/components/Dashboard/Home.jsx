@@ -6,6 +6,7 @@ import { faUsers, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 function Home() {
   return (
     <div className="container-fluid">
+      <h2>Overviews</h2>
       <div className="row">
         {" "}
         <br />
@@ -56,7 +57,19 @@ function Home() {
                 <td>B003</td>
                 <td>95 %</td>
                 <td>27</td>
-                <td>Close</td>
+                <td>Closed</td>
+              </tr>
+              <tr>
+                <td>B004</td>
+                <td>95 %</td>
+                <td>25</td>
+                <td>Closed</td>
+              </tr>
+              <tr>
+                <td>B005</td>
+                <td>25 %</td>
+                <td>27</td>
+                <td>Open</td>
               </tr>
             </tbody>
           </table>
