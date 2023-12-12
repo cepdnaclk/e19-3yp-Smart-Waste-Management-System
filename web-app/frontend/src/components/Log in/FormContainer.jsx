@@ -9,7 +9,7 @@ import SignIn from "./SignIn"; // Import the SignIn component
 import { useState } from "react";
 
 function FormContainer() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function loginUser(event) {
@@ -19,7 +19,7 @@ function FormContainer() {
       const response = await fetch("http://localhost:1337/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
@@ -29,7 +29,7 @@ function FormContainer() {
         alert("Login successful");
         window.location.href = "/dashboard";
       } else {
-        alert("Please check your username and password");
+        alert("Please check your email and password");
       }
     } catch (error) {
       console.error("Error during login:", error);
@@ -44,14 +44,14 @@ function FormContainer() {
       <div style={style.welcome}>Welcome Back!</div>
       <div style={style.login}>Login to continue</div>
       <Form style={style.form} onSubmit={loginUser}>
-        <Form.Group controlId="username">
-          <Form.Label style={style.label}>Username / Email</Form.Label>
+        <Form.Group controlId="email">
+          <Form.Label style={style.label}>Email</Form.Label>
           <Form.Control
-            type="username"
+            type="email"
             placeholder="username@gmail.com"
             style={style.input}
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </Form.Group>
         <Form.Group controlId="formGroupPassword">
