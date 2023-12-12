@@ -8,11 +8,11 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: 260px 1fr 1fr 1fr;
+  grid-template-columns: 260px 1fr;
   grid-template-rows: 0.2fr 3fr;
   grid-template-areas:
-    "sidebar header header header"
-    "sidebar main main main";
+    "sidebar header"
+    "sidebar main";
   height: 100vh;
 }
 
@@ -35,7 +35,7 @@ body {
 .search-text {
   background-color: #efefef;
   border-color: rgb(255, 255, 255);
-  color: #f0f0f0;
+  color: #000000;
   width: 200px;
   height: 25px;
   border-radius: 20px;
