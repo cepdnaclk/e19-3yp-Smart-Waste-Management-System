@@ -53,7 +53,7 @@ Our project is a smart waste management system that aims to make the process of 
 ## Future Enhancements
 We are eagerly planning to make it more automated using Machine Learning features, where the wastage collection is optimized according to the previous data series. 
 
-## Project presentation
+## Project page
 [GBTech - Project Page - Group 13](https://cepdnaclk.github.io/e19-3yp-Smart-Waste-Management-System/#)
 
 ## Project presentation
