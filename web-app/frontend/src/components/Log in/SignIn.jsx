@@ -5,7 +5,10 @@ const SignIn = () => {
     <div style={style.SignInContainer}>
       <div style={style.text}>New User?</div>
       <button style={style.button} className="sign-up-button">
-        Sign Up
+        <a href="/register" style={style.link}>
+          {" "}
+          Sign Up{" "}
+        </a>
       </button>
     </div>
   );
@@ -41,6 +44,10 @@ const style = {
     marginLeft: "10px",
     marginRight: "30px",
     whiteSpace: "nowrap",
+  },
+  link: {
+    textDecoration: "none",
+    color: "inherit",
   },
 };
 
