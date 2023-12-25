@@ -16,7 +16,7 @@ function FormContainer() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:1337/api/login", {
+      const response = await fetch("http://localhost:1337/api/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -24,15 +24,15 @@ function FormContainer() {
 
       const data = await response.json();
 
-      if (data.user) {
-        localStorage.setItem("token", data.user);
+      if (data.admin) {
+        localStorage.setItem("token", data.admin);
         alert("Login successful");
         window.location.href = "/dashboard";
       } else {
         alert("Please check your email and password");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.log("Error during login:", error);
     }
   }
 
