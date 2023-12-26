@@ -1,9 +1,9 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Logo from "./Logo"; // Import the Logo component
-import Img from "./Img"; // Import the Img component
-import SignIn from "./SignIn"; // Import the SignIn component
+import Logo from "./Logo";
+import Img from "./Img";
+import SignIn from "./SignIn";
 //import userLogo from "./user.png";
 
 import { useState } from "react";
@@ -26,7 +26,6 @@ function FormContainer() {
 
       if (data.admin) {
         localStorage.setItem("token", data.admin);
-        alert("Login successful");
         window.location.href = "/dashboard";
       } else {
         alert("Please check your email and password");
