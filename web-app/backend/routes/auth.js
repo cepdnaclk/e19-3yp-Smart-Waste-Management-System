@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user");
+const Admin = require("../models/admin");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -13,45 +13,50 @@ router.post("/register", async (req, res) => {
     }
 
     const newPassword = await bcrypt.hash(req.body.password, 10);
-    await User.create({
+    await Admin.create({
       name: req.body.name,
-      username: req.body.username,
+      email: req.body.email,
       password: newPassword,
     });
 
     res.json({ status: "ok" });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ status: "error", error: "Something went wrong!" });
+    res.status(500).json({
+      status: "error",
+      error: "Something went wrong during registration!",
+    });
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username });
+    const existingAdmin = await Admin.findOne({ email: req.body.email });
 
-    if (!user) {
+    if (!existingAdmin) {
       return res.json({ status: "error", error: "Invalid login!" });
     }
 
     const isPasswordValid = await bcrypt.compare(
       req.body.password,
-      user.password
+      existingAdmin.password
     );
 
     if (isPasswordValid) {
       const token = jwt.sign(
-        { name: user.name, username: user.username },
+        { name: existingAdmin.name, email: existingAdmin.email },
         process.env.JWT_SECRET || "defaultSecretKey"
       );
 
-      return res.json({ status: "ok", user: token });
+      res.json({ status: "ok", admin: token });
     } else {
-      return res.json({ status: "error", user: false });
+      res.json({ status: "error", admin: false });
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ status: "error", error: "Something went wrong!" });
+    res
+      .status(500)
+      .json({ status: "error", error: "Something went wrong during login!" });
   }
 });
 

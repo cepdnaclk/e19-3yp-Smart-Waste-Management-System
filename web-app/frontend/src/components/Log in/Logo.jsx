@@ -6,7 +6,6 @@ import logoImg from "../pics/logo.png";
 const Logo = () => {
   return (
     <div style={styles.logo}>
-      {/* Include your logo image or any other logo content here */}
       <img
         src={logoImg}
         alt="Logo"
