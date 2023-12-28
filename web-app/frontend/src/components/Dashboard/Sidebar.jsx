@@ -3,14 +3,20 @@ import {
   BsFillPersonCheckFill,
   BsGrid1X2Fill,
   BsFillArchiveFill,
-  BsFillGrid3X3GapFill,
   BsPeopleFill,
   BsMenuButtonWideFill,
   BsFillGearFill,
 } from "react-icons/bs";
 import { RiMapPinFill } from "react-icons/ri";
 
-function Sidebar({ openSidebarToggle, OpenSidebar }) {
+const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
+  const style = {
+    link: {
+      color: "#9e9ea4",
+      textDecoration: "none",
+    },
+  };
+
   return (
     <aside
       id="sidebar"
@@ -26,44 +32,39 @@ function Sidebar({ openSidebarToggle, OpenSidebar }) {
       </div>
 
       <ul className="sidebar-list">
-        <li className="sidebar-list-item">
-          <a href="">
+        <a href="/dashboard" style={style.link}>
+          <li className="sidebar-list-item">
             <BsGrid1X2Fill className="icon" /> Dashboard
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
+          </li>
+        </a>
+        <a href="/bins" style={style.link}>
+          <li className="sidebar-list-item">
             <BsFillArchiveFill className="icon" /> Bins
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
+          </li>
+        </a>
+        <a href="/collectors" style={style.link}>
+          <li className="sidebar-list-item">
             <BsPeopleFill className="icon" /> Collectors
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
-            <BsFillGrid3X3GapFill className="icon" /> Categories
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
+          </li>
+        </a>
+        <a href="/mapview" style={style.link}>
+          <li className="sidebar-list-item">
             <RiMapPinFill className="icon" /> Map View
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
+          </li>
+        </a>
+        <a href="/reports" style={style.link}>
+          <li className="sidebar-list-item">
             <BsMenuButtonWideFill className="icon" /> Reports
-          </a>
-        </li>
-        <li className="sidebar-list-item">
-          <a href="">
+          </li>
+        </a>
+        <a href="/settings" style={style.link}>
+          <li className="sidebar-list-item">
             <BsFillGearFill className="icon" /> Settings
-          </a>
-        </li>
+          </li>
+        </a>
       </ul>
     </aside>
   );
-}
+};
 
 export default Sidebar;

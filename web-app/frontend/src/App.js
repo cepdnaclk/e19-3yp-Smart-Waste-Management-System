@@ -14,7 +14,11 @@ const App = () => {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/bin" element={<Bin />} />
+          <Route path="/bins" element={<Bin />} />
+          <Route path="/collectors" element={<Bin />} />
+          <Route path="/mapview" element={<Bin />} />
+          <Route path="/reports" element={<Bin />} />
+          <Route path="/settings" element={<Bin />} />
         </Routes>
       </BrowserRouter>
     </div>
