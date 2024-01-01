@@ -15,10 +15,10 @@ function Header({ OpenSidebar }) {
         <BsJustify className="icon" onClick={OpenSidebar} />
       </div>
       <div className="header-left">
-        <>DASHBOARD</>&nbsp;&nbsp;&nbsp;&nbsp;
+        {/* <>DASHBOARD</>&nbsp;&nbsp;&nbsp;&nbsp;
         <BsSearch className="icon" />
         &nbsp;&nbsp;
-        <input className="search-text" type="text" placeholder=" Search" />
+        <input className="search-text" type="text" placeholder=" Search" /> */}
       </div>
       <div className="header-right">
         <BsFillBellFill className="icon" />
