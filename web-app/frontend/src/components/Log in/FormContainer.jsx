@@ -1,9 +1,9 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Logo from "./Logo"; // Import the Logo component
-import Img from "./Img"; // Import the Img component
-import SignIn from "./SignIn"; // Import the SignIn component
+import Logo from "./Logo";
+import Img from "./Img";
+import SignIn from "./SignIn";
 //import userLogo from "./user.png";
 
 import { useState } from "react";
@@ -16,7 +16,7 @@ function FormContainer() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:1337/api/login", {
+      const response = await fetch("http://localhost:1337/api/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -24,15 +24,14 @@ function FormContainer() {
 
       const data = await response.json();
 
-      if (data.user) {
-        localStorage.setItem("token", data.user);
-        alert("Login successful");
+      if (data.admin) {
+        localStorage.setItem("token", data.admin);
         window.location.href = "/dashboard";
       } else {
         alert("Please check your email and password");
       }
     } catch (error) {
-      console.error("Error during login:", error);
+      console.log("Error during login:", error);
     }
   }
 

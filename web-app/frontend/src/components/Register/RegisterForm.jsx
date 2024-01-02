@@ -2,8 +2,8 @@ import { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router";
-import Logo from "../Log in/Logo"; // Import the Logo component
-import Img from "../Log in/Img"; // Import the Img component
+import Logo from "../Log in/Logo";
+import Img from "../Log in/Img";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ function RegisterForm() {
     const data = await response.json();
 
     if (data.status === "ok") {
-      navigate("/login");
+      navigate("/");
     }
   }
 
@@ -41,7 +41,7 @@ function RegisterForm() {
       <h1 style={style.signIn}>Hello!</h1>
       <div style={style.text}>Join to get started with us!</div>
       <Form style={style.form} onSubmit={registerUser}>
-      <Form.Group controlId="name">
+        <Form.Group controlId="name">
           <Form.Label style={style.label}>Name</Form.Label>
           <Form.Control
             type="text"
@@ -71,28 +71,25 @@ function RegisterForm() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-          <div style={style.buttonContainer}>
-            <Button variant="primary" type="submit" style={style.button}>
-              Sign Up
-            </Button>
-          </div>
+        <div style={style.buttonContainer}>
+          <Button variant="primary" type="submit" style={style.button}>
+            Sign Up
+          </Button>
+        </div>
       </Form>
     </div>
   );
 }
 
 const style = {
-  
   container: {
     width: "500px",
     margin: "auto",
     marginTop: "150px",
     marginLeft: "650px",
-    
   },
   form: {
     padding: "20px",
-    
   },
   signIn: {
     color: "#005211",
@@ -104,7 +101,6 @@ const style = {
     color: "#4f9e5f",
     marginBottom: "32px",
   },
-
 
   label: {
     fontWeight: "bold",
@@ -123,11 +119,9 @@ const style = {
     borderColor: "#005211",
   },
   buttonContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    
-    
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   button: {
     width: "40%",
@@ -139,9 +133,6 @@ const style = {
     display: "grid",
     placeItem: "center",
   },
-  
-
-
 };
 
 export default RegisterForm;
