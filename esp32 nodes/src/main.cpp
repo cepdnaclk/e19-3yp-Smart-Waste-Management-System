@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <WiFi.h>
 
-#define WIFI_SSID "Nandun's S23"
-#define WIFI_PASSWORD "thefox1234"
+#define WIFI_SSID "S215G"
+#define WIFI_PASSWORD "lqaf3272"
 
 void setup() {
   Serial.begin(921600);
