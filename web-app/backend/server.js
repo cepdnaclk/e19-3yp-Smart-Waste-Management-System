@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const authRoutes = require("./routes/auth");
 const collectorRoute = require("./routes/collector");
 const userRoute = require("./routes/users");
+const feedbackRoute = require("./routes/feedback");
 require("dotenv").config();
 const DB_URL = process.env.DB_URL;
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api", collectorRoute);
 app.use("/api", userRoute);
+app.use("/api", feedbackRoute);
 
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,
