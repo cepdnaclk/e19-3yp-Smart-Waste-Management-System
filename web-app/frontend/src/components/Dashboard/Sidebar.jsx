@@ -47,6 +47,11 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             <BsPeopleFill className="icon" /> Collectors
           </li>
         </a>
+        <a href="/public-users" style={style.link}>
+          <li className="sidebar-list-item">
+            <BsPeopleFill className="icon" /> Public-users
+          </li>
+        </a>
         <a href="/mapview" style={style.link}>
           <li className="sidebar-list-item">
             <RiMapPinFill className="icon" /> Map View
