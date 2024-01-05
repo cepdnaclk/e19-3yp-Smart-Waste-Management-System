@@ -10,6 +10,8 @@ const GarbageCollectorHomeScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [forumModalVisible, setForumModalVisible] = useState(false);
   const [chatWindowVisible, setChatWindowVisible] = useState(false);
+  const [profileModalVisible, setProfileModalVisible] = useState(false);
+  const [showTable, setShowTable] = useState(true); // New state for table visibility
 
   useEffect(() => {
     // Simulating dynamic increase from 0 to 100
@@ -31,9 +33,10 @@ const GarbageCollectorHomeScreen = () => {
     closeModals(); // Close the menu
   
     if (option === "ProfileDetails") {
-      // Navigate to the "ProfileDetailsGarbageCollectors" screen
+      // Navigate to the "ProfileDetailsGarbageCollector" screen
       navigation.navigate("ProfileGarbageCollectors");
-      
+      // Hide the table
+      setShowTable(false);
     } else if (option === "Logout") {
       // Navigate to the "LoginScreen" screen
       navigation.navigate("LoginScreen");
@@ -42,13 +45,36 @@ const GarbageCollectorHomeScreen = () => {
     // Open the profile modal
     openProfileModal();
   };
-  
-  const [profileModalVisible, setProfileModalVisible] = useState(false);
 
   const openProfileModal = () => {
     setProfileModalVisible(true);
   };
 
+  
+  const optimizedCollectionRoutes = () => {
+    // Implement optimized collection routes logic here
+    closeModals();
+  };
+
+  const unlockLockedBin = () => {
+    // Implement unlock locked bin logic here
+    closeModals();
+  };
+
+  const checkBinFilledLevel = () => {
+    // Implement check bin filled level logic here
+    closeModals();
+  };
+
+  const checkTemperatureLevel = () => {
+    // Implement check temperature level logic here
+    closeModals();
+  };
+
+  const reportIssues = () => {
+    // Implement report issues logic here
+    closeModals();
+  };
 
   const openModal = () => {
     setModalVisible(true);
@@ -292,12 +318,16 @@ const GarbageCollectorHomeScreen = () => {
             <Pressable onPress={() => setProfileModalVisible(false)} style={styles.modalCloseButton}>
               <AntDesign name="close" size={20} color="#4CAF50" />
             </Pressable>
-            <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("ProfileDetails")}>
-              <Text style={styles.modalOptionText}>Profile Details</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("Logout")}>
-              <Text style={styles.modalOptionText}>Logout</Text>
-            </TouchableOpacity>
+            {showTable && (
+              <view>
+                <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("ProfileDetails")}>
+                  <Text style={styles.modalOptionText}>Profile Details</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("Logout")}>
+                  <Text style={styles.modalOptionText}>Logout</Text>
+                </TouchableOpacity>
+              </view>
+            )}
           </View>
         </Modal>
 
