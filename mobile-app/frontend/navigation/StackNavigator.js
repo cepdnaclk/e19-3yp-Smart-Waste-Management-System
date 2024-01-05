@@ -7,6 +7,7 @@ import RegisterScreen from "../screens/RegisterScreen";
 import GarbageCollectorHomeScreen from "../screens/GarbageCollectorHomeScreen";
 import HouseOwnerHomeScreen from "../screens/HouseOwnerHomeScreen";
 import common from "../screens/common";
+import ProfileGarbageCollectors from "../screens/ProfileGarbageCollectors";
 
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
@@ -36,6 +37,11 @@ const StackNavigator = () => {
         <Stack.Screen
           name="HouseOwnerHomeScreen"
           component={HouseOwnerHomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfileGarbageCollectors"
+          component={ProfileGarbageCollectors}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
