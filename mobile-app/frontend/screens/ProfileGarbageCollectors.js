@@ -1,38 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native"; // Import useFocusEffect
 
 const ProfileGarbageCollector = () => {
-  const [collectorDetails, setCollectorDetails] = useState({});
-  const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
-  const [newPassword, setNewPassword] = useState("");
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    // Mock API call to fetch collector details based on the logged-in user's information
-    // Replace this with your actual API call to MongoDB
-    fetchCollectorDetailsFromDatabase(); 
-  }, []);
-
-  const fetchCollectorDetailsFromDatabase = async () => {
-    try {
-      // Replace this with your actual API endpoint to fetch collector details
-      const response = await fetch("http://localhost:1337/api/collector-details");
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch collector details");
+    const [collectorDetails, setCollectorDetails] = useState({});
+    const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+    const [newPassword, setNewPassword] = useState("");
+    const navigation = useNavigation();
+  
+    // Fetch collector details when the component mounts
+    useEffect(() => {
+      // Mock API call to fetch collector details based on the logged-in user's information
+      // Replace this with your actual API call to MongoDB
+      fetchCollectorDetailsFromDatabase();
+    }, []);
+  
+    const fetchCollectorDetailsFromDatabase = async () => {
+      try {
+        // Replace this with your actual API endpoint to fetch collector details
+        const response = await fetch("http://localhost:1337/api/collector-details");
+  
+        if (!response.ok) {
+          throw new Error("Failed to fetch collector details");
+        }
+  
+        const data = await response.json();
+  
+        // Assuming the data contains the details of the logged-in collector
+        setCollectorDetails(data);
+      } catch (error) {
+        console.error("Error fetching collector details:", error.message);
+        // Handle the error (e.g., show an error message to the user)
       }
-
-      const data = await response.json();
-
-      // Assuming the data contains the details of the logged-in collector
-      setCollectorDetails(data);
-    } catch (error) {
-      console.error("Error fetching collector details:", error.message);
-      // Handle the error (e.g., show an error message to the user)
-    }
-  };
+    };
+  
 
   const handleChangePassword = async () => {
     try {
@@ -60,14 +62,21 @@ const ProfileGarbageCollector = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Garbage Collector Profile</Text>
-      <View style={styles.profileDetailsContainer}>
-        <Text>Name: {collectorDetails.name}</Text>
-        <Text>Email: {collectorDetails.email}</Text>
-        <Text>Status: {collectorDetails.status}</Text>
-      </View>
+
+      {Object.keys(collectorDetails).length > 0 ? (
+        <View style={styles.profileDetailsContainer}>
+          <Text>Name: {collectorDetails.name}</Text>
+          <Text>Email: {collectorDetails.email}</Text>
+          <Text>Status: {collectorDetails.status}</Text>
+        </View>
+      ) : (
+        <Text>Loading collector details...</Text>
+      )}
+
       <TouchableOpacity onPress={() => setChangePasswordModalVisible(true)}>
         <Text style={styles.changePasswordButton}>Change Password</Text>
       </TouchableOpacity>
+
 
       {/* Change Password Modal */}
       <Modal
