@@ -31,8 +31,9 @@ const GarbageCollectorHomeScreen = () => {
     closeModals(); // Close the menu
   
     if (option === "ProfileDetails") {
-      // Navigate to the "ProfileDetailsGarbageCollector" screen
+      // Navigate to the "ProfileDetailsGarbageCollectors" screen
       navigation.navigate("ProfileGarbageCollectors");
+      
     } else if (option === "Logout") {
       // Navigate to the "LoginScreen" screen
       navigation.navigate("LoginScreen");
@@ -48,31 +49,6 @@ const GarbageCollectorHomeScreen = () => {
     setProfileModalVisible(true);
   };
 
-  
-  const optimizedCollectionRoutes = () => {
-    // Implement optimized collection routes logic here
-    closeModals();
-  };
-
-  const unlockLockedBin = () => {
-    // Implement unlock locked bin logic here
-    closeModals();
-  };
-
-  const checkBinFilledLevel = () => {
-    // Implement check bin filled level logic here
-    closeModals();
-  };
-
-  const checkTemperatureLevel = () => {
-    // Implement check temperature level logic here
-    closeModals();
-  };
-
-  const reportIssues = () => {
-    // Implement report issues logic here
-    closeModals();
-  };
 
   const openModal = () => {
     setModalVisible(true);
