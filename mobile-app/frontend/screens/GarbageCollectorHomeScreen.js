@@ -32,7 +32,7 @@ const GarbageCollectorHomeScreen = () => {
   
     if (option === "ProfileDetails") {
       // Navigate to the "ProfileDetailsGarbageCollector" screen
-      navigation.navigate("ProfileGarbageCollector");
+      navigation.navigate("ProfileGarbageCollectors");
     } else if (option === "Logout") {
       // Navigate to the "LoginScreen" screen
       navigation.navigate("LoginScreen");
