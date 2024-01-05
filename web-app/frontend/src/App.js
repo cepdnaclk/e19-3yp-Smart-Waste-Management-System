@@ -5,6 +5,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Bin from "./pages/Bin";
 import Collectors from "./pages/Collectors";
+import Users from "./pages/Users";
+import Feedback from "./pages/Feedback";
 import "./App.css";
 
 const App = () => {
@@ -17,8 +19,9 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/bins" element={<Bin />} />
           <Route path="/collectors" element={<Collectors />} />
+          <Route path="/public-users" element={<Users />} />
           <Route path="/mapview" element={<Bin />} />
-          <Route path="/reports" element={<Bin />} />
+          <Route path="/feedback" element={<Feedback />} />
           <Route path="/settings" element={<Bin />} />
         </Routes>
       </BrowserRouter>
