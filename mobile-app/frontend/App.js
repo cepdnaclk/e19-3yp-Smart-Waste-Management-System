@@ -1,18 +1,62 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import StackNavigator from './navigation/StackNavigator';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
+import common from './screens/common';
+import GarbageCollectorHomeScreen from './screens/GarbageCollectorHomeScreen';
+import HouseOwnerHomeScreen from './screens/HouseOwnerHomeScreen';
+import ProfileGarbageCollectors from './screens/ProfileGarbageCollectors';
+import ReportScreen from './screens/ReportScreen';
 
-export default function App() {
+
+const Stack = createNativeStackNavigator();
+
+
+const App = () => {
   return (
-    <>
-    <StackNavigator />
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="RegisterScreen"
+          component={RegisterScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="common"
+          component={common}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GarbageCollectorHomeScreen"
+          component={GarbageCollectorHomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="HouseOwnerHomeScreen"
+          component={HouseOwnerHomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProfileGarbageCollectors"
+          component={ProfileGarbageCollectors}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ReportScreen"
+          component={ReportScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+export default App;
+
+
