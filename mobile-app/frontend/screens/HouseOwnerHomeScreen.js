@@ -7,11 +7,11 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
   };
 
   const reportIssues = () => {
-    // Implement report issues logic here
+    navigation.navigate("ReportScreen");
   };
 
   const goBackToCommonPage = () => {
-    navigation.replace("common");
+    navigation.navigate("common");
   };
 
   return (

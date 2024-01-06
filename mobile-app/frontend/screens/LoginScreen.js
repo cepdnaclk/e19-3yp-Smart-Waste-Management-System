@@ -32,12 +32,14 @@ const LoginScreen = () => {
         console.log(response);
         const token = response.data.token;
         AsyncStorage.setItem("authToken", token);
+
         const userDetails = response.data.user;
   
         if (userDetails && userDetails.status === "Active") {
-          navigation.replace("GarbageCollectorHomeScreen");
+          navigation.navigate("GarbageCollectorHomeScreen");
         } else {
           Alert.alert("Login Error", "Invalid Email or Password");
+
         }
       })
       .catch((error) => {
