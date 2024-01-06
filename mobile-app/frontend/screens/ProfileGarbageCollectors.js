@@ -2,12 +2,23 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+// Import useIsFocused from react-navigation/native
+import { useIsFocused } from '@react-navigation/native';
 
 const ProfileGarbageCollector = () => {
   const [collectorDetails, setCollectorDetails] = useState({});
   const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const navigation = useNavigation();
+
+  const isFocused = useIsFocused();
+
+  // Reset changePasswordModalVisible when returning to GarbageCollectorHomeScreen
+  useEffect(() => {
+    if (isFocused) {
+      setChangePasswordModalVisible(false); // Fix the state name here
+    }
+  }, [isFocused]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -18,22 +29,31 @@ const ProfileGarbageCollector = () => {
 
   const fetchCollectorDetailsFromDatabase = async () => {
     try {
-      // Replace this with your actual API endpoint to fetch collector details
+      console.log("Fetching collector details...");
+  
+      if (!isFocused) {
+        console.log("Component is not focused. Skipping fetch.");
+        return;
+      }
+  
       const response = await fetch("http://localhost:1337/api/collector-details");
-
+  
       if (!response.ok) {
         throw new Error("Failed to fetch collector details");
       }
-
+  
       const data = await response.json();
-
-      // Assuming the data contains the details of the logged-in collector
+  
+      console.log("Collector details response:", response);
+      console.log("Collector details data:", data);
+  
       setCollectorDetails(data);
     } catch (error) {
       console.error("Error fetching collector details:", error.message);
       // Handle the error (e.g., show an error message to the user)
     }
   };
+  
 
   const handleChangePassword = async () => {
     try {
@@ -56,6 +76,8 @@ const ProfileGarbageCollector = () => {
       console.error("Error changing password:", error.message);
       // Handle the error (e.g., show an error message to the user)
     }
+
+    
   };
 
   return (
