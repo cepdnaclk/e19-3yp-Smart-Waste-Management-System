@@ -15,36 +15,42 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const LoginScreen = () => {
+import GarbageCollectorHomeScreen from './GarbageCollectorHomeScreen';
+
+const Stack = createNativeStackNavigator();
+
+const LocalLoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const handleLogin = () => {
-    const user = {
-      email: email,
-      password: password,
-    };
+  const handleLogin = async () => {
+    try {
+      const user = {
+        email: email,
+        password: password,
+      };
   
-    axios
-      .post("http://localhost:8000/login", user)
-      .then((response) => {
-        console.log(response);
-        const token = response.data.token;
-        AsyncStorage.setItem("authToken", token);
-        const userDetails = response.data.user;
+      const response = await axios.post("http://localhost:8000/login", user);
+      
+      const token = response.data.token;
+      await AsyncStorage.setItem("authToken", token);
+      const userDetails = response.data.user;
   
-        if (userDetails && userDetails.status === "Active") {
-          navigation.replace("GarbageCollectorHomeScreen");
-        } else {
-          Alert.alert("Login Error", "Invalid Email or Password");
-        }
-      })
-      .catch((error) => {
-        Alert.alert("Login Error", "Invalid Email");
-        console.log(error);
-      });
+      if (userDetails && userDetails.status === "Active") {
+        console.log("Login successful. Navigating to GarbageCollectorHomeScreen");
+        navigation.navigate("GarbageCollectorHomeScreen");
+      } else {
+        Alert.alert("Login Error", "Invalid Email or Password");
+      }
+    } catch (error) {
+      console.log("Login error:", error);
+      Alert.alert("Login Error", "Invalid Email or Password");
+    }
   };
+  
   
 
   return (
@@ -210,6 +216,6 @@ const LoginScreen = () => {
   );
 };
 
-export default LoginScreen;
+export default LocalLoginScreen;
 
 const styles = StyleSheet.create({});
