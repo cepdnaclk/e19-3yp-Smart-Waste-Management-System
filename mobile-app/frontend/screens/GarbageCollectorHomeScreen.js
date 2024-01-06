@@ -4,15 +4,11 @@ import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
 
-
-
 const GarbageCollectorHomeScreen = () => {
   const [availableBins, setAvailableBins] = useState(0);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [forumModalVisible, setForumModalVisible] = useState(false);
-  const [chatWindowVisible, setChatWindowVisible] = useState(false);
   const [profileModalVisible, setProfileModalVisible] = useState(false);
-  const [showTable, setShowTable] = useState(true); // New state for table visibility
+  const [optionsModalVisible, setOptionsModalVisible] = useState(false);
+  const [chatWindowVisible, setChatWindowVisible] = useState(false);
 
   useEffect(() => {
     // Simulating dynamic increase from 0 to 100
@@ -31,75 +27,39 @@ const GarbageCollectorHomeScreen = () => {
   const navigation = useNavigation();
 
   const handleProfileOption = (option) => {
-    if (option === "ProfileDetails") {
-      // Navigate to the "ProfileGarbageCollector" screen
-      navigation.navigate("ProfileGarbageCollector");
-      // Hide the table
-      setShowTable(false);
-    } else if (option === "Logout") {
-      // Navigate to the "LoginScreen" screen
-      navigation.navigate("LoginScreen");
-    }
-    // Close the modal
     closeModals();
-  
-  
+
     if (option === "ProfileDetails") {
-      // Navigate to the "ProfileDetailsGarbageCollector" screen
-      navigation.navigate("ProfileGarbageCollectors");
-      // Hide the table
-      setShowTable(false);
+      // Use 'replace' instead of 'navigate' to avoid stacking the same screen in the navigation stack
+      navigation.replace("ProfileGarbageCollectors");
     } else if (option === "Logout") {
-      // Navigate to the "LoginScreen" screen
-      navigation.navigate("LoginScreen");
+      navigation.replace("LoginScreen");
     }
-  
-    // Open the profile modal
+
     openProfileModal();
   };
 
+  const handleOptionSelect = (option) => {
+    closeModals();
+
+    // Handle the selected option as needed
+    if (option === "BinStatus") {
+      handleNavigateToBinStatus();
+    } else if (option === "BinLocation") {
+      handleNavigateToBinLocation();
+    } else if (option === "SanitaryWorkersInformation") {
+      handleNavigateToSanitaryWorkersInformation();
+    }
+  };
+
   const openProfileModal = () => {
+    // Set the state to display the profile modal and show the options
     setProfileModalVisible(true);
   };
 
-  
-  const optimizedCollectionRoutes = () => {
-    // Implement optimized collection routes logic here
-    closeModals();
-  };
-
-  const unlockLockedBin = () => {
-    // Implement unlock locked bin logic here
-    closeModals();
-  };
-
-  const checkBinFilledLevel = () => {
-    // Implement check bin filled level logic here
-    closeModals();
-  };
-
-  const checkTemperatureLevel = () => {
-    // Implement check temperature level logic here
-    closeModals();
-  };
-
-  const reportIssues = () => {
-    // Implement report issues logic here
-    closeModals();
-  };
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModals = () => {
-    setModalVisible(false);
-    setForumModalVisible(false);
-    setChatWindowVisible(false);
-  };
-
-  const openForumModal = () => {
-    setForumModalVisible(true);
+  const openOptionsModal = () => {
+    // Set the state to display the options modal and show the options
+    setOptionsModalVisible(true);
   };
 
   const openChatWindow = () => {
@@ -107,22 +67,21 @@ const GarbageCollectorHomeScreen = () => {
   };
 
   const closeModal = () => {
-    closeModals();
+    setProfileModalVisible(false);
+    setOptionsModalVisible(false);
+    setChatWindowVisible(false);
   };
 
-  const openProfileMenu = () => {
-    setModalVisible(true);
+  const closeModals = () => {
+    closeModal();
   };
 
   const handleNameClick = (name) => {
     console.log(`Clicked ${name}`);
-    // Add your logic to navigate to another page or perform other actions
-
-    // Set chatWindowVisible to true to open the chat window
     setChatWindowVisible(true);
   };
 
-  const windowWidth = Dimensions.get('window').width;
+  const windowWidth = Dimensions.get("window").width;
 
   const styles = StyleSheet.create({
     container: {
@@ -285,7 +244,7 @@ const GarbageCollectorHomeScreen = () => {
         <View style={styles.headerLeft}>
           <TouchableOpacity
             style={styles.headerButton}
-            onPress={openModal}
+            onPress={() => openOptionsModal()}
           >
             <AntDesign name="bars" size={25} color="#4CAF50" />
           </TouchableOpacity>
@@ -293,18 +252,12 @@ const GarbageCollectorHomeScreen = () => {
         <View style={styles.headerCenter}>
           {/* Your Logo */}
           <Image
-            source={require('../assets/logo.png')}  // Update with the correct path to your logo
+            source={require("../assets/logo.png")} // Update with the correct path to your logo
             style={styles.logo}
           />
           <Text style={styles.headerTitle}>GB Tech</Text>
         </View>
         <View style={styles.headerRight}>
-          <TouchableOpacity
-            style={styles.headerIcon}
-            onPress={openForumModal}
-          >
-            <FontAwesome name="comments" size={25} color="#4CAF50" />
-          </TouchableOpacity>
           <TouchableOpacity
             style={styles.headerIcon}
             onPress={openChatWindow}
@@ -318,101 +271,102 @@ const GarbageCollectorHomeScreen = () => {
             <FontAwesome name="user" size={25} color="#4CAF50" />
           </TouchableOpacity>
         </View>
-      
-
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={profileModalVisible}
-          onRequestClose={() => setProfileModalVisible(false)}
-        >
-          <View style={styles.forumModalView}>
-            <Pressable onPress={() => setProfileModalVisible(false)} style={styles.modalCloseButton}>
-              <AntDesign name="close" size={20} color="#4CAF50" />
-            </Pressable>
-            {showTable && (
-              <View>
-                <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("ProfileDetails")}>
-                  <Text style={styles.modalOptionText}>Profile Details</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("Logout")}>
-                  <Text style={styles.modalOptionText}>Logout</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
-        </Modal>
-
-        </View>
+      </View>
 
       {/* Body Section */}
       <View style={styles.body}>
-        <Text style={styles.bodyText}>Currently available bins in the city:</Text>
+        <Text style={styles.bodyText}>
+          Currently available bins in the city:
+        </Text>
         <Text style={styles.availableBins}>{availableBins}</Text>
       </View>
 
-      {/* Modal */}
+      {/* Profile Modal */}
       <Modal
-        animationType="slide"
         transparent={true}
-        visible={modalVisible || forumModalVisible || chatWindowVisible}
-        onRequestClose={closeModal}
+        visible={profileModalVisible}
+        onRequestClose={() => closeModal()}
       >
-        <View style={chatWindowVisible ? styles.chatWindow : (forumModalVisible ? styles.forumModalView : styles.modalView)}>
-          <Pressable onPress={closeModal} style={styles.modalCloseButton}>
+        <View style={styles.modalView}>
+          <Pressable onPress={() => closeModal()} style={styles.modalCloseButton}>
             <AntDesign name="close" size={20} color="#4CAF50" />
           </Pressable>
-          {forumModalVisible ? (
-            <View style={styles.forumModalContent}>
-              <TouchableOpacity style={styles.modalOption} onPress={() => handleForumOption1()}>
-                <Text style={styles.modalOptionText}>Forum Option 1</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.modalOption} onPress={() => handleForumOption2()}>
-                <Text style={styles.modalOptionText}>Forum Option 2</Text>
-              </TouchableOpacity>
-              {/* Add more forum options as needed */}
-            </View>
-          ) : (
-            <View style={styles.optionModalContent}>
-              <TouchableOpacity style={styles.modalOption} onPress={optimizedCollectionRoutes}>
-                <Text style={styles.modalOptionText}>Bin Status</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.modalOption} onPress={unlockLockedBin}>
-                <Text style={styles.modalOptionText}>Information of Sanitary Workers</Text>
-              </TouchableOpacity>
-              {/* Add more options as needed */}
-            </View>
-          )}
+          <View>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => handleProfileOption("ProfileDetails")}
+            >
+              <Text style={styles.modalOptionText}>Profile Details</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => handleProfileOption("Logout")}
+            >
+              <Text style={styles.modalOptionText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
+
+      {/* Options Modal */}
+      <Modal
+        transparent={true}
+        visible={optionsModalVisible}
+        onRequestClose={() => closeModal()}
+      >
+        <View style={styles.modalView}>
+          <Pressable onPress={() => closeModal()} style={styles.modalCloseButton}>
+            <AntDesign name="close" size={20} color="#4CAF50" />
+          </Pressable>
+          <View>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => handleOptionSelect("BinStatus")}
+            >
+              <Text style={styles.modalOptionText}>Bin Status</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => handleOptionSelect("BinLocation")}
+            >
+              <Text style={styles.modalOptionText}>Bin Location</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.modalOption}
+              onPress={() => handleOptionSelect("SanitaryWorkersInformation")}
+            >
+              <Text style={styles.modalOptionText}>
+                Sanitary Workers Information
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
       {/* Chat Window */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={chatWindowVisible}
-        onRequestClose={closeModal}
+        onRequestClose={() => closeModal()}
       >
-         <View style={styles.chatWindow}>
-              <Pressable onPress={closeModal} style={styles.modalCloseButton}>
-                <AntDesign name="close" size={20} color="#4CAF50" />
-              </Pressable>
-              <View style={styles.chatWindowContent}>
-                <TouchableOpacity onPress={() => handleNameClick("John Doe")}>
-                  <Text style={styles.chatWindowNameText}>John Doe</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleNameClick("Jane Austin")}>
-                  <Text style={styles.chatWindowNameText}>Jane Austin</Text>
-                </TouchableOpacity>
-                {/* Add more names as needed */}
-              </View>
-            </View>
+        <View style={styles.chatWindow}>
+          <Pressable onPress={() => closeModal()} style={styles.modalCloseButton}>
+            <AntDesign name="close" size={20} color="#4CAF50" />
+          </Pressable>
+          <View style={styles.chatWindowContent}>
+            <TouchableOpacity onPress={() => handleNameClick("John Doe")}>
+              <Text style={styles.chatWindowNameText}>John Doe</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleNameClick("Jane Austin")}>
+              <Text style={styles.chatWindowNameText}>Jane Austin</Text>
+            </TouchableOpacity>
+            {/* Add more names as needed */}
+          </View>
+        </View>
       </Modal>
-      </View>
-    );
+    </View>
+  );
 };
 
 export default GarbageCollectorHomeScreen;
-
-
-
-  

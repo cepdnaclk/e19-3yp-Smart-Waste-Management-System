@@ -10,6 +10,7 @@ import ProfileGarbageCollectors from './screens/ProfileGarbageCollectors';
 import ReportScreen from './screens/ReportScreen';
 
 
+
 const Stack = createNativeStackNavigator();
 
 

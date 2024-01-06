@@ -20,29 +20,22 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const handleLogin = () => {
-    const user = {
-      email: email,
-      password: password,
-    };
-
-    axios
-      .post("http://localhost:8000/login", user)
-      .then((response) => {
-        console.log(response);
-        const token = response.data.token;
-        AsyncStorage.setItem("authToken", token);
-        const role = response.data.role;
-        if (role === "Garbage Collector") {
-          navigation.replace("GarbageCollectorHomeScreen");
-        } else if (role === "House Owner") {
-          navigation.replace("HouseOwnerHomeScreen");
-        }
-      })
-      .catch((error) => {
-        Alert.alert("Login Error", "Invalid Email");
-        console.log(error);
-      });
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("http://localhost:8000/login", user);
+      console.log(response);
+      const token = response.data.token;
+      AsyncStorage.setItem("authToken", token);
+      const role = response.data.role;
+      if (role === "Garbage Collector") {
+        navigation.replace("GarbageCollectorHomeScreen");
+      } else if (role === "House Owner") {
+        navigation.replace("HouseOwnerHomeScreen");
+      }
+    } catch (error) {
+      Alert.alert("Login Error", "Invalid Email");
+      console.log(error);
+    }
   };
 
   return (
