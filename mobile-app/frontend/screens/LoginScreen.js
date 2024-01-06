@@ -33,6 +33,7 @@ const LocalLoginScreen = () => {
         password: password,
       };
   
+<<<<<<< HEAD
       const response = await axios.post("http://localhost:8000/login", user);
       
       const token = response.data.token;
@@ -49,6 +50,28 @@ const LocalLoginScreen = () => {
       console.log("Login error:", error);
       Alert.alert("Login Error", "Invalid Email or Password");
     }
+=======
+    axios
+      .post("http://localhost:8000/login", user)
+      .then((response) => {
+        console.log(response);
+        const token = response.data.token;
+        AsyncStorage.setItem("authToken", token);
+
+        const userDetails = response.data.user;
+  
+        if (userDetails && userDetails.status === "Active") {
+          navigation.navigate("GarbageCollectorHomeScreen");
+        } else {
+          Alert.alert("Login Error", "Invalid Email or Password");
+
+        }
+      })
+      .catch((error) => {
+        Alert.alert("Login Error", "Invalid Email");
+        console.log(error);
+      });
+>>>>>>> origin/main
   };
   
   
