@@ -34,9 +34,9 @@ const LoginScreen = () => {
         AsyncStorage.setItem("authToken", token);
         const role = response.data.role;
         if (role === "Garbage Collector") {
-          navigation.replace("GarbageCollectorHomeScreen");
+          navigation.navigate("GarbageCollectorHomeScreen");
         } else if (role === "House Owner") {
-          navigation.replace("HouseOwnerHomeScreen");
+          navigation.navigate("HouseOwnerHomeScreen");
         }
       })
       .catch((error) => {
