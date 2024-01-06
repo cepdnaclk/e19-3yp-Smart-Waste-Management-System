@@ -5,10 +5,10 @@ const Common = ({ navigation }) => {
   const navigateToRole = (role) => {
     if (role === "Garbage Collector") {
       // Navigate to GarbagecollectorHomeScreen
-      navigation.replace("GarbageCollectorHomeScreen");
+      navigation.navigate("GarbageCollectorHomeScreen");
     } else if (role === "House Owner") {
       // Navigate to HouseOwnerHomeScreen
-      navigation.replace("HouseOwnerHomeScreen");
+      navigation.navigate("HouseOwnerHomeScreen");
     }
   };
 

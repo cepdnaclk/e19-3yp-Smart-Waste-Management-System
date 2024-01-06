@@ -43,9 +43,9 @@ const RegisterScreen = () => {
         // Navigate based on selectedRole
         const role = response.data.role;
         if (role === "Garbage Collector") {
-          navigation.replace("GarbageCollectorHomeScreen");
+          navigation.navigate("GarbageCollectorHomeScreen");
         } else if (role === "House Owner") {
-          navigation.replace("HouseOwnerHomeScreen");
+          navigation.navigate("HouseOwnerHomeScreen");
         }
       })
       .catch((error) => {

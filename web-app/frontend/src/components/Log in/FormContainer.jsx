@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Logo from "./Logo";
 import Img from "./Img";
 import SignIn from "./SignIn";
+import { useLogin } from "../../hooks/useLogin";
 //import userLogo from "./user.png";
 
 import { useState } from "react";
@@ -11,28 +12,31 @@ import { useState } from "react";
 function FormContainer() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, error, isLoading } = useLogin();
 
   async function loginUser(event) {
     event.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:1337/api/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    await login(email, password);
 
-      const data = await response.json();
+    // try {
+    //   const response = await fetch("http://localhost:1337/api/", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ email, password }),
+    //   });
 
-      if (data.admin) {
-        localStorage.setItem("token", data.admin);
-        window.location.href = "/dashboard";
-      } else {
-        alert("Please check your email and password");
-      }
-    } catch (error) {
-      console.log("Error during login:", error);
-    }
+    //   const data = await response.json();
+
+    //   if (data.admin) {
+    //     localStorage.setItem("token", data.admin);
+    //     window.location.href = "/dashboard";
+    //   } else {
+    //     alert("Please check your email and password");
+    //   }
+    // } catch (error) {
+    //   console.log("Error during login:", error);
+    // }
   }
 
   return (
@@ -64,12 +68,20 @@ function FormContainer() {
           />
         </Form.Group>
         <div style={style.buttonContainer}>
-          <Button variant="primary" type="submit" style={style.button}>
+          <Button
+            variant="primary"
+            type="submit"
+            style={style.button}
+            disabled={isLoading}
+          >
             Login
           </Button>
 
           <div style={style.text}>Forgot Password?</div>
         </div>
+        {error && (
+          <div style={{ color: "red", marginTop: "10px" }}>{error}</div>
+        )}
       </Form>
     </div>
   );

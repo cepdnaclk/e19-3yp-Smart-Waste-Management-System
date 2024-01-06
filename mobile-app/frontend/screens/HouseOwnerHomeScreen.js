@@ -2,58 +2,39 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const HouseOwnerHomeScreen = ({ navigation }) => {
-  const viewNearestBinLocation = () => {
+  const viewBinInformation = () => {
     // Implement view nearest bin location logic here
   };
 
-  const viewBinFilledLevel = () => {
-    // Implement view bin filled level logic here
-  };
-
-  const viewTemperatureLevel = () => {
-    // Implement view temperature level logic here
-  };
-
   const reportIssues = () => {
-    // Implement report issues logic here
+    navigation.navigate("ReportScreen");
   };
 
   const goBackToCommonPage = () => {
-    navigation.replace("common");
+    navigation.navigate("common");
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.buttonContainer}>
       <Text style={styles.title}>House Owner Home Screen</Text>
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#4CAF50" }]}
-        onPress={viewNearestBinLocation}
+        style={styles.button}
+        onPress={viewBinInformation}
       >
-        <Text style={styles.buttonText}>View Nearest Bin Location</Text>
+        <Text style={styles.buttonText}>View Bin Information</Text>
       </TouchableOpacity>
+      
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#4CAF50" }]}
-        onPress={viewBinFilledLevel}
-      >
-        <Text style={styles.buttonText}>View Bin Filled Level</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#4CAF50" }]}
-        onPress={viewTemperatureLevel}
-      >
-        <Text style={styles.buttonText}>View Temperature Level</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#4CAF50" }]}
+        style={styles.button}
         onPress={reportIssues}
       >
         <Text style={styles.buttonText}>Report Issues</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "#4CAF50" }]}
+        style={styles.button}
         onPress={goBackToCommonPage}
       >
-        <Text style={styles.buttonText}>Back to Common Page</Text>
+        <Text style={styles.buttonText}>Back to Previous Page</Text>
       </TouchableOpacity>
     </View>
   );
@@ -62,7 +43,7 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
 export default HouseOwnerHomeScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  buttonContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
@@ -70,12 +51,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "green",
+    marginBottom: 50,
+    marginTop: 10,
+    color: "green"
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#4CAF50",
+    backgroundColor: "green",
     padding: 15,
     width: 250,
     borderRadius: 10,
