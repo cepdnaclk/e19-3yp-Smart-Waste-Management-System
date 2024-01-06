@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 // Import useIsFocused from react-navigation/native
 import { useIsFocused } from '@react-navigation/native';
+import GarbageCollectorHomeScreen from "./GarbageCollectorHomeScreen";
 
 const ProfileGarbageCollector = () => {
   const [collectorDetails, setCollectorDetails] = useState({});
@@ -126,7 +127,7 @@ const ProfileGarbageCollector = () => {
       </Modal>
 
       {/* Back Button */}
-      <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+      <TouchableOpacity onPress={() => navigation.navigate(GarbageCollectorHomeScreen)} style={styles.backButton}>
         <AntDesign name="arrowleft" size={24} color="#4CAF50" />
       </TouchableOpacity>
     </View>
