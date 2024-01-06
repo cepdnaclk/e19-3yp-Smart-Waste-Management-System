@@ -1,39 +1,33 @@
+// collectorController.js
+const bcrypt = require("bcrypt");
 const Collector = require("../models/collector");
-const mongoose = require("mongoose");
 
-const getCollector = async (req, res) => {
+const createCollector = async (req, res) => {
   try {
-    // Fetch all collectors from the MongoDB collection
-    const collectors = await Collector.find();
-    res.json(collectors);
-  } catch (error) {
-    console.error("Error fetching collector details:", error);
-    res.status(500).send("Internal Server Error");
-  }
-};
+    const { name, email, status, password } = req.body;
 
-const deleteCollector = async (req, res) => {
-  const { id } = req.params;
-
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(404).json({ error: "Invalid ID." });
-  }
-
-  try {
-    const collector = await Collector.findOneAndDelete({ _id: id });
-
-    if (!collector) {
-      return res.status(400).json({ error: "No such collector" });
+    if (!name || !email || !status || !password) {
+      return res.status(400).json({ error: "All fields are required." });
     }
 
-    res.status(200).json(collector);
+    const existingCollector = await Collector.findOne({ email });
+    if (existingCollector) {
+      return res.status(400).json({ error: "Email already exists." });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const collector = new Collector({ name, email, status, password: hashedPassword });
+    await collector.save();
+
+    res.status(201).json(collector);
   } catch (error) {
-    console.error("Error deleting collector:", error);
+    console.error("Error creating collector:", error);
     res.status(500).send("Internal Server Error");
   }
 };
 
 module.exports = {
+  createCollector,
   getCollector,
   deleteCollector,
 };
