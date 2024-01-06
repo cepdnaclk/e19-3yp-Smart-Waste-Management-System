@@ -1,5 +1,6 @@
-import { StyleSheet, Text, View, Keyboard, SafeAreaView, TextInput, TouchableWithoutFeedback, Alert, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Keyboard, ScrollView, TextInput, TouchableWithoutFeedback, Alert, Pressable } from 'react-native'
 import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ReportScreen = () => {
 
@@ -16,73 +17,76 @@ const ReportScreen = () => {
 
   return (
     <SafeAreaView>
-      <TouchableWithoutFeedback onPress={handleTouchablePress}>
-        <View style={styles.mainContainer}>
-          <Text style={styles.headingText}>You can make your complaints here</Text>
-          <View>
-            <View style={styles.textboxContainer}>
-              <Text style={styles.textboxHeader}>Name</Text>
-              <TextInput    //can be modified
-              style={[styles.input, {height:50}]}
-              onChangeText={changedName}
-              value={name}
-              placeholder="Ex: Appuhamy"
-              selectionColor={"#18963a"}
-              textAlignVertical="top"
-              />
-            </View>
+      <ScrollView>
+        <TouchableWithoutFeedback onPress={handleTouchablePress}>
+          <View style={styles.mainContainer}>
+            <Text style={styles.headingText}>You can make your complaints here</Text>
+            <View>
+              <View style={styles.textboxContainer}>
+                <Text style={styles.textboxHeader}>Name</Text>
+                <TextInput    //can be modified
+                style={[styles.input, {height:50}]}
+                onChangeText={changedName}
+                value={name}
+                placeholder="Ex: Appuhamy"
+                selectionColor={"#18963a"}
+                textAlignVertical="top"
+                />
+              </View>
 
-            <View style={styles.textboxContainer}>
-              <Text style={styles.textboxHeader}>Contact number</Text>
-              <TextInput    //can be modified
-              style={[styles.input, {height:50}]}
-              onChangeText={changedNumber}
-              value={number}
-              placeholder="Ex: 07X XXXXXXX"
-              selectionColor={"#18963a"}
-              textAlignVertical="top"
-              />
-            </View>
+              <View style={styles.textboxContainer}>
+                <Text style={styles.textboxHeader}>Contact number</Text>
+                <TextInput    //can be modified
+                style={[styles.input, {height:50}]}
+                onChangeText={changedNumber}
+                value={number}
+                placeholder="Ex: 07X XXXXXXX"
+                selectionColor={"#18963a"}
+                textAlignVertical="top"
+                />
+              </View>
 
-            <View style={styles.textboxContainer}>
-              <Text style={styles.textboxHeader}>Topic</Text>
-              <TextInput    //can be modified
-              style={[styles.input, {height:50}]}
-              onChangeText={changedTitle}
-              value={title}
-              placeholder="Write the topic of complaint here"
-              autoCorrect={true}
-              selectionColor={"#18963a"}
-              textAlignVertical="top"
-            />
+              <View style={styles.textboxContainer}>
+                <Text style={styles.textboxHeader}>Topic</Text>
+                <TextInput    //can be modified
+                style={[styles.input, {height:50}]}
+                onChangeText={changedTitle}
+                value={title}
+                placeholder="Write the topic of complaint here"
+                autoCorrect={true}
+                selectionColor={"#18963a"}
+                textAlignVertical="top"
+              />
+              </View>
+              
+              <View style={styles.textboxContainer}>
+                <Text style={styles.textboxHeader}>Description</Text>
+                <TextInput
+                style={[styles.input, {height:200}]}
+                onChangeText={changeDescription}
+                value={description}
+                placeholder="Write a descriptive complaint here"
+                multiline
+                autoCorrect={true}
+                selectionColor={"#18963a"}
+                textAlignVertical="top"
+              />
+              </View>
             </View>
             
-            <View style={styles.textboxContainer}>
-              <Text style={styles.textboxHeader}>Description</Text>
-              <TextInput
-              style={[styles.input, {height:200}]}
-              onChangeText={changeDescription}
-              value={description}
-              placeholder="Write a descriptive complaint here"
-              multiline
-              autoCorrect={true}
-              selectionColor={"#18963a"}
-              textAlignVertical="top"
-            />
-            </View>
+            <Pressable
+              onPress={()=>Alert.alert('submitted')}
+              style={styles.buttonContainer}
+            >
+              <Text style={styles.button}>
+                Submit
+              </Text>
+            </Pressable>
+            
           </View>
-          
-          <Pressable
-            onPress={()=>Alert.alert('submitted')}
-            style={styles.buttonContainer}
-          >
-          <Text style={styles.button}>
-            Submit
-          </Text>
-        </Pressable>
-          
-        </View>
-      </TouchableWithoutFeedback> 
+        </TouchableWithoutFeedback>
+      </ScrollView>
+       
     </SafeAreaView>
     
   )
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginLeft: "auto",
     marginRight: "auto",
-    marginTop: 30
+    marginTop: 20
   },
   button: {
     textAlign: "center",
