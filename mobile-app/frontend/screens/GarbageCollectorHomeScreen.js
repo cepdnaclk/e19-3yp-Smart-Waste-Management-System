@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
 
 
+
 const GarbageCollectorHomeScreen = () => {
   const [availableBins, setAvailableBins] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
@@ -30,7 +31,18 @@ const GarbageCollectorHomeScreen = () => {
   const navigation = useNavigation();
 
   const handleProfileOption = (option) => {
-    closeModals(); // Close the menu
+    if (option === "ProfileDetails") {
+      // Navigate to the "ProfileGarbageCollector" screen
+      navigation.navigate("ProfileGarbageCollector");
+      // Hide the table
+      setShowTable(false);
+    } else if (option === "Logout") {
+      // Navigate to the "LoginScreen" screen
+      navigation.navigate("LoginScreen");
+    }
+    // Close the modal
+    closeModals();
+  
   
     if (option === "ProfileDetails") {
       // Navigate to the "ProfileDetailsGarbageCollector" screen
@@ -319,14 +331,14 @@ const GarbageCollectorHomeScreen = () => {
               <AntDesign name="close" size={20} color="#4CAF50" />
             </Pressable>
             {showTable && (
-              <view>
+              <View>
                 <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("ProfileDetails")}>
                   <Text style={styles.modalOptionText}>Profile Details</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.modalOption} onPress={() => handleProfileOption("Logout")}>
                   <Text style={styles.modalOptionText}>Logout</Text>
                 </TouchableOpacity>
-              </view>
+              </View>
             )}
           </View>
         </Modal>
