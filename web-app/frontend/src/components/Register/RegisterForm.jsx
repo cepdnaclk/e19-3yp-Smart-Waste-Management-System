@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router";
 import Logo from "../Log in/Logo";
 import Img from "../Log in/Img";
+import { useSignup } from "../../hooks/useSignup";
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -11,27 +12,12 @@ function RegisterForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signup, error, isLoading } = useSignup();
 
-  async function registerUser(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    const response = await fetch("http://localhost:1337/api/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (data.status === "ok") {
-      navigate("/");
-    }
+    await signup(name, email, password);
   }
 
   return (
@@ -40,7 +26,7 @@ function RegisterForm() {
       <Img />
       <h1 style={style.signIn}>Hello!</h1>
       <div style={style.text}>Join to get started with us!</div>
-      <Form style={style.form} onSubmit={registerUser}>
+      <Form style={style.form} onSubmit={handleSubmit}>
         <Form.Group controlId="name">
           <Form.Label style={style.label}>Name</Form.Label>
           <Form.Control
@@ -72,10 +58,18 @@ function RegisterForm() {
           />
         </Form.Group>
         <div style={style.buttonContainer}>
-          <Button variant="primary" type="submit" style={style.button}>
+          <Button
+            variant="primary"
+            type="submit"
+            style={style.button}
+            disabled={isLoading}
+          >
             Sign Up
           </Button>
         </div>
+        {error && (
+          <div style={{ color: "red", marginTop: "10px" }}>{error}</div>
+        )}
       </Form>
     </div>
   );
