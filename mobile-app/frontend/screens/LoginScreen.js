@@ -33,18 +33,21 @@ const LoginScreen = () => {
         const token = response.data.token;
         AsyncStorage.setItem("authToken", token);
 
-        const userDetails = response.data.user;
+        const role = response.data.role;
   
-        if (userDetails && userDetails.status === "Active") {
+        //Temporory change
+
+        if (role === "Garbage Collector") {
           navigation.navigate("GarbageCollectorHomeScreen");
-        } else {
-          Alert.alert("Login Error", "Invalid Email or Password");
+        } else if(role == "House Owner") {
+          navigation.navigate("HouseOwnerHomeScreen");
 
         }
       })
       .catch((error) => {
-        Alert.alert("Login Error", "Invalid Email");
-        console.log(error);
+        // Alert.alert("Login Error", "Invalid Email");
+        navigation.navigate("common");
+        // console.log(error);
       });
   };
   
