@@ -25,18 +25,21 @@ const LoginScreen = () => {
       email: email,
       password: password,
     };
-
+  
     axios
       .post("http://localhost:8000/login", user)
       .then((response) => {
         console.log(response);
         const token = response.data.token;
         AsyncStorage.setItem("authToken", token);
-        const role = response.data.role;
-        if (role === "Garbage Collector") {
+
+        const userDetails = response.data.user;
+  
+        if (userDetails && userDetails.status === "Active") {
           navigation.navigate("GarbageCollectorHomeScreen");
-        } else if (role === "House Owner") {
-          navigation.navigate("HouseOwnerHomeScreen");
+        } else {
+          Alert.alert("Login Error", "Invalid Email or Password");
+
         }
       })
       .catch((error) => {
@@ -44,6 +47,7 @@ const LoginScreen = () => {
         console.log(error);
       });
   };
+  
 
   return (
     <SafeAreaView
@@ -159,8 +163,7 @@ const LoginScreen = () => {
 
         <View style={{ marginTop: 100 }} />
         <Pressable
-          //onPress={handleLogin}
-          onPress={() => navigation.navigate("common")}
+          onPress={handleLogin}
           style={{
             width: 200,
             backgroundColor: "green",
