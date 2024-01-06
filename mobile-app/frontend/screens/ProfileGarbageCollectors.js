@@ -114,28 +114,28 @@ const ProfileGarbageCollector = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 50,
     backgroundColor: "white", // White background color
   },
   headerText: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
     color: "#4CAF50", // Green color
   },
   profileDetailsContainer: {
-    marginBottom: 20,
+    marginBottom: 70,
   },
   detailText: {
     fontSize: 16,
-    marginBottom: 10,
+    marginBottom: 20,
     color: "#333", // Dark gray color
   },
   changePasswordButton: {
     fontSize: 18,
-    color: "#00838F", // Teal color
+    color: "#006400", 
     textDecorationLine: "underline",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   modalContainer: {
     flex: 1,
@@ -152,12 +152,12 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
     color: "#4CAF50", // Green color
   },
   passwordInput: {
     borderWidth: 1,
-    borderColor: "#00838F", // Teal color
+    borderColor: "#006400",
     borderRadius: 5,
     marginBottom: 10,
     padding: 10,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cancelButton: {
-    color: "#00838F", // Teal color
+    color: "#006400", 
     textDecorationLine: "underline",
   },
   backButton: {
