@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './screens/LoginScreen';
+import LoginScreenGarbageCollector from './screens/LoginScreenGarbageCollector';
+import LoginScreenPublic from './screens/LoginScreenPublic';
 import RegisterScreen from './screens/RegisterScreen';
-import common from './screens/common';
 import GarbageCollectorHomeScreen from './screens/GarbageCollectorHomeScreen';
-import HouseOwnerHomeScreen from './screens/HouseOwnerHomeScreen';
+import PublicHomeScreen from './screens/PublicHomeScreen';
 import ProfileGarbageCollectors from './screens/ProfileGarbageCollectors';
 import ReportScreen from './screens/ReportScreen';
 
@@ -19,8 +19,13 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
+          name="LoginScreenPublic"
+          component={LoginScreenPublic}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="LoginScreenGarbageCollector"
+          component={LoginScreenGarbageCollector}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -29,18 +34,13 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="common"
-          component={common}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name="GarbageCollectorHomeScreen"
           component={GarbageCollectorHomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="HouseOwnerHomeScreen"
-          component={HouseOwnerHomeScreen}
+          name="PublicHomeScreen"
+          component={PublicHomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
