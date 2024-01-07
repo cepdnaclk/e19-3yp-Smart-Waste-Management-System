@@ -1,16 +1,16 @@
-import "@testing-library/jest-dom/extend-expect";
+// import "@testing-library/jest-dom/extend-expect";
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react";
 import FormContainer from "../components/Log in/FormContainer";
 
 // Mock the useLogin hook
-jest.mock("../hooks/useLogin", () => ({
+const useLoginMock = jest.mock("../hooks/useLogin", () => ({
   useLogin: jest.fn(() => ({
     login: jest.fn(),
     error: "",
     isLoading: false,
   })),
-}));
+})).mock;
 
 test("renders FormContainer component", async () => {
   // Render the component
