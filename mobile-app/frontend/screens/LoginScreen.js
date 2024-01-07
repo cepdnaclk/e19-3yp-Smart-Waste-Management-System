@@ -10,7 +10,7 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
+import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -21,53 +21,60 @@ const LocalLoginScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    try {
-      setLoading(true);
-
-      const user = {
-        identifier: email,
-        password: password,
-      };
-
-      console.log("User object:", user);
-
-      const response = await axios.post("http://192.168.56.1:1337/api/login", user);
-
-      const token = response.data.jwt;
-      await AsyncStorage.setItem("authToken", token);
-      const userDetails = response.data.user;
-
-      if (userDetails && userDetails.confirmed && userDetails.blocked === false) {
-        console.log("Login successful. Navigating to your desired screen");
-        // Navigate to your desired screen
-      } else {
-        Alert.alert("Login Error", "Invalid Email or Password");
-      }
-    } catch (error) {
-      setLoading(false);
-      console.log("Login error:", error);
-
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        Alert.alert("Login Error", error.response.data.message || "An error occurred.");
-      } else if (error.request) {
-        // The request was made but no response was received
-        Alert.alert("Login Error", "No response from the server. Please try again.");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        Alert.alert("Login Error", "An unexpected error occurred. Please try again later.");
-      }
-    } finally {
-      setLoading(false);
-    }
+    navigation.navigate("common");
+    // try {
+    //   setLoading(true);
+    //   const user = {
+    //     identifier: email,
+    //     password: password,
+    //   };
+    //   const response = await axios.post(
+    //     "http://localhost:8000/api/collector/login",
+    //     user
+    //   );
+    //   const token = response.data.jwt;
+    //   // Save token to AsyncStorage
+    //   await AsyncStorage.setItem("authToken", token);
+    //   const userDetails = response.data.user;
+    //   if (userDetails) {
+    //     // TODO: Navigate to your desired screen
+    //     console.log("Login successful. Navigating to your desired screen");
+    //   } else {
+    //     Alert.alert("Login Error", "Invalid Email or Password");
+    //   }
+    // } catch (error) {
+    //   setLoading(false);
+    //   console.log("Login error:", error);
+    //   if (error.response) {
+    //     // Handle different types of errors based on response status
+    //     Alert.alert(
+    //       "Login Error",
+    //       error.response.data.message || "An error occurred."
+    //     );
+    //   } else if (error.request) {
+    //     Alert.alert(
+    //       "Login Error",
+    //       "No response from the server. Please try again."
+    //     );
+    //   } else {
+    //     Alert.alert(
+    //       "Login Error",
+    //       "An unexpected error occurred. Please try again later."
+    //     );
+    //   }
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView behavior="padding" style={styles.keyboardAvoidingContainer}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        style={styles.keyboardAvoidingContainer}
+      >
         <Image
-          style={{ marginTop: 70, width: 250, height: 150 }}
+          style={styles.logo}
           source={require("../assets/LoginScreen/head.png")}
         />
 
@@ -80,7 +87,9 @@ const LocalLoginScreen = ({ navigation }) => {
               value={email}
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
-              placeholder="enter your Email"
+              placeholder="Enter your Email"
+              autoCapitalize="none"
+              keyboardType="email-address"
             />
           </View>
         </View>
@@ -93,22 +102,22 @@ const LocalLoginScreen = ({ navigation }) => {
               onChangeText={(text) => setPassword(text)}
               secureTextEntry={true}
               style={styles.input}
-              placeholder="enter your Password"
+              placeholder="Enter your Password"
             />
           </View>
-        </View>
-
-        <View style={styles.additionalInfoContainer}>
-          <Text style={styles.additionalInfoText}>Keep me logged in</Text>
-          <Text style={styles.additionalInfoText}>Forgot Password</Text>
         </View>
 
         <Pressable onPress={handleLogin} style={styles.loginButton}>
           <Text style={styles.loginButtonText}>Login</Text>
         </Pressable>
 
-        <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
-          <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
+        <Pressable
+          onPress={() => navigation.navigate("RegisterScreen")}
+          style={styles.signupLink}
+        >
+          <Text style={styles.signupLinkText}>
+            Don't have an account? Sign Up
+          </Text>
         </Pressable>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -127,6 +136,11 @@ const styles = StyleSheet.create({
     width: "80%",
     marginLeft: "auto",
     marginRight: "auto",
+  },
+  logo: {
+    marginTop: 70,
+    width: 250,
+    height: 150,
   },
   heading: {
     marginTop: 20,
@@ -152,14 +166,6 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     width: 300,
     fontSize: 16,
-  },
-  additionalInfoContainer: {
-    marginTop: 15,
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  additionalInfoText: {
-    color: "gray",
   },
   loginButton: {
     width: 200,
@@ -188,4 +194,3 @@ const styles = StyleSheet.create({
 });
 
 export default LocalLoginScreen;
-
