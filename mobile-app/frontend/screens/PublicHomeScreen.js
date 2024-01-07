@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const HouseOwnerHomeScreen = ({ navigation }) => {
-  const viewBinInformation = () => {
-    // Implement view nearest bin location logic here
+  const viewMap = () => {
+    navigation.navigate("BinMap");
   };
 
   const reportIssues = () => {
@@ -19,9 +19,9 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
       <Text style={styles.title}>Public Home Screen</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={viewBinInformation}
+        onPress={viewMap}
       >
-        <Text style={styles.buttonText}>View Bin Information</Text>
+        <Text style={styles.buttonText}>Go to Map</Text>
       </TouchableOpacity>
       
       <TouchableOpacity
@@ -34,7 +34,7 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
         style={styles.button}
         onPress={goBackToLoginPage}
       >
-        <Text style={styles.buttonText}>Back to Login Page</Text>
+        <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
     </View>
   );
