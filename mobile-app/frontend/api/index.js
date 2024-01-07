@@ -6,7 +6,6 @@ const nodemailer = require("nodemailer");
 const cors = require("cors"); 
 const bcrypt = require("bcrypt");
 
-
 const app = express();
 const port = 8000;
 
