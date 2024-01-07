@@ -28,7 +28,7 @@ const RegisterScreen = () => {
     const user = { name, selectedRole, email, password };
     // send a POST  request to the backend API to register the user
     axios
-      .post("http://localhost:8000/register", user)
+      .post("http://10.0.2.2:8000/api/collector/signup", user)
       .then((response) => {
         console.log(response);
         Alert.alert(
@@ -42,9 +42,9 @@ const RegisterScreen = () => {
 
         // Navigate based on selectedRole
         const role = response.data.role;
-        if (role === "Garbage Collector") {
+        if (role === "GarbageCollector") {
           navigation.navigate("GarbageCollectorHomeScreen");
-        } else if (role === "House Owner") {
+        } else if (role === "HouseOwner") {
           navigation.navigate("HouseOwnerHomeScreen");
         }
       })
@@ -113,7 +113,7 @@ const RegisterScreen = () => {
                 width: 300,
                 fontSize: name ? 16 : 16,
               }}
-              placeholder="enter your Name"
+              placeholder="Enter your Name"
             />
           </View>
         </View>
@@ -136,14 +136,14 @@ const RegisterScreen = () => {
               color="green"
             />
 
-            <Picker
+            {/* <Picker
               selectedValue={selectedRole}
               style={{ height: 40, width: 300, color: "green" }}
               onValueChange={(itemValue) => setSelectedRole(itemValue)}
             >
               <Picker.Item label="House Owner" value="houseOwner" />
               <Picker.Item label="Garbage Collector" value="garbageCollector" />
-            </Picker>
+            </Picker> */}
           </View>
         </View>
 
@@ -173,7 +173,7 @@ const RegisterScreen = () => {
                 width: 300,
                 fontSize: email ? 16 : 16,
               }}
-              placeholder="enter your Email"
+              placeholder="Enter your Email"
             />
           </View>
         </View>
