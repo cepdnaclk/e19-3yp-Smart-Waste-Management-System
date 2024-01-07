@@ -10,13 +10,13 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
     navigation.navigate("ReportScreen");
   };
 
-  const goBackToCommonPage = () => {
-    navigation.navigate("common");
+  const goBackToLoginPage = () => {
+    navigation.navigate("LoginScreenPublic");
   };
 
   return (
     <View style={styles.buttonContainer}>
-      <Text style={styles.title}>House Owner Home Screen</Text>
+      <Text style={styles.title}>Public Home Screen</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={viewBinInformation}
@@ -32,9 +32,9 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={goBackToCommonPage}
+        onPress={goBackToLoginPage}
       >
-        <Text style={styles.buttonText}>Back to Previous Page</Text>
+        <Text style={styles.buttonText}>Back to Login Page</Text>
       </TouchableOpacity>
     </View>
   );

@@ -1,39 +1,59 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, Alert } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useNavigation, useFocusEffect } from "@react-navigation/native"; // Import useFocusEffect
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+// Import useIsFocused from react-navigation/native
+import { useIsFocused } from '@react-navigation/native';
+import GarbageCollectorHomeScreen from "./GarbageCollectorHomeScreen";
 
 const ProfileGarbageCollector = () => {
-    const [collectorDetails, setCollectorDetails] = useState({});
-    const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
-    const [newPassword, setNewPassword] = useState("");
-    const navigation = useNavigation();
-  
-    // Fetch collector details when the component mounts
-    useEffect(() => {
-      // Mock API call to fetch collector details based on the logged-in user's information
-      // Replace this with your actual API call to MongoDB
+  const [collectorDetails, setCollectorDetails] = useState({});
+  const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const navigation = useNavigation();
+
+  const isFocused = useIsFocused();
+
+  // Reset changePasswordModalVisible when returning to GarbageCollectorHomeScreen
+  useEffect(() => {
+    if (isFocused) {
+      setChangePasswordModalVisible(false); // Fix the state name here
+    }
+  }, [isFocused]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Fetch collector details when the component gains focus
       fetchCollectorDetailsFromDatabase();
-    }, []);
+    }, [])
+  );
+
+  const fetchCollectorDetailsFromDatabase = async () => {
+    try {
+      console.log("Fetching collector details...");
   
-    const fetchCollectorDetailsFromDatabase = async () => {
-      try {
-        // Replace this with your actual API endpoint to fetch collector details
-        const response = await fetch("http://localhost:1337/api/collector-details");
-  
-        if (!response.ok) {
-          throw new Error("Failed to fetch collector details");
-        }
-  
-        const data = await response.json();
-  
-        // Assuming the data contains the details of the logged-in collector
-        setCollectorDetails(data);
-      } catch (error) {
-        console.error("Error fetching collector details:", error.message);
-        // Handle the error (e.g., show an error message to the user)
+      if (!isFocused) {
+        console.log("Component is not focused. Skipping fetch.");
+        return;
       }
-    };
+  
+      const response = await fetch("http://localhost:1337/api/collector-details");
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch collector details");
+      }
+  
+      const data = await response.json();
+  
+      console.log("Collector details response:", response);
+      console.log("Collector details data:", data);
+  
+      setCollectorDetails(data);
+    } catch (error) {
+      console.error("Error fetching collector details:", error.message);
+      // Handle the error (e.g., show an error message to the user)
+    }
+  };
   
 
   const handleChangePassword = async () => {
@@ -57,6 +77,8 @@ const ProfileGarbageCollector = () => {
       console.error("Error changing password:", error.message);
       // Handle the error (e.g., show an error message to the user)
     }
+
+    
   };
 
   return (
@@ -65,9 +87,9 @@ const ProfileGarbageCollector = () => {
 
       {Object.keys(collectorDetails).length > 0 ? (
         <View style={styles.profileDetailsContainer}>
-          <Text>Name: {collectorDetails.name}</Text>
-          <Text>Email: {collectorDetails.email}</Text>
-          <Text>Status: {collectorDetails.status}</Text>
+          <Text style={styles.detailText}>Name: {collectorDetails.name}</Text>
+          <Text style={styles.detailText}>Email: {collectorDetails.email}</Text>
+          <Text style={styles.detailText}>Status: {collectorDetails.status}</Text>
         </View>
       ) : (
         <Text>Loading collector details...</Text>
@@ -76,7 +98,6 @@ const ProfileGarbageCollector = () => {
       <TouchableOpacity onPress={() => setChangePasswordModalVisible(true)}>
         <Text style={styles.changePasswordButton}>Change Password</Text>
       </TouchableOpacity>
-
 
       {/* Change Password Modal */}
       <Modal
@@ -104,6 +125,11 @@ const ProfileGarbageCollector = () => {
           </View>
         </View>
       </Modal>
+
+      {/* Back Button */}
+      <TouchableOpacity onPress={() => navigation.navigate(GarbageCollectorHomeScreen)} style={styles.backButton}>
+        <AntDesign name="arrowleft" size={24} color="#4CAF50" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -111,19 +137,28 @@ const ProfileGarbageCollector = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 50,
+    backgroundColor: "white", // White background color
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: 30,
+    color: "#4CAF50", // Green color
   },
   profileDetailsContainer: {
+    marginBottom: 70,
+  },
+  detailText: {
+    fontSize: 16,
     marginBottom: 20,
+    color: "#333", // Dark gray color
   },
   changePasswordButton: {
-    color: "blue",
+    fontSize: 18,
+    color: "#006400", 
     textDecorationLine: "underline",
+    marginBottom: 30,
   },
   modalContainer: {
     flex: 1,
@@ -132,25 +167,26 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContent: {
-    backgroundColor: "white",
+    backgroundColor: "#F5F5F5", // Light gray background color
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 20,
     elevation: 5,
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 30,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 20,
+    color: "#4CAF50", // Green color
   },
   passwordInput: {
     borderWidth: 1,
-    borderColor: "gray",
+    borderColor: "#006400",
     borderRadius: 5,
     marginBottom: 10,
     padding: 10,
   },
   confirmButton: {
-    backgroundColor: "blue",
+    backgroundColor: "#4CAF50", // Green color
     padding: 10,
     borderRadius: 5,
     alignItems: "center",
@@ -161,8 +197,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cancelButton: {
-    color: "blue",
+    color: "#006400", 
     textDecorationLine: "underline",
+  },
+  backButton: {
+    position: "absolute",
+    top: 20,
+    left: 20,
   },
 });
 
