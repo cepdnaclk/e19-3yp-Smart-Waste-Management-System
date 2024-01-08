@@ -8,6 +8,7 @@ import GarbageCollectorHomeScreen from './screens/GarbageCollectorHomeScreen';
 import PublicHomeScreen from './screens/PublicHomeScreen';
 import ProfileGarbageCollectors from './screens/ProfileGarbageCollectors';
 import ReportScreen from './screens/ReportScreen';
+import BinMap from './screens/BinMap';
 
 
 
@@ -51,6 +52,11 @@ const App = () => {
         <Stack.Screen
           name="ReportScreen"
           component={ReportScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="BinMap"
+          component={BinMap}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

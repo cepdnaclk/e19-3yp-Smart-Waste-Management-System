@@ -1442,6 +1442,39 @@ section {
   letter-spacing: 0;
 }
 
+.certificate-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.certificate-item {
+  flex-basis: calc(33.33% - 20px);
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.certificate-title {
+  margin-bottom: 10px;
+}
+
+.certificate-link {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.certificate-link:hover {
+  text-decoration: underline;
+}
+
+.certificate-description {
+  color: #555;
+  font-style: italic;
+}
+
 .footer .copyrights p a,
 .footer .copyrights .credits a {
   letter-spacing: 0;
