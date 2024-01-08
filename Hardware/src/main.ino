@@ -7,10 +7,12 @@
 #include "WIFI.h"
 #include <MQTTClient.h>
 #include <WiFiClientSecure.h>
+#include <TinyGPS++.h>
+
 
 WiFiClientSecure net = WiFiClientSecure();
-
 MQTTClient client = MQTTClient(256);
+TinyGPSPlus gps;
 
 #define AWS_IOT_SUBSCRIBE_TOPIC "thing/3YP-ESP/sub"
 #define AWS_IOT_PUBLISH_TOPIC "thing/3YP-ESP/pub"
@@ -20,8 +22,8 @@ DHT dht(26, DHT11);
 #define ledPin 13 
 
 // ultrasonic sensors
-#define echoPin 2  
-#define trigPin 4  
+#define echoPin 23
+#define trigPin 22
 bool isConnected = false;
 #define led1Pin 16
 #define led2Pin 17
@@ -30,6 +32,8 @@ bool isConnected = false;
 
 // Define variables for temperature and humidity
 float duration, distance , temperature;
+float gpsLatitude = 7.253988930424021;
+float gpsLongitude =  80.59166442208883;
 
 // Define relay and door lock pins
 #define relayPin 5
@@ -37,6 +41,7 @@ float duration, distance , temperature;
 
 void setup() {
   Serial.begin(115200);
+  Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
   connectToWifi();
   connectTOAws();
 
@@ -100,6 +105,9 @@ void loop() {
   // Turn on the LED if the temperature is more than 25
   if (temperature > 25) {
     digitalWrite(ledPin, HIGH); // Turn on the LED
+    delay(500); // Wait for 500 milliseconds
+    digitalWrite(ledPin, LOW); // Turn off the LED
+    delay(500); // Wait for 500 milliseconds
   } else {
     digitalWrite(ledPin, LOW); // Turn off the LED
   }
@@ -116,20 +124,24 @@ void loop() {
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
+  Serial.println("latitude: ");
+  Serial.println(gpsLatitude,6);
+  Serial.println("longitude: ");
+  Serial.println(gpsLongitude,6);
   // Update garbage level LEDs based on distance
-  if (distance <= 10) {
+  if (distance <= 5) {
     digitalWrite(led1Pin, HIGH);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, HIGH);
-  } else if (distance <= 15) {
+  } else if (distance <= 10) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, HIGH);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, LOW);
-  } else if (distance <= 20) {
+  } else if (distance <= 15) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, HIGH);
@@ -148,14 +160,35 @@ void loop() {
   delay(1000);
 }
 
-void sendStatsTOAWS() 
+void readGPSData()
+{
+  while (Serial2.available() > 0)
+  {
+    if (gps.encode(Serial2.read()))
+    {
+      if (gps.location.isValid())
+      {
+        gpsLatitude = gps.location.lat();
+        gpsLongitude = gps.location.lng();
+        Serial2.print("Latitude: ");
+        Serial2.print(gpsLatitude, 6);
+        Serial2.print(" | Longitude: ");
+        Serial2.println(gpsLongitude, 6);
+      }
+    }
+  }
+}
+
+void sendStatsTOAWS()
 {
   StaticJsonDocument<200> doc;
   doc["temperature"] = temperature;
   doc["distance"] = distance;
+  doc["latitude"] = gpsLatitude;
+  doc["longitude"] = gpsLongitude;
 
   char jsonBuffer[512];
-  serializeJson(doc, jsonBuffer); 
+  serializeJson(doc, jsonBuffer);
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
 
