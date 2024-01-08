@@ -20,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.1",
+    "mqtt": "^5.3.4",
     "validator": "^13.11.0"
   }
 }

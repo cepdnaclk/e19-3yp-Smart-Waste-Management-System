@@ -1,0 +1,49 @@
+.padding {
+  padding-left: 400px;
+  padding-right: 400px;
+  text-align: justify;
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.center-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+#footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+#footer div {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#footer h3 {
+  margin-bottom: 10px;
+}
+
+#footer p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.linkstyle {
+  text-decoration: none;
+  color: white;
+}
+
+body {
+  background-color: antiquewhite;
+}
