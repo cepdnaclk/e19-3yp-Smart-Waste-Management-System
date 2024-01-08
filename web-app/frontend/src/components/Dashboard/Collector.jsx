@@ -36,6 +36,26 @@ function Collector() {
     }
   };
 
+  const handleUpdateStatus = async (id, currentStatus) => {
+    try {
+      const newStatus = currentStatus === "Active" ? "Not Active" : "Active";
+
+      // Send a request to update the collector status
+      await axios.put(`http://localhost:1337/api/collector-details/${id}`, {
+        status: newStatus,
+      });
+
+      // Update the state to reflect the updated status
+      setCollectorData((prevData) =>
+        prevData.map((collector) =>
+          collector._id === id ? { ...collector, status: newStatus } : collector
+        )
+      );
+    } catch (error) {
+      console.error("Error updating collector status:", error);
+    }
+  };
+
   return (
     <div>
       <br />
@@ -49,7 +69,8 @@ function Collector() {
             <th>Collector Name</th>
             <th>E-mail</th>
             <th>Status</th>
-            <th>Delete</th>
+            <th>Actions</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -59,6 +80,17 @@ function Collector() {
               <td>{collector.email}</td>
               <td>{collector.status}</td>
               <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() =>
+                    handleUpdateStatus(collector._id, collector.status)
+                  }
+                >
+                  Active/Not Active
+                </button>
+              </td>
+              <td>
+                {" "}
                 <FaTrash onClick={() => handleDelete(collector._id)} />
               </td>
             </tr>
