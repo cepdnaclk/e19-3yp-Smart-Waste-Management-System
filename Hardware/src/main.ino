@@ -129,33 +129,34 @@ void loop() {
   Serial.println("longitude: ");
   Serial.println(gpsLongitude,6);
   // Update garbage level LEDs based on distance
-  if (distance <= 5) {
+  if (distance <= 5 ){
     digitalWrite(led1Pin, HIGH);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
-    digitalWrite(relayPin, HIGH);
+    digitalWrite(relayPin, LOW);
   } else if (distance <= 10) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, HIGH);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
-    digitalWrite(relayPin, LOW);
+    digitalWrite(relayPin, HIGH);
   } else if (distance <= 15) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, HIGH);
     digitalWrite(led4Pin, LOW);
-    digitalWrite(relayPin, LOW);
+    digitalWrite(relayPin, HIGH);
   } else {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, HIGH);
-    digitalWrite(relayPin, LOW);
+    digitalWrite(relayPin, HIGH);
   }
 
   sendStatsTOAWS();
+  sendRelayStatusToAWS(); // Publish relay pin status to AWS IoT Core
   client.loop();
   delay(1000);
 }
@@ -192,6 +193,16 @@ void sendStatsTOAWS()
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
 
+void sendRelayStatusToAWS()
+{
+  StaticJsonDocument<100> doc;
+  doc["relayStatus"] = digitalRead(relayPin);
+
+  char jsonBuffer[128];
+  serializeJson(doc, jsonBuffer);
+  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+}
+
 void connectToWifi() 
 {
   WiFi.mode(WIFI_STA);
@@ -206,4 +217,3 @@ void connectToWifi()
 
   Serial.println("Connected to the WiFi network");
 }
-
