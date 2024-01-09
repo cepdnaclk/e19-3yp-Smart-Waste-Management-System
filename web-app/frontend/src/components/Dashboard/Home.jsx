@@ -6,20 +6,22 @@ import { faUsers, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 function Home() {
   return (
     <div className="container-fluid">
-      <h2>Overviews</h2>
+      <h3 style={style.header}>Overview</h3>
       <div className="row">
         {" "}
         <br />
         <br />
-        <div className="col-md-4 box" style={style.box}>
-          <FontAwesomeIcon icon={faUsers} /> Users: 100
-        </div>
-        <div className="col-md-4 box" style={style.box}>
-          <FontAwesomeIcon icon={faTrash} /> Bins: 50
-        </div>
-        <div className="col-md-4 box" style={style.box}>
-          <FontAwesomeIcon icon={faStar} /> Rating: 4.5
-        </div>
+          <div className="row justify-content-center">
+            <div className="col-md-4 box" style={style.box}>
+              <FontAwesomeIcon icon={faUsers} /> Users: 100
+            </div>
+            <div className="col-md-4 box" style={style.box}>
+              <FontAwesomeIcon icon={faTrash} /> Bins: 50
+            </div>
+            <div className="col-md-4 box" style={style.box}>
+              <FontAwesomeIcon icon={faStar} /> Rating: 4.5
+            </div>
+          </div>
       </div>
 
       <div className="row">
@@ -27,7 +29,7 @@ function Home() {
           {" "}
           <br />
           <br />
-          <h3>Bin's Status</h3>
+          <h2 style={style.header}>Bin Status</h2>
           <table
             className="table table-striped table-bordered table-hover"
             style={style.table}
@@ -95,6 +97,17 @@ const style = {
   },
   table: {
     tableLayout: "fixed",
+  },
+  header: {
+    textAlign: "center",
+    color: "darkgreen",
+    fontSize: "24px",
+    fontWeight: "bold",
+    padding: "10px",
+  },
+  row: {
+    backgroundColor: "#f2f2f2",
+    textAlign: "center",
   },
 };
 
