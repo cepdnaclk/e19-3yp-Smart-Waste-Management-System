@@ -44,9 +44,9 @@ function PublicUser() {
       >
         <thead>
           <tr>
-            <th>User's Name</th>
-            <th>E-mail</th>
-            <th>Delete</th>
+            <th style={style.label}>User's Name</th>
+            <th style={style.label}>E-mail</th>
+            <th style={style.label}>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -71,7 +71,12 @@ const style = {
   },
   header: {
     textAlign: "center",
-    color: "#333",
+    color: "darkgreen",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#4CAF50",
+    minWidth: "80px",
   },
 };
 
