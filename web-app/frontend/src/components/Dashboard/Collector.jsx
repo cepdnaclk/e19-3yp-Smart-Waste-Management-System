@@ -59,18 +59,18 @@ function Collector() {
   return (
     <div>
       <br />
-      <h3>Collector Details</h3>
+      <h3 style={style.header}>Garbage Collectors</h3>
       <table
         className="table table-striped table-bordered table-hover"
         style={style.table}
       >
         <thead>
           <tr>
-            <th>Collector Name</th>
-            <th>E-mail</th>
-            <th>Status</th>
-            <th>Actions</th>
-            <th>Actions</th>
+            <th style={style.label}>Collector Name</th>
+            <th style={style.label}>E-mail</th>
+            <th style={style.label}>Status</th>
+            <th style={style.label}>Actions</th>
+            <th style={style.label}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -101,10 +101,56 @@ function Collector() {
   );
 }
 
+
+
+const style = {
+  table: {
+    tableLayout: "fixed",
+    width: "100%",
+    borderCollapse: "collapse",
+  },
+  header: {
+    textAlign: "center",
+    color: "darkgreen",
+    fontSize: "24px",
+    fontWeight: "bold",
+    padding: "10px",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#4CAF50",
+    minWidth: "80px",
+  },
+  row: {
+    backgroundColor: "#f2f2f2",
+  },
+  cell: {
+    padding: "10px",
+    border: "1px solid #ddd",
+  },
+  actionButton: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    padding: "8px 12px",
+    cursor: "pointer",
+  },
+  deleteIcon: {
+    color: "#dc3545",
+    cursor: "pointer",
+  },
+};
+
+/*
 const style = {
   table: {
     tableLayout: "fixed",
   },
+  header: {
+    textAlign: "center",
+    color: "#333",
+  },
 };
-
+*/
 export default Collector;
