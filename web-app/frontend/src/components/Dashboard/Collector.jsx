@@ -101,6 +101,43 @@ function Collector() {
   );
 }
 
+
+
+const style = {
+  table: {
+    tableLayout: "fixed",
+    width: "100%",
+    borderCollapse: "collapse",
+  },
+  header: {
+    textAlign: "center",
+    color: "darkgreen",
+    fontSize: "24px",
+    fontWeight: "bold",
+    padding: "10px",
+  },
+  row: {
+    backgroundColor: "#f2f2f2",
+  },
+  cell: {
+    padding: "10px",
+    border: "1px solid #ddd",
+  },
+  actionButton: {
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    padding: "8px 12px",
+    cursor: "pointer",
+  },
+  deleteIcon: {
+    color: "#dc3545",
+    cursor: "pointer",
+  },
+};
+
+/*
 const style = {
   table: {
     tableLayout: "fixed",
@@ -110,5 +147,5 @@ const style = {
     color: "#333",
   },
 };
-
+*/
 export default Collector;
