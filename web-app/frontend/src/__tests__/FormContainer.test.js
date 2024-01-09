@@ -1,46 +1,56 @@
-// import "@testing-library/jest-dom/extend-expect";
 import React from "react";
-import { render, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import FormContainer from "../components/Log in/FormContainer";
+import { AuthContextProvider } from "../context/AuthContext";
 
 // Mock the useLogin hook
-const useLoginMock = jest.mock("../hooks/useLogin", () => ({
+jest.mock("../hooks/useLogin", () => ({
   useLogin: jest.fn(() => ({
     login: jest.fn(),
-    error: "",
+    error: null,
     isLoading: false,
   })),
-})).mock;
+}));
 
-test("renders FormContainer component", async () => {
-  // Render the component
-  const { getByLabelText, getByText, getByPlaceholderText } = render(
-    <FormContainer />
-  );
-
-  // Interact with the form elements
-  fireEvent.change(getByLabelText("Email"), {
-    target: { value: "test@example.com" },
-  });
-  fireEvent.change(getByLabelText("Password"), {
-    target: { value: "password123" },
-  });
-
-  // Check if the form elements have the correct values
-  expect(getByPlaceholderText("username@gmail.com")).toHaveValue(
-    "test@example.com"
-  );
-  expect(getByPlaceholderText("password")).toHaveValue("password123");
-
-  // Trigger the form submission
-  fireEvent.submit(getByText("Login"));
-
-  // Wait for the login function to be called
-  await waitFor(() => {
-    // You can add additional assertions here if needed
-    expect(useLoginMock.login).toHaveBeenCalledWith(
-      "test@example.com",
-      "password123"
+describe("FormContainer", () => {
+  it("renders FormContainer correctly", () => {
+    render(
+      <AuthContextProvider>
+        <FormContainer />
+      </AuthContextProvider>
     );
+
+    // Add your assertions here based on the rendered output
+    expect(screen.getByText("Welcome Back!")).toBeInTheDocument();
+    // Add more assertions as needed
+  });
+
+  it("submits form correctly", async () => {
+    const { login } = require("../hooks/useLogin");
+
+    render(
+      <AuthContextProvider>
+        <FormContainer />
+      </AuthContextProvider>
+    );
+
+    // Simulate user input
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "test@example.com" },
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), {
+      target: { value: "password123" },
+    });
+
+    // Simulate form submission
+    fireEvent.click(screen.getByText("Login"));
+
+    // Wait for the login function to be called
+    await waitFor(() =>
+      expect(login).toHaveBeenCalledWith("test@example.com", "password123")
+    );
+
+    // Add more assertions based on the behavior after form submission
   });
 });
