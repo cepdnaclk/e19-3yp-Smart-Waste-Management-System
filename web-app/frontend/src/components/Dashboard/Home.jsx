@@ -6,7 +6,7 @@ import { faUsers, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 function Home() {
   return (
     <div className="container-fluid">
-      <h2>Overviews</h2>
+      <h3 style={style.header}>Overview</h3>
       <div className="row">
         {" "}
         <br />
@@ -27,7 +27,7 @@ function Home() {
           {" "}
           <br />
           <br />
-          <h3>Bin's Status</h3>
+          <h2 style={style.header}>Bin Status</h2>
           <table
             className="table table-striped table-bordered table-hover"
             style={style.table}
@@ -95,6 +95,13 @@ const style = {
   },
   table: {
     tableLayout: "fixed",
+  },
+  header: {
+    textAlign: "center",
+    color: "darkgreen",
+    fontSize: "24px",
+    fontWeight: "bold",
+    padding: "10px",
   },
 };
 

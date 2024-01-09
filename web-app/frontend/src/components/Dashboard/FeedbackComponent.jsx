@@ -52,7 +52,7 @@ const styles = {
   },
   header: {
     textAlign: "center",
-    color: "#333",
+    color: "darkgreen",
   },
   feedbackItem: {
     backgroundColor: "#fff",
