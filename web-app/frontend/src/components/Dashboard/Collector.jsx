@@ -66,11 +66,11 @@ function Collector() {
       >
         <thead>
           <tr>
-            <th>Collector Name</th>
-            <th>E-mail</th>
-            <th>Status</th>
-            <th>Actions</th>
-            <th>Actions</th>
+            <th style={style.label}>Collector Name</th>
+            <th style={style.label}>E-mail</th>
+            <th style={style.label}>Status</th>
+            <th style={style.label}>Actions</th>
+            <th style={style.label}>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -115,6 +115,11 @@ const style = {
     fontSize: "24px",
     fontWeight: "bold",
     padding: "10px",
+  },
+  label: {
+    fontWeight: "bold",
+    color: "#4CAF50",
+    minWidth: "80px",
   },
   row: {
     backgroundColor: "#f2f2f2",
