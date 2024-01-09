@@ -59,7 +59,7 @@ function Collector() {
   return (
     <div>
       <br />
-      <h3>Collector Details</h3>
+      <h3 style={style.header}>Garbage Collectors</h3>
       <table
         className="table table-striped table-bordered table-hover"
         style={style.table}
@@ -104,6 +104,10 @@ function Collector() {
 const style = {
   table: {
     tableLayout: "fixed",
+  },
+  header: {
+    textAlign: "center",
+    color: "#333",
   },
 };
 

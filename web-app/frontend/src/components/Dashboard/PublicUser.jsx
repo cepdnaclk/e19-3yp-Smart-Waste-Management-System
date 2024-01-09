@@ -37,7 +37,7 @@ function PublicUser() {
   return (
     <div>
       <br />
-      <h3>Public users Details</h3>
+      <h3 style={style.header}>Users</h3>
       <table
         className="table table-striped table-bordered table-hover"
         style={style.table}
@@ -68,6 +68,10 @@ function PublicUser() {
 const style = {
   table: {
     tableLayout: "fixed",
+  },
+  header: {
+    textAlign: "center",
+    color: "#333",
   },
 };
 
