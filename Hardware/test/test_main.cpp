@@ -14,36 +14,29 @@ void tearDown() {
 }
 
 void test_connectToWifi() {
-    // Implement test for connectToWifi function
-    // You can use assertions like TEST_ASSERT_EQUAL, TEST_ASSERT_TRUE, etc.
-    TEST_ASSERT_TRUE(true);  // Replace with actual test conditions
+
+    connectToWifi();  // Call the function you want to test
+    TEST_ASSERT_TRUE(WiFi.status() == WL_CONNECTED);  // Replace with your actual test conditions
 }
 
 void test_connectTOAws() {
     // Implement test for connectTOAws function
-    TEST_ASSERT_TRUE(true);  // Replace with actual test conditions
+    connectTOAws();
+    TEST_ASSERT_TRUE(client.connected());  // Replace with your actual test conditions
 }
 
 void test_sendStatsTOAWS() {
     // Implement test for sendStatsTOAWS function
-    TEST_ASSERT_TRUE(true);  // Replace with actual test conditions
+    sendStatsTOAWS();
+    // Add assertions based on the expected behavior of your function
+}
+
+void test_sendRelayStatusToAWS() {
+    // Implement test for sendRelayStatusToAWS function
+    sendRelayStatusToAWS();
+    // Add assertions based on the expected behavior of your function
 }
 
 // Add more test functions as needed
 
-void setup() {
-    delay(2000);
 
-    UNITY_BEGIN(); // IMPORTANT LINE!
-
-    // Add your test functions here
-    RUN_TEST(test_connectToWifi);
-    RUN_TEST(test_connectTOAws);
-    RUN_TEST(test_sendStatsTOAWS);
-
-    UNITY_END(); // IMPORTANT LINE!
-}
-
-void loop() {
-    // Nothing here
-}
