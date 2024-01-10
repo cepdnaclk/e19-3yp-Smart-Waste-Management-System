@@ -10,6 +10,7 @@ import Users from "./pages/Users";
 import Feedback from "./pages/Feedback";
 import Map from "./pages/Map";
 import "./App.css";
+//import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -44,34 +45,39 @@ export default App;
 //   return (
 //     <div>
 //       <BrowserRouter>
-//         <Routes>
-//           <Route path="/bins" element={user ? <Bin /> : <Navigate to="/" />} />
+//         <Routes>         
+//           <Route
+//             path="/bins"
+//             element={user ? <Bin /> : <Navigate to="/login" replace />}
+//             exact
+//           />          
 //           <Route
 //             path="/collectors"
-//             element={user ? <Collectors /> : <Navigate to="/" />}
+//             element={user ? <Collectors /> : <Navigate to="/login" replace />}
+//             exact
 //           />
 //           <Route
 //             path="/public-users"
-//             element={user ? <Users /> : <Navigate to="/" />}
+//             element={user ? <Users /> : <Navigate to="/login" />}
 //           />
 //           <Route
 //             path="/mapview"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
+//             element={user ? <Map /> : <Navigate to="/login" />}
 //           />
 //           <Route
 //             path="/feedback"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
+//             element={user ? <Feedback /> : <Navigate to="/login" />}
 //           />
-//           <Route
+//           {/* <Route
 //             path="/settings"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
-//           />
+//             element={user ? <Settings /> : <Navigate to="/login" />}
+//           /> */}
 //           <Route
 //             path="/dashboard"
-//             element={user ? <Dashboard /> : <Navigate to="/" />}
+//             element={user ? <Dashboard /> : <Navigate to="/login" />}
 //           />
 //           <Route
-//             path="/"
+//             path="/login"
 //             element={!user ? <Login /> : <Navigate to="/dashboard" />}
 //           />
 //           <Route
