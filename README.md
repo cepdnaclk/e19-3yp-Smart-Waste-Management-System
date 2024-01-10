@@ -61,6 +61,11 @@ We are eagerly planning to make it more automated using Machine Learning feature
 
 - [Mid Evaluvation Presentation](https://www.canva.com/design/DAF2iiM23Ew/CAewlkRqYrKuJ0fa5CZIYw/edit)
 
+- [Mid Evaluvation Presentation]([https://www.canva.com/design/DAF2iiM23Ew/CAewlkRqYrKuJ0fa5CZIYw/edit](https://www.canva.com/design/DAF5XAKPmbw/J6u0HV1oTwy9k0tVrOK4mA/edit?utm_content=DAF5XAKPmbw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton )
+
+
+https://www.canva.com/design/DAF5XAKPmbw/J6u0HV1oTwy9k0tVrOK4mA/edit?utm_content=DAF5XAKPmbw&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton 
+
 ## Team (GROUP 13)
 - E/19/105: [M. H. M. Fahman](https://people.ce.pdn.ac.lk/students/e19/105/)
 - E/19/106: [M. F. M. Faseeh](https://people.ce.pdn.ac.lk/students/e19/106/)
