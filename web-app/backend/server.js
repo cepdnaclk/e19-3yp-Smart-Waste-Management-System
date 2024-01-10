@@ -7,9 +7,24 @@ const feedbackRoute = require("./routes/feedback");
 const authUserRoute = require("./routes/authUser");
 require("dotenv").config();
 const DB_URL = process.env.DB_URL;
+const path = require("path");
 
 const app = express();
 const PORT = 1337;
+
+const _dirname = path.dirname("");
+const buildPath = path.join(_dirname, "../frontend/build/index.html");
+
+app.use(express.static(buildPath));
+
+app.get("/", function (req, res) {
+  res.sendFile(__dirname, "../frontend/build/index.html"),
+    function (err) {
+      if (err) {
+        res.status(500).send(err);
+      }
+    };
+});
 
 app.use(cors());
 app.use(express.json());
