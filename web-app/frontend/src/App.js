@@ -9,6 +9,7 @@ import Collectors from "./pages/Collectors";
 import Users from "./pages/Users";
 import Feedback from "./pages/Feedback";
 import Map from "./pages/Map";
+import Schedule from "./pages/Schedule";
 import "./App.css";
 
 const App = () => {
@@ -23,7 +24,7 @@ const App = () => {
           <Route path="/public-users" element={<Users />} />
           <Route path="/mapview" element={<Map />} />
           <Route path="/feedback" element={<Feedback />} />
-          <Route path="/settings" element={<Feedback />} />
+          <Route path="/schedule" element={<Schedule />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/"

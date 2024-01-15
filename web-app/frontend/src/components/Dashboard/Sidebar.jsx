@@ -62,9 +62,9 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             <BsMenuButtonWideFill className="icon" /> Feedback
           </li>
         </a>
-        <a href="/settings" style={style.link}>
+        <a href="/schedule" style={style.link}>
           <li className="sidebar-list-item">
-            <BsFillGearFill className="icon" /> Settings
+            <BsFillGearFill className="icon" /> Schedule
           </li>
         </a>
       </ul>
