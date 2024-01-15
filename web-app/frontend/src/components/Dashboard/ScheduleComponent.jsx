@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import "./schedule.css";
 function ScheduleComponent() {
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("Peradeniya");
   const [workingHours, setWorkingHours] = useState({ start: 8, end: 17 });
   const [responseMessage, setResponseMessage] = useState("");
 
@@ -24,20 +24,23 @@ function ScheduleComponent() {
   };
 
   return (
-    <div>
-      <label>
+    <div className="container">
+      <label className="label">
         Location:
         <input
           type="text"
           value={location}
           onChange={(e) => setLocation(e.target.value)}
+          className="input"
         />
       </label>
       <br />
-      <label>
+      <label className="label">
         Working Hours:
         <input
           type="number"
+          max={23}
+          min={0}
           value={workingHours.start}
           onChange={(e) =>
             setWorkingHours({
@@ -45,19 +48,25 @@ function ScheduleComponent() {
               start: parseInt(e.target.value),
             })
           }
+          className="input"
         />
         -
         <input
           type="number"
+          max={23}
+          min={0}
           value={workingHours.end}
           onChange={(e) =>
             setWorkingHours({ ...workingHours, end: parseInt(e.target.value) })
           }
+          className="input"
         />
       </label>
       <br />
-      <button onClick={handleScheduleTrip}>Schedule Collection Trip</button>
-      <p>{responseMessage}</p>
+      <button onClick={handleScheduleTrip} className="button">
+        Generate Schedule
+      </button>
+      <p className="response">{responseMessage}</p>
     </div>
   );
 }

@@ -24,7 +24,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
     >
       <div className="sidebar-title">
         <div className="sidebar-brand">
-          <BsFillPersonCheckFill className="icon_header" /> Admin ID
+          <BsFillPersonCheckFill className="icon_header" /> Admin
         </div>
         <span className="icon close_icon" onClick={OpenSidebar}>
           X
