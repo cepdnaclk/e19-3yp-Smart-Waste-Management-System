@@ -24,7 +24,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
     >
       <div className="sidebar-title">
         <div className="sidebar-brand">
-          <BsFillPersonCheckFill className="icon_header" /> Admin ID
+          <BsFillPersonCheckFill className="icon_header" /> Admin
         </div>
         <span className="icon close_icon" onClick={OpenSidebar}>
           X
@@ -62,9 +62,9 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
             <BsMenuButtonWideFill className="icon" /> Feedback
           </li>
         </a>
-        <a href="/settings" style={style.link}>
+        <a href="/schedule" style={style.link}>
           <li className="sidebar-list-item">
-            <BsFillGearFill className="icon" /> Settings
+            <BsFillGearFill className="icon" /> Schedule
           </li>
         </a>
       </ul>

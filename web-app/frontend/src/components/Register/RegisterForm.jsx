@@ -7,7 +7,8 @@ import Img from "../Log in/Img";
 import { useSignup } from "../../hooks/useSignup";
 
 function RegisterForm() {
-  const navigate = useNavigate();
+  // const navigate =
+  useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
