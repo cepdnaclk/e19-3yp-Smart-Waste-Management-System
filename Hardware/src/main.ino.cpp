@@ -1,3 +1,6 @@
+# 1 "C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpsx0zlp0a"
+#include <Arduino.h>
+# 1 "C:/Sahan/my sem/CO 300/Project/e19-3yp-Smart-Waste-Management-System/Hardware/src/main.ino"
 #include "secrets.h"
 #include <Arduino.h>
 #include <DHT.h>
@@ -17,11 +20,11 @@ TinyGPSPlus gps;
 #define AWS_IOT_SUBSCRIBE_TOPIC "thing/3YP-ESP/sub"
 #define AWS_IOT_PUBLISH_TOPIC "thing/3YP-ESP/pub"
 
-//define DHT11 pin
-DHT dht(26, DHT11);
-#define ledPin 13 
 
-// ultrasonic sensors
+DHT dht(26, DHT11);
+#define ledPin 13
+
+
 #define echoPin 23
 #define trigPin 22
 bool isConnected = false;
@@ -30,42 +33,48 @@ bool isConnected = false;
 #define led3Pin 18
 #define led4Pin 19
 
-// Define variables for temperature and humidity
+
 float duration, distance , temperature;
 float gpsLatitude = 7.253988930424021;
-float gpsLongitude =  80.59166442208883;
+float gpsLongitude = 80.59166442208883;
 
-// Define relay and door lock pins
+
 #define relayPin 5
-
-
+void setup();
+void connectTOAws();
+void loop();
+void readGPSData();
+void sendStatsTOAWS();
+void sendRelayStatusToAWS();
+void connectToWifi();
+#line 42 "C:/Sahan/my sem/CO 300/Project/e19-3yp-Smart-Waste-Management-System/Hardware/src/main.ino"
 void setup() {
   Serial.begin(115200);
-  Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
+  Serial2.begin(9600, SERIAL_8N1, 16, 17);
   connectToWifi();
   connectTOAws();
 
   dht.begin();
   delay(1000);
 
-  // ultrasonic sensors
+
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
   delay(500);
   pinMode(LED_BUILTIN, OUTPUT);
-  pinMode(ledPin, OUTPUT); 
+  pinMode(ledPin, OUTPUT);
   pinMode(led1Pin, OUTPUT);
   pinMode(led2Pin, OUTPUT);
   pinMode(led3Pin, OUTPUT);
   pinMode(led4Pin, OUTPUT);
 
-  // Define relay and door lock pins
+
   pinMode(relayPin, OUTPUT);
 
 
   }
 
-void connectTOAws() 
+void connectTOAws()
 {
   net.setCACert(AWS_CERT_CA);
   net.setCertificate(AWS_CERT_CRT);
@@ -91,10 +100,10 @@ void connectTOAws()
 
 void loop() {
 
-  //dh11
+
   temperature = dht.readTemperature();
-  //humidity and temperature
-  if (isnan(temperature) )  // Check if any reads failed and exit early (to try again).
+
+  if (isnan(temperature) )
   {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
@@ -102,17 +111,17 @@ void loop() {
   Serial.print("Temperature: ");
   Serial.print(temperature);
   Serial.println(" *C");
-  // Turn on the LED if the temperature is more than 25
+
   if (temperature > 25) {
-    digitalWrite(ledPin, HIGH); // Turn on the LED
-    delay(500); // Wait for 500 milliseconds
-    digitalWrite(ledPin, LOW); // Turn off the LED
-    delay(500); // Wait for 500 milliseconds
+    digitalWrite(ledPin, HIGH);
+    delay(500);
+    digitalWrite(ledPin, LOW);
+    delay(500);
   } else {
-    digitalWrite(ledPin, LOW); // Turn off the LED
+    digitalWrite(ledPin, LOW);
   }
 
-  // Triggering the ultrasonic sensor
+
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
@@ -120,7 +129,7 @@ void loop() {
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
   distance = duration / 58.2;
-  // Displaying the distance
+
   Serial.print("Distance: ");
   Serial.print(distance);
   Serial.println(" cm");
@@ -128,7 +137,7 @@ void loop() {
   Serial.println(gpsLatitude,6);
   Serial.println("longitude: ");
   Serial.println(gpsLongitude,6);
-  // Update garbage level LEDs based on distance
+
   if (distance <= 5 ){
     digitalWrite(led1Pin, HIGH);
     digitalWrite(led2Pin, LOW);
@@ -156,7 +165,7 @@ void loop() {
   }
 
   sendStatsTOAWS();
-  sendRelayStatusToAWS(); // Publish relay pin status to AWS IoT Core
+  sendRelayStatusToAWS();
   client.loop();
   delay(1000);
 }
@@ -203,7 +212,7 @@ void sendRelayStatusToAWS()
   client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
 
-void connectToWifi() 
+void connectToWifi()
 {
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);

@@ -9,6 +9,7 @@ import {
   TextInput,
   Pressable,
   Alert,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,13 +17,26 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
+import { Feather } from "@expo/vector-icons";
+
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
+  const [nameVerify, setNameVerify] = useState(false);
   const [email, setEmail] = useState("");
+  const [emailVerify, setEmailVerify] = useState(false);
   const [password, setPassword] = useState("");
-  const [selectedRole, setSelectedRole] = useState("houseOwner");
+  const [passwordVerify, setPasswordVerify] = useState("");
+  const [selectedRole, setSelectedRole] = useState(false);
   const navigation = useNavigation();
+
+  const handleName = (e) => {
+    const nameVar = e.nativeEvent.text;
+    setName(nameVar);
+    if (nameVar.length > 1 ) {
+      setNameVerify(true);
+    }
+  }
 
   const handleRegister = () => {
     const user = { name, selectedRole, email, password };
@@ -63,6 +77,7 @@ const RegisterScreen = () => {
         flex: 1,
         backgroundColor: "white",
         alignItems: "center",
+        justifyContent: "center",
         marginTop: 0,
       }}
     >
@@ -73,7 +88,12 @@ const RegisterScreen = () => {
         />
       </View>
 
-      <KeyboardAvoidingView>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        keyboardShouldPersistTaps="handled"
+      >
+
+      <KeyboardAvoidingView  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
         <View style={{ alignItems: "center" }}>
           <Text
             style={{
@@ -92,10 +112,10 @@ const RegisterScreen = () => {
             style={{
               alignItems: "center",
               flexDirection: "row",
-              gap: 10,
+              gap: -10,
               backgroundColor: "#D0D0D0",
               paddingVertical: 10,
-              borderRadius: 8,
+              borderRadius: 10,
             }}
           >
             <Ionicons
@@ -106,15 +126,21 @@ const RegisterScreen = () => {
             />
             <TextInput
               value={name}
-              onChangeText={(text) => setName(text)}
               style={{
                 color: "green",
                 marginVertical: 10,
-                width: 300,
+                marginHorizontal: 18,
+                width: 265,
                 fontSize: name ? 16 : 16,
               }}
-              placeholder="Enter your Name"
+              placeholder="Enter your Name" 
+              onChange = {e => handleName(e)}
             />
+             {nameVerify ? (
+              <Feather name="check-circle" color="green" size={20} />
+            ) : (
+              <AntDesign name="closecircleo" color="red" size={20} />
+            )}
           </View>
         </View>
 
@@ -136,14 +162,14 @@ const RegisterScreen = () => {
               color="green"
             />
 
-            {/* <Picker
+            {<Picker
               selectedValue={selectedRole}
               style={{ height: 40, width: 300, color: "green" }}
               onValueChange={(itemValue) => setSelectedRole(itemValue)}
             >
               <Picker.Item label="House Owner" value="houseOwner" />
               <Picker.Item label="Garbage Collector" value="garbageCollector" />
-            </Picker> */}
+            </Picker>}
           </View>
         </View>
 
@@ -205,7 +231,7 @@ const RegisterScreen = () => {
                 width: 300,
                 fontSize: password ? 16 : 16,
               }}
-              placeholder="enter your Password"
+              placeholder="Enter your Password"
             />
           </View>
         </View>
@@ -235,7 +261,7 @@ const RegisterScreen = () => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.navigate("LoginScreen")}
+          onPress={() => navigation.navigate("LoginScreenGarbageCollector")}
           style={{ marginTop: 12 }}
         >
           <Text
@@ -249,6 +275,7 @@ const RegisterScreen = () => {
           </Text>
         </Pressable>
       </KeyboardAvoidingView>
+      </ScrollView>
     </SafeAreaView>
   );
 };
