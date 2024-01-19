@@ -17,20 +17,27 @@ const Schedule = async (req, res) => {
       weatherResponse.data.weather[0].main.toLowerCase() === "rain";
 
     // Check if it's not raining and within working hours
-    if (!isRaining && isWorkingHours(workingHours)) {
-      // Schedule waste collection trip
-      // You can add your logic here for scheduling the trip
+    if (isWorkingHours(workingHours)) {
+      if (!isRaining) {
+        // Schedule waste collection trip
+        // You can add your logic here for scheduling the trip
 
-      res.json({
-        status: "success",
-        message: "Collection trip scheduled successfully.",
-        latitude: lat,
-        longitude: lon,
-      });
+        res.json({
+          status: "success",
+          message: "Collection trip scheduled successfully.",
+          latitude: lat,
+          longitude: lon,
+        });
+      } else {
+        res.json({
+          status: "error",
+          message: "It's ranning outside !",
+        });
+      }
     } else {
       res.json({
         status: "error",
-        message: "Cannot schedule collection trip at this time.",
+        message: "It's not a working hour right now !",
       });
     }
   } catch (error) {
@@ -40,6 +47,8 @@ const Schedule = async (req, res) => {
       .json({ status: "error", message: "Internal server error." });
   }
 };
+
+
 
 function isWorkingHours(workingHours) {
   const currentHour = new Date().getHours();
