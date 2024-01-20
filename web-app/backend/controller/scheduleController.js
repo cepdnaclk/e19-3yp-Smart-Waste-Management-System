@@ -1,8 +1,9 @@
 const axios = require("axios");
+const ScheduleModel = require("../models/schedule");
 
 const Schedule = async (req, res) => {
   try {
-    const { location, workingHours } = req.body;
+    const { location, workingHours, collectorID, collectBin } = req.body;
 
     // Check weather using a weather API (replace API_KEY with your actual API key)
     const apiKey = "19820d37516af741113fe71e62198c50";
@@ -20,7 +21,14 @@ const Schedule = async (req, res) => {
     if (isWorkingHours(workingHours)) {
       if (!isRaining) {
         // Schedule waste collection trip
-        // You can add your logic here for scheduling the trip
+        const newSchedule = new ScheduleModel({
+          date: new Date(),
+          collectorID: collectorID,
+          collectBin: collectBin,
+        });
+
+        // Save the new schedule to MongoDB
+        await newSchedule.save();
 
         res.json({
           status: "success",

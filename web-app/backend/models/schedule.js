@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const scheduleSchema = new mongoose.Schema(
   {
     date: { type: Date, required: true },
-    time: { type: Date, required: true },
     collectorID: { type: String, required: true },
     collectBin: { type: String, required: true },
   },
