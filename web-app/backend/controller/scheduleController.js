@@ -31,13 +31,13 @@ const Schedule = async (req, res) => {
       } else {
         res.json({
           status: "error",
-          message: "It's ranning outside !",
+          message: "It's raining outside!",
         });
       }
     } else {
       res.json({
         status: "error",
-        message: "It's not a working hour right now !",
+        message: "It's not a working hour right now!",
       });
     }
   } catch (error) {
@@ -47,8 +47,6 @@ const Schedule = async (req, res) => {
       .json({ status: "error", message: "Internal server error." });
   }
 };
-
-
 
 function isWorkingHours(workingHours) {
   const currentHour = new Date().getHours();
