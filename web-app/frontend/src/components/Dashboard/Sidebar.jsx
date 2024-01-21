@@ -5,7 +5,7 @@ import {
   BsFillArchiveFill,
   BsPeopleFill,
   BsMenuButtonWideFill,
-  BsFillGearFill,
+  BsCalendar3,
 } from "react-icons/bs";
 import { RiMapPinFill } from "react-icons/ri";
 
@@ -64,7 +64,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
         </a>
         <a href="/schedule" style={style.link}>
           <li className="sidebar-list-item">
-            <BsFillGearFill className="icon" /> Schedule
+            <BsCalendar3 className="icon" /> Schedule
           </li>
         </a>
       </ul>
