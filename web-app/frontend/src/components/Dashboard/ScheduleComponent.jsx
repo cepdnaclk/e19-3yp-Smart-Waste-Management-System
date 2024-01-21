@@ -1,10 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 import "./schedule.css";
+
 function ScheduleComponent() {
   const [location, setLocation] = useState("Peradeniya");
   const [workingHours, setWorkingHours] = useState({ start: 8, end: 17 });
+  const [collectors, setCollectors] = useState([]);
+  const [selectedCollector, setSelectedCollector] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [schedule, setSchedule] = useState(null);
+
+  useEffect(() => {
+    // Fetch collectors when the component mounts
+    fetchCollectors();
+    // Fetch schedule when the component mounts
+    fetchSchedule();
+  }, []);
+
+  const fetchCollectors = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/collector-details"
+      );
+      setCollectors(response.data);
+    } catch (error) {
+      console.error("Error fetching collectors:", error);
+    }
+  };
+
+  const fetchSchedule = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:1337/api/scheduleCollection"
+      );
+      setSchedule(response.data);
+    } catch (error) {
+      console.error("Error fetching schedule:", error);
+    }
+  };
 
   const handleScheduleTrip = async () => {
     try {
@@ -13,10 +47,14 @@ function ScheduleComponent() {
         {
           location,
           workingHours,
+          collectorID: selectedCollector,
         }
       );
 
       setResponseMessage(response.data.message);
+
+      // Fetch the updated schedule after scheduling the trip
+      fetchSchedule();
     } catch (error) {
       console.error(error);
       setResponseMessage("Error scheduling collection trip.");
@@ -25,6 +63,8 @@ function ScheduleComponent() {
 
   return (
     <div className="container">
+      <br />
+      <br />
       <label className="label">
         Location:
         <input
@@ -63,10 +103,52 @@ function ScheduleComponent() {
         />
       </label>
       <br />
-      <button onClick={handleScheduleTrip} className="button">
+      <label className="label">
+        Select Collector:
+        <select
+          value={selectedCollector}
+          onChange={(e) => setSelectedCollector(e.target.value)}
+          className="input"
+        >
+          <option value="" disabled>
+            -- Select Collector --
+          </option>
+          {collectors.map((collector) => (
+            <option key={collector._id} value={collector._id}>
+              {collector.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <br />
+      <button onClick={handleScheduleTrip} className="btn btn-primary">
         Generate Schedule
       </button>
       <p className="response">{responseMessage}</p>
+
+      {schedule && (
+        <div className="schedule-table">
+          <h2>Schedule Table</h2>
+          <table className="table table-bordered table-striped">
+            <thead className="thead-dark">
+              <tr>
+                <th>Date</th>
+                <th>Collector ID</th>
+                {/* <th>Collection Bin</th> */}
+              </tr>
+            </thead>
+            <tbody>
+              {schedule.map((entry) => (
+                <tr key={entry._id}>
+                  <td>{entry.date}</td>
+                  <td>{entry.collectorID}</td>
+                  {/* <td>{entry.collectBin}</td> */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
