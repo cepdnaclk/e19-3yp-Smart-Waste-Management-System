@@ -63,6 +63,8 @@ function ScheduleComponent() {
 
   return (
     <div className="container">
+      <br />
+      <br />
       <label className="label">
         Location:
         <input
