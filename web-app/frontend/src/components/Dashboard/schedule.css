@@ -1,4 +1,5 @@
 /* schedule.css */
+
 .container {
   max-width: 400px;
   margin: auto;
@@ -62,4 +63,29 @@
   margin-top: 15px;
   color: #4caf50;
   font-size: 16px;
+}
+
+/* Set the width of the table to 90% */
+.schedule-table {
+  width: 100%;
+  margin: auto;
+}
+
+/* Style for the table */
+.schedule-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.schedule-table th {
+  background-color: #4caf50;
+  color: white;
 }

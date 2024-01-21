@@ -61,4 +61,15 @@ function isWorkingHours(workingHours) {
   return currentHour >= workingHours.start && currentHour <= workingHours.end;
 }
 
-module.exports = { Schedule };
+const getSchedule = async (req, res) => {
+  try {
+    // Fetch all schedule entries from the MongoDB collection
+    const scheduleEntries = await ScheduleModel.find();
+    res.json(scheduleEntries);
+  } catch (error) {
+    console.error("Error fetching schedule details:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+module.exports = { Schedule, getSchedule };
