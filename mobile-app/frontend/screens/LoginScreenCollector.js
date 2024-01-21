@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
 
-const LoginScreenCollector = ({ navigation }) => {
+const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,10 +21,9 @@ const LoginScreenCollector = ({ navigation }) => {
 
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]}>
-      <ScrollView>
         <View style={styles.roleIndicator}>
           <Pressable
-              //onPress={()=>navigation.navigate("LoginScreenPublic")}
+              onPress={onPressPublic}
               style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
@@ -32,7 +31,7 @@ const LoginScreenCollector = ({ navigation }) => {
               </Text>
           </Pressable>
           <Pressable
-              //onPress={()=>navigation.navigate("LoginScreenCollector")}
+              onPress={onPressCollector}
               style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'white'}]}>
@@ -48,8 +47,11 @@ const LoginScreenCollector = ({ navigation }) => {
               source={require("../assets/LoginScreen/head.png")}
             />
 
-            <Text style={styles.heading}>Login to Your Account</Text>
-
+            <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
+              <Text style={styles.heading}>Login as </Text>
+              <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>COLLECTOR</Text>
+            </View>
+          <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.inputContainer}>
               <View style={styles.inputWrapper}>
                 <MaterialIcons name="email" size={30} color="green" />
@@ -86,8 +88,9 @@ const LoginScreenCollector = ({ navigation }) => {
             <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
               <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
             </Pressable>
-        </View>
-      </ScrollView>
+        </ScrollView>  
+      </View>
+      
     </SafeAreaView>
   );
 };
@@ -123,16 +126,16 @@ const styles = StyleSheet.create({
     marginRight: "auto",
   },
   image: {
-    marginTop: 50,
+    marginTop: 30,
     width: 300,
     height: 150
   },
   heading: {
-    marginTop: 20,
+    marginTop: 5,
     fontSize: 20,
     fontWeight: "bold",
     color: "green",
-    marginBottom: 20,
+    marginBottom: 5,
     textAlign: "center",
   },
   inputContainer: {
@@ -152,7 +155,7 @@ const styles = StyleSheet.create({
   input: {
     color: "green",
     marginVertical: 10,
-    width: 300,
+    width: "80%",
     fontSize: 16,
   },
   additionalInfoContainer: {
@@ -165,7 +168,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     height:50,
-    width: 300,
+    width: "100%",
     backgroundColor: "green",
     borderRadius: 10,
     borderWidth: 2,
