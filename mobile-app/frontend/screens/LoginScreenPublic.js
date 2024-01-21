@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, Keyboard} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, Keyboard, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
@@ -20,7 +20,7 @@ const LoginScreenPublic = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
       <ScrollView>
         <View style={styles.roleSelector}>
           <Pressable
@@ -32,7 +32,7 @@ const LoginScreenPublic = ({ navigation }) => {
               </Text>
           </Pressable>
           <Pressable
-              onPress={()=>navigation.navigate("LoginScreenGarbageCollector")}
+              onPress={()=>navigation.navigate("LoginScreenCollector")}
               style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
@@ -41,16 +41,15 @@ const LoginScreenPublic = ({ navigation }) => {
           </Pressable>
           
         </View>
-        <TouchableWithoutFeedback onPress={handleTouchablePress}>
-          <KeyboardAvoidingView behavior="padding" style={styles.keyboardAvoidingContainer}>
         
-            
+        <View style ={styles.keyboardAvoidingContainer}>
+        
             <Image
               style={styles.image}
               source={require("../assets/LoginScreen/head.png")}
             />
 
-            <Text style={styles.heading}>Login In To Your Account</Text>
+            <Text style={styles.heading}>Login to Your Account</Text>
 
             <View style={styles.inputContainer}>
               <View style={styles.inputWrapper}>
@@ -59,7 +58,7 @@ const LoginScreenPublic = ({ navigation }) => {
                   value={email}
                   onChangeText={(text) => setEmail(text)}
                   style={styles.input}
-                  placeholder="enter your Email"
+                  placeholder="Enter your Email"
                 />
               </View>
             </View>
@@ -72,13 +71,12 @@ const LoginScreenPublic = ({ navigation }) => {
                   onChangeText={(text) => setPassword(text)}
                   secureTextEntry={true}
                   style={styles.input}
-                  placeholder="enter your Password"
+                  placeholder="Enter your Password"
                 />
               </View>
             </View>
 
             <View style={styles.additionalInfoContainer}>
-              <Text style={styles.additionalInfoText}>Keep me logged in</Text>
               <Text style={styles.additionalInfoText}>Forgot Password</Text>
             </View>
 
@@ -89,8 +87,8 @@ const LoginScreenPublic = ({ navigation }) => {
             <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
               <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
             </Pressable>
-          </KeyboardAvoidingView>
-        </TouchableWithoutFeedback>
+          </View>
+        
       </ScrollView>
     </SafeAreaView>
   );
@@ -101,17 +99,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   buttonContainer: {
-    width: 192,
+    width: '50%',
     height: 50,
     borderColor: 'green',
     borderWidth: 1,
-    marginTop: 5
+    marginTop: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   button: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold",
-    lineHeight: 40
+    fontWeight: "bold"
   },
   container: {
     flex: 1,
@@ -147,7 +146,10 @@ const styles = StyleSheet.create({
     gap: 10,
     backgroundColor: "#D0D0D0",
     paddingVertical: 10,
+    borderWidth: 1,
+    borderColor: "green",
     borderRadius: 8,
+    padding:5
   },
   input: {
     color: "green",
@@ -164,13 +166,17 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   loginButton: {
-    width: 200,
+    height: 50,
+    width: 300,
     backgroundColor: "green",
     borderRadius: 10,
+    borderWidth: 2,
+    borderColor:"#59de71",
     marginLeft: "auto",
     marginRight: "auto",
-    padding: 20,
     marginTop: 70,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   loginButtonText: {
     textAlign: "center",
