@@ -11,7 +11,6 @@ import ReportScreen from './screens/ReportScreen';
 import BinMap from './screens/BinMap';
 
 
-
 const Stack = createNativeStackNavigator();
 
 

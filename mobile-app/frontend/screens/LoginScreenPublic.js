@@ -25,7 +25,7 @@ const LoginScreenPublic = ({ navigation }) => {
         <View style={styles.roleSelector}>
           <Pressable
               onPress={()=>navigation.navigate("LoginScreenPublic")}
-              style={[styles.buttonContainer, {backgroundColor: 'green'}]}
+              style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
               <Text style={[styles.button, {color: 'white'}]}>
                 PUBLIC
@@ -33,7 +33,7 @@ const LoginScreenPublic = ({ navigation }) => {
           </Pressable>
           <Pressable
               onPress={()=>navigation.navigate("LoginScreenGarbageCollector")}
-              style={[styles.buttonContainer, {backgroundColor: 'white'}]}
+              style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
                 COLLECTOR
