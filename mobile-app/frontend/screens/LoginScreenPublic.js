@@ -22,9 +22,9 @@ const LoginScreenPublic = ({ navigation }) => {
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
       <ScrollView>
-        <View style={styles.roleSelector}>
+        <View style={styles.roleIndicator}>
           <Pressable
-              onPress={()=>navigation.navigate("LoginScreenPublic")}
+              //onPress={()=>navigation.navigate("LoginScreen")}
               style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
               <Text style={[styles.button, {color: 'white'}]}>
@@ -32,7 +32,7 @@ const LoginScreenPublic = ({ navigation }) => {
               </Text>
           </Pressable>
           <Pressable
-              onPress={()=>navigation.navigate("LoginScreenCollector")}
+              //onPress={()=>navigation.navigate("LoginScreen")}
               style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
@@ -95,7 +95,7 @@ const LoginScreenPublic = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  roleSelector: {
+  roleIndicator: {
     flexDirection: "row",
   },
   buttonContainer: {
