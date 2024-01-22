@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreenGarbageCollector from './screens/LoginScreenGarbageCollector';
+import LoginScreenCollector from './screens/LoginScreenCollector';
 import LoginScreenPublic from './screens/LoginScreenPublic';
 import RegisterScreen from './screens/RegisterScreen';
-import GarbageCollectorHomeScreen from './screens/GarbageCollectorHomeScreen';
+import CollectorHomeScreen from './screens/CollectorHomeScreen';
 import PublicHomeScreen from './screens/PublicHomeScreen';
-import ProfileGarbageCollectors from './screens/ProfileGarbageCollectors';
+import ProfileCollector from './screens/ProfileCollector';
 import ReportScreen from './screens/ReportScreen';
 import BinMap from './screens/BinMap';
-
+import LoginScreen from './screens/LoginScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -20,13 +20,18 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="LoginScreenPublic"
           component={LoginScreenPublic}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="LoginScreenGarbageCollector"
-          component={LoginScreenGarbageCollector}
+          name="LoginScreenCollector"
+          component={LoginScreenCollector}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -35,8 +40,8 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="GarbageCollectorHomeScreen"
-          component={GarbageCollectorHomeScreen}
+          name="CollectorHomeScreen"
+          component={CollectorHomeScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -45,8 +50,8 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="ProfileGarbageCollectors"
-          component={ProfileGarbageCollectors}
+          name="ProfileCollector"
+          component={ProfileCollector}
           options={{ headerShown: false }}
         />
         <Stack.Screen

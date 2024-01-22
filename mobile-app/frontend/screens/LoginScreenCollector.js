@@ -4,14 +4,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
 
-const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
+const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   //Login logic to be implemented
   const handleLogin = async () => {
-    navigation.navigate("PublicHomeScreen")
+    navigation.navigate("CollectorHomeScreen")
 
   };
   const handleTouchablePress = () => {
@@ -20,39 +20,37 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   }
 
   return (
-    <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
+    <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]}>
         <View style={styles.roleIndicator}>
           <Pressable
               onPress={onPressPublic}
-              style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
+              style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
-              <Text style={[styles.button, {color: 'white'}]}>
+              <Text style={[styles.button, {color: 'green'}]}>
                 PUBLIC
               </Text>
           </Pressable>
           <Pressable
               onPress={onPressCollector}
-              style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
+              style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
-              <Text style={[styles.button, {color: 'green'}]}>
+              <Text style={[styles.button, {color: 'white'}]}>
                 COLLECTOR
               </Text>
           </Pressable>
           
         </View>
-        
-        <View style ={styles.keyboardAvoidingContainer}>
-        
+        <View style ={styles.keyboardAvoidingContainer}>        
+            
             <Image
               style={styles.image}
               source={require("../assets/LoginScreen/head.png")}
             />
 
-          <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
-            <Text style={styles.heading}>Login as </Text>
-            <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>PUBLIC</Text>
-          </View>
-          
+            <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
+              <Text style={styles.heading}>Login as </Text>
+              <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>COLLECTOR</Text>
+            </View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.inputContainer}>
               <View style={styles.inputWrapper}>
@@ -89,9 +87,10 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
 
             <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
               <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
-          </Pressable>
-          </ScrollView>
-        </View>  
+            </Pressable>
+        </ScrollView>  
+      </View>
+      
     </SafeAreaView>
   );
 };
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
   button: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   container: {
     flex: 1,
@@ -168,7 +167,7 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   loginButton: {
-    height: 50,
+    height:50,
     width: "100%",
     backgroundColor: "green",
     borderRadius: 10,
@@ -198,5 +197,5 @@ const styles = StyleSheet.create({
   
 });
 
-export default LoginScreenPublic;
+export default LoginScreenCollector;
 

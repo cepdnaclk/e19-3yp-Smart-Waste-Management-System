@@ -61,6 +61,9 @@ We are eagerly planning to make it more automated using Machine Learning feature
 
 - [Mid Evaluvation Presentation](https://www.canva.com/design/DAF2iiM23Ew/CAewlkRqYrKuJ0fa5CZIYw/edit)
 
+- [3rd Evaluvation Presentation](https://www.canva.com/design/DAF5XAKPmbw/J6u0HV1oTwy9k0tVrOK4mA/edit)
+
+
 ## Team (GROUP 13)
 - E/19/105: [M. H. M. Fahman](https://people.ce.pdn.ac.lk/students/e19/105/)
 - E/19/106: [M. F. M. Faseeh](https://people.ce.pdn.ac.lk/students/e19/106/)

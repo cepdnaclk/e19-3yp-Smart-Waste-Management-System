@@ -9,7 +9,9 @@ import Collectors from "./pages/Collectors";
 import Users from "./pages/Users";
 import Feedback from "./pages/Feedback";
 import Map from "./pages/Map";
+import Schedule from "./pages/Schedule";
 import "./App.css";
+//import { useNavigate } from "react-router-dom";
 
 const App = () => {
   const { user } = useAuthContext();
@@ -23,7 +25,7 @@ const App = () => {
           <Route path="/public-users" element={<Users />} />
           <Route path="/mapview" element={<Map />} />
           <Route path="/feedback" element={<Feedback />} />
-          <Route path="/settings" element={<Feedback />} />
+          <Route path="/schedule" element={<Schedule />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route
             path="/"
@@ -44,34 +46,39 @@ export default App;
 //   return (
 //     <div>
 //       <BrowserRouter>
-//         <Routes>
-//           <Route path="/bins" element={user ? <Bin /> : <Navigate to="/" />} />
+//         <Routes>         
+//           <Route
+//             path="/bins"
+//             element={user ? <Bin /> : <Navigate to="/login" replace />}
+//             exact
+//           />          
 //           <Route
 //             path="/collectors"
-//             element={user ? <Collectors /> : <Navigate to="/" />}
+//             element={user ? <Collectors /> : <Navigate to="/login" replace />}
+//             exact
 //           />
 //           <Route
 //             path="/public-users"
-//             element={user ? <Users /> : <Navigate to="/" />}
+//             element={user ? <Users /> : <Navigate to="/login" />}
 //           />
 //           <Route
 //             path="/mapview"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
+//             element={user ? <Map /> : <Navigate to="/login" />}
 //           />
 //           <Route
 //             path="/feedback"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
+//             element={user ? <Feedback /> : <Navigate to="/login" />}
 //           />
-//           <Route
+//           {/* <Route
 //             path="/settings"
-//             element={user ? <Feedback /> : <Navigate to="/" />}
-//           />
+//             element={user ? <Settings /> : <Navigate to="/login" />}
+//           /> */}
 //           <Route
 //             path="/dashboard"
-//             element={user ? <Dashboard /> : <Navigate to="/" />}
+//             element={user ? <Dashboard /> : <Navigate to="/login" />}
 //           />
 //           <Route
-//             path="/"
+//             path="/login"
 //             element={!user ? <Login /> : <Navigate to="/dashboard" />}
 //           />
 //           <Route

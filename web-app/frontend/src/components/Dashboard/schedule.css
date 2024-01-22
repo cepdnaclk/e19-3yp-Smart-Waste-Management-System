@@ -1,0 +1,102 @@
+/* schedule.css */
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  font-family: "Arial", sans-serif;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 18px;
+  color: #333;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.suggestion-container {
+  position: relative;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.suggestion:hover {
+  background-color: #f5f5f5;
+}
+
+.button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.response {
+  margin-top: 15px;
+  color: #ff0606;
+  font-size: 16px;
+}
+
+/* Set the width of the table to 90% */
+.schedule-table {
+  width: 100%;
+  margin: auto;
+}
+
+/* Style for the table */
+.schedule-table table {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 50px;
+}
+
+.title {
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.schedule-table th,
+.schedule-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.schedule-table th {
+  background-color: #4caf50;
+  color: white;
+}
