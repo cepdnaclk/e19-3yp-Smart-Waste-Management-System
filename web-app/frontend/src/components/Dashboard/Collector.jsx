@@ -101,13 +101,12 @@ function Collector() {
   );
 }
 
-
-
 const style = {
   table: {
     tableLayout: "fixed",
-    width: "100%",
+    width: "98%",
     borderCollapse: "collapse",
+    margin: "10px",
   },
   header: {
     textAlign: "center",

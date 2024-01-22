@@ -5,11 +5,14 @@ const collectorRoute = require("./routes/collector");
 const userRoute = require("./routes/users");
 const feedbackRoute = require("./routes/feedback");
 const authUserRoute = require("./routes/authUser");
+const scheduleRoute = require("./routes/schedule");
 require("dotenv").config();
 const DB_URL = process.env.DB_URL;
 const path = require("path");
 
 const app = express();
+const bodyParser = require("body-parser");
+app.use(bodyParser.json());
 const PORT = 1337;
 
 const _dirname = path.dirname("");
@@ -32,6 +35,7 @@ app.use("/api", collectorRoute);
 app.use("/api", userRoute);
 app.use("/api", feedbackRoute);
 app.use("/api/user", authUserRoute);
+app.use("/api", scheduleRoute);
 
 mongoose.connect(DB_URL, {
   useNewUrlParser: true,

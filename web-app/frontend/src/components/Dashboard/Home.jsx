@@ -11,17 +11,17 @@ function Home() {
         {" "}
         <br />
         <br />
-          <div className="row justify-content-center">
-            <div className="col-md-4 box" style={style.box}>
-              <FontAwesomeIcon icon={faUsers} /> Users: 100
-            </div>
-            <div className="col-md-4 box" style={style.box}>
-              <FontAwesomeIcon icon={faTrash} /> Bins: 50
-            </div>
-            <div className="col-md-4 box" style={style.box}>
-              <FontAwesomeIcon icon={faStar} /> Rating: 4.5
-            </div>
+        <div className="row justify-content-center">
+          <div className="col-md-4 box" style={style.box}>
+            <FontAwesomeIcon icon={faUsers} /> Users: 100
           </div>
+          <div className="col-md-4 box" style={style.box}>
+            <FontAwesomeIcon icon={faTrash} /> Bins: 50
+          </div>
+          <div className="col-md-4 box" style={style.box}>
+            <FontAwesomeIcon icon={faStar} /> Rating: 4.5
+          </div>
+        </div>
       </div>
 
       <div className="row">
@@ -46,30 +46,6 @@ function Home() {
               <tr>
                 <td>B001</td>
                 <td>60 %</td>
-                <td>27</td>
-                <td>Open</td>
-              </tr>
-              <tr>
-                <td>B002</td>
-                <td>50 %</td>
-                <td>25</td>
-                <td>Open</td>
-              </tr>
-              <tr>
-                <td>B003</td>
-                <td>95 %</td>
-                <td>27</td>
-                <td>Closed</td>
-              </tr>
-              <tr>
-                <td>B004</td>
-                <td>95 %</td>
-                <td>25</td>
-                <td>Closed</td>
-              </tr>
-              <tr>
-                <td>B005</td>
-                <td>25 %</td>
                 <td>27</td>
                 <td>Open</td>
               </tr>

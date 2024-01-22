@@ -10,6 +10,8 @@ import {
   Pressable,
   Alert,
   ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -29,6 +31,10 @@ const RegisterScreen = () => {
   const [passwordVerify, setPasswordVerify] = useState("");
   const [selectedRole, setSelectedRole] = useState(false);
   const navigation = useNavigation();
+
+  const handleTouchablePress = () => {
+    Keyboard.dismiss();
+  };
 
   const handleName = (e) => {
     const nameVar = e.nativeEvent.text;
@@ -81,23 +87,19 @@ const RegisterScreen = () => {
         marginTop: 0,
       }}
     >
+      <TouchableWithoutFeedback onPress={handleTouchablePress}>
+      <View>
       <View>
         <Image
-          style={{ marginTop: 70, width: 250, height: 150 }}
+          style={{ marginTop: 40, width: 250, height: 150 }}
           source={require("../assets/LoginScreen/head.png")}
         />
       </View>
 
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        keyboardShouldPersistTaps="handled"
-      >
-
-      <KeyboardAvoidingView  behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
-        <View style={{ alignItems: "center" }}>
+      <View style={[{ alignItems: "center" },{paddingBottom:20}]}>
           <Text
             style={{
-              marginTop: 10,
+              marginTop: 5,
               fontSize: 20,
               fontWeight: "bold",
               color: "green",
@@ -107,7 +109,13 @@ const RegisterScreen = () => {
           </Text>
         </View>
 
-        <View style={{ marginTop: 20 }}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        
+        <View style={{ marginTop: 10 }}>
           <View
             style={{
               alignItems: "center",
@@ -164,7 +172,7 @@ const RegisterScreen = () => {
 
             {<Picker
               selectedValue={selectedRole}
-              style={{ height: 40, width: 300, color: "green" }}
+              style={{ height: 40, width: 300, color: "green", marginLeft:-18 }}
               onValueChange={(itemValue) => setSelectedRole(itemValue)}
             >
               <Picker.Item label="House Owner" value="houseOwner" />
@@ -236,16 +244,20 @@ const RegisterScreen = () => {
           </View>
         </View>
 
-        <View style={{ marginTop: 50 }} />
+        <View style={{ marginTop: 30}} />
         <Pressable
           onPress={handleRegister}
           style={{
-            width: 200,
+            width: 300,
+            height:50,
             backgroundColor: "green",
             borderRadius: 10,
             marginLeft: "auto",
             marginRight: "auto",
-            padding: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor:"#59de71"
           }}
         >
           <Text
@@ -261,21 +273,23 @@ const RegisterScreen = () => {
         </Pressable>
 
         <Pressable
-          onPress={() => navigation.navigate("LoginScreenGarbageCollector")}
+          onPress={() => navigation.navigate("LoginScreen")}
           style={{ marginTop: 12 }}
         >
           <Text
             style={{
               textAlign: "center",
-              color: "gray",
+              color: "green",
               fontSize: 16,
             }}
           >
             Already have an account? Login
           </Text>
         </Pressable>
-      </KeyboardAvoidingView>
-      </ScrollView>
+      
+          </ScrollView>
+          </View>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
