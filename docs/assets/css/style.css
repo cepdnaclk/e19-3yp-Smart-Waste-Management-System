@@ -1490,5 +1490,11 @@ section {
 
 .center-image img {
   max-width: 100%;
-  height: auto;
+  border: 4px solid #ddd;
+  border-radius: 8px;
+}
+
+.center-image1 img {
+  max-width: 100%;
+  border-radius: 8px;
 }
