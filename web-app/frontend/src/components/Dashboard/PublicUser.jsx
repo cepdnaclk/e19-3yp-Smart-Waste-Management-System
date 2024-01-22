@@ -68,10 +68,16 @@ function PublicUser() {
 const style = {
   table: {
     tableLayout: "fixed",
+    margin: "10px",
+    width: "98%",
+    borderCollapse: "collapse",
   },
   header: {
     textAlign: "center",
     color: "darkgreen",
+    fontSize: "24px",
+    fontWeight: "bold",
+    padding: "10px",
   },
   label: {
     fontWeight: "bold",

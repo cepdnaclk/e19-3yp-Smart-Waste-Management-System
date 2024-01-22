@@ -61,7 +61,7 @@
 
 .response {
   margin-top: 15px;
-  color: #4caf50;
+  color: #ff0606;
   font-size: 16px;
 }
 
@@ -73,9 +73,20 @@
 
 /* Style for the table */
 .schedule-table table {
-  width: 100%;
+  width: 70%;
   border-collapse: collapse;
-  margin-top: 15px;
+  margin-top: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
+  margin-bottom: 50px;
+}
+
+.title {
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 30px;
 }
 
 .schedule-table th,
