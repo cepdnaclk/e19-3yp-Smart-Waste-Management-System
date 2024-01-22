@@ -62,73 +62,78 @@ function ScheduleComponent() {
   };
 
   return (
-    <div className="container">
-      <br />
-      <br />
-      <label className="label">
-        Location:
-        <input
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="input"
-        />
-      </label>
-      <br />
-      <label className="label">
-        Working Hours:
-        <input
-          type="number"
-          max={23}
-          min={0}
-          value={workingHours.start}
-          onChange={(e) =>
-            setWorkingHours({
-              ...workingHours,
-              start: parseInt(e.target.value),
-            })
-          }
-          className="input"
-        />
-        -
-        <input
-          type="number"
-          max={23}
-          min={0}
-          value={workingHours.end}
-          onChange={(e) =>
-            setWorkingHours({ ...workingHours, end: parseInt(e.target.value) })
-          }
-          className="input"
-        />
-      </label>
-      <br />
-      <label className="label">
-        Select Collector:
-        <select
-          value={selectedCollector}
-          onChange={(e) => setSelectedCollector(e.target.value)}
-          className="input"
-        >
-          <option value="" disabled>
-            -- Select Collector --
-          </option>
-          {collectors.map((collector) => (
-            <option key={collector._id} value={collector._id}>
-              {collector.name}
+    <div>
+      <div className="container">
+        <br />
+        <br />
+        <label className="label">
+          Location:
+          <input
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="input"
+          />
+        </label>
+        <br />
+        <label className="label">
+          Working Hours:
+          <input
+            type="number"
+            max={23}
+            min={0}
+            value={workingHours.start}
+            onChange={(e) =>
+              setWorkingHours({
+                ...workingHours,
+                start: parseInt(e.target.value),
+              })
+            }
+            className="input"
+          />
+          -
+          <input
+            type="number"
+            max={23}
+            min={0}
+            value={workingHours.end}
+            onChange={(e) =>
+              setWorkingHours({
+                ...workingHours,
+                end: parseInt(e.target.value),
+              })
+            }
+            className="input"
+          />
+        </label>
+        <br />
+        <label className="label">
+          Select Collector:
+          <select
+            value={selectedCollector}
+            onChange={(e) => setSelectedCollector(e.target.value)}
+            className="input"
+          >
+            <option value="" disabled>
+              -- Select Collector --
             </option>
-          ))}
-        </select>
-      </label>
-      <br />
-      <button onClick={handleScheduleTrip} className="btn btn-primary">
-        Generate Schedule
-      </button>
-      <p className="response">{responseMessage}</p>
+            {collectors.map((collector) => (
+              <option key={collector._id} value={collector._id}>
+                {collector.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <button onClick={handleScheduleTrip} className="btn btn-primary">
+          Generate Schedule
+        </button>
+        <p className="response">{responseMessage}</p>
+      </div>
 
       {schedule && (
         <div className="schedule-table">
-          <h2>Schedule Table</h2>
+          <h2 className="title">Scheduled Table</h2>
           <table className="table table-bordered table-striped">
             <thead className="thead-dark">
               <tr>

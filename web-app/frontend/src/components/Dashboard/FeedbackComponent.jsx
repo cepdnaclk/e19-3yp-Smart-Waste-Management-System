@@ -25,11 +25,15 @@ function FeedbackComponent() {
         <div key={feedbackItem._id} style={styles.feedbackItem}>
           <p style={styles.feedbackLabel}>
             <span style={styles.label}>Name:</span>{" "}
-            <span style={styles.content}>{feedbackItem.name}</span>
+            <span style={styles.content}>
+              <b>{feedbackItem.name}</b>
+            </span>
           </p>
           <p style={styles.feedbackLabel}>
             <span style={styles.label}>Title:</span>{" "}
-            <span style={styles.content}>{feedbackItem.title}</span>
+            <span style={styles.content}>
+              <b>{feedbackItem.title}</b>
+            </span>
           </p>
           <p style={styles.feedbackLabel}>
             <span style={styles.label}>Feedback:</span>{" "}
@@ -44,7 +48,10 @@ function FeedbackComponent() {
 const styles = {
   feedbackContainer: {
     maxWidth: "800px",
-    margin: "auto",
+    marginTop: "50px",
+    marginLeft: "200px",
+    marginRight: "200px",
+    marginBottom: "50px",
     padding: "20px",
     backgroundColor: "#f5f5f5",
     borderRadius: "10px",
