@@ -36,14 +36,14 @@ const BinMap = ({ navigation }) => {
         }
     ])
 
-    const handleSubmit = () => {
+    const handleNavigation = () => {
         navigation.navigate("PublicHomeScreen")
     }
 
     return(
         <SafeAreaView>
             
-                <Pressable onPress={handleSubmit} >
+                <Pressable onPress={handleNavigation} >
                 <View style={styles.buttonContainer}>
                     <Icon name="arrow-back" size={24} color="white" style={styles.button} />
                     <Text style={styles.button}>Back</Text>
