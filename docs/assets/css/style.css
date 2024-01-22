@@ -1498,3 +1498,28 @@ section {
   max-width: 100%;
   border-radius: 8px;
 }
+.tech-stack {
+  margin: 0 auto;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1); /* Box shadow for a subtle lift */
+}
+
+.stack-item {
+  margin-bottom: 20px;
+}
+
+.stack-item h4 {
+  color: #007bff; /* Bootstrap primary color */
+  margin-bottom: 10px;
+}
+
+.stack-item ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.stack-item ul li {
+  margin-bottom: 10px;
+}
