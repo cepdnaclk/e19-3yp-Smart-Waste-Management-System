@@ -7,17 +7,38 @@ import { AntDesign } from "@expo/vector-icons";
 const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  //Login logic to be implemented
-  const handleLogin = async () => {
+
+  const updateError = (error, stateUpdater) => {
+    stateUpdater(error);
+    setTimeout(() => {
+      stateUpdater('')
+    }, 2500);
+  }
+
+  const isValidEmail = (email) => {
+    const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return regx.test(email);
+  }
+
+    
+  // Login logic to be implemented
+  const handleLogin = () => {
+    //Validate email
+    if (!isValidEmail(email)) {
+      return updateError('Invalid Email!', setError);
+    }
+
+    //Validate password
+    if (!password.trim() || password.length < 8) {
+      return updateError('Wrong password!', setError);
+    }
+
     navigation.navigate("PublicHomeScreen")
 
   };
-  const handleTouchablePress = () => {
-    // Dismiss the keyboard when the user presses outside the TextInput
-    Keyboard.dismiss();
-  }
+  
 
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
@@ -52,7 +73,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
             <Text style={styles.heading}>Login as </Text>
             <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>PUBLIC</Text>
           </View>
-          
+          {error ? <Text style={{color:'red', textAlign:'center'}}>{error}</Text>:null}
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.inputContainer}>
               <View style={styles.inputWrapper}>
@@ -62,6 +83,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
                   onChangeText={(text) => setEmail(text)}
                   style={styles.input}
                   placeholder="Enter your Email"
+                  autoCapitalize="none"
                 />
               </View>
             </View>
@@ -75,6 +97,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
                   secureTextEntry={true}
                   style={styles.input}
                   placeholder="Enter your Password"
+                  autoCapitalize="none"
                 />
               </View>
             </View>
