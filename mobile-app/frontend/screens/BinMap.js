@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable} from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'; 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import { Icon, AntDesign } from 'react-native-vector-icons';
 
 
 
@@ -45,7 +45,7 @@ const BinMap = ({ navigation }) => {
             
                 <Pressable onPress={handleNavigation} >
                 <View style={styles.buttonContainer}>
-                    <Icon name="arrow-back" size={24} color="white" style={styles.button} />
+                    <AntDesign name="leftcircle" size={24} color="white" style={styles.button} />
                     <Text style={styles.button}>Back</Text>
                 </View>
                 </Pressable>
