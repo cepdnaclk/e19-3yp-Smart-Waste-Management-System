@@ -19,13 +19,13 @@ TinyGPSPlus gps;
 
 //define DHT11 pin
 DHT dht(26, DHT11);
-#define ledPin 13 
+#define ledPin 5
 
 // ultrasonic sensors
 #define echoPin1 23
 #define trigPin1 22
-#define echoPin2 23
-#define trigPin2 22
+#define echoPin2 27
+#define trigPin2 25
 bool isConnected = false;
 #define led1Pin 16
 #define led2Pin 17
@@ -38,7 +38,7 @@ float gpsLatitude = 7.253988930424021;
 float gpsLongitude =  80.59166442208883;
 
 // Define relay and door lock pins
-#define relayPin 5
+#define relayPin 13
 
 void setup() {
   Serial.begin(921600);
@@ -94,7 +94,7 @@ void connectTOAws()
 void loop() {
 
   //dh11
-  temperature = dht.readTemperature();
+  //temperature = dht.readTemperature();
   //humidity and temperature
   if (isnan(temperature) )  // Check if any reads failed and exit early (to try again).
   {
@@ -204,8 +204,10 @@ void readGPSData()
 void sendStatsTOAWS()
 {
   StaticJsonDocument<200> doc;
-  doc["Bin Temparature"] = temperature;
-  doc["Bin Level"] = (distance1 + distance2) / 2;
+  doc["temperature"] = temperature;
+  doc["distance1"] = distance1;
+  doc["distance2"] = distance2;
+  doc["averageDistance"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
   doc["longitude"] = gpsLongitude;
 
