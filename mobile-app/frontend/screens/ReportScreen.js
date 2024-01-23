@@ -14,36 +14,40 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import axios from "axios";
 
 const ReportScreen = () => {
-  const [name, changedName] = React.useState("");
-  const [title, changedTitle] = React.useState("");
-  const [feedback, changefeedback] = React.useState("");
+  const [name, changeName] = React.useState("");
+  const [number, changeNumber] = React.useState("");
+  const [title, changeTitle] = React.useState("");
+  const [feedback, changeFeedback] = React.useState("");
+  const [error, setError] = React.useState('');
+
+  const updateError = (error, stateUpdater) => {
+    stateUpdater(error);
+    setTimeout(() => {
+      stateUpdater('')
+    }, 2500);
+  }
 
   const handleTouchablePress = () => {
     Keyboard.dismiss();
   };
 
-  const handleSubmit = async () => {
-    try {
-      const feedbackData = {
-        name: name,
-        title: title,
-        feedback: feedback,
-      };
+  const isValidNumber = (number) => {
+    const regx = /^0\d{9}$/;
+    return regx.test(number);
+  }
 
-      const response = await axios.post(
-        "http://10.0.2.2:8000/api/feedback",
-        feedbackData
-      );
-
-      if (response.data && response.data._id) {
-        Alert.alert("Feedback submitted successfully");
-      } else {
-        Alert.alert("Failed to submit feedback");
-      }
-    } catch (error) {
-      console.error("Error submitting feedback:", error);
-      Alert.alert("Failed to submit feedback");
+  const handleSubmit = () => {
+    if (!name.trim() || !number.trim() || !title.trim() || !feedback.trim()) {
+      return updateError('Fill all the fields!', setError);
     }
+
+    //Validate mobile number
+    if (!isValidNumber(number)) {
+      return updateError('Invalid mobile number!', setError);
+    }
+
+
+      
   };
 
   return (
@@ -54,12 +58,13 @@ const ReportScreen = () => {
             <Text style={styles.headingText}>
               You can make your complaints here
             </Text>
+            {error ? <Text style={{color:'red', textAlign:'center'}}>{error}</Text>:null}
             <View>
               <View style={styles.textboxContainer}>
                 <Text style={styles.textboxHeader}>Name</Text>
                 <TextInput
                   style={[styles.input, { height: 50 }]}
-                  onChangeText={changedName}
+                  onChangeText={(text) => changeName(text)}
                   value={name}
                   placeholder="Ex: Appuhamy"
                   selectionColor={"#18963a"}
@@ -68,10 +73,23 @@ const ReportScreen = () => {
               </View>
 
               <View style={styles.textboxContainer}>
+                <Text style={styles.textboxHeader}>Contact number</Text>
+                <TextInput
+                  style={[styles.input, { height: 50 }]}
+                  onChangeText={(text) => changeNumber(text)}
+                  value={number}
+                  placeholder="Ex: 07X 1234567"
+                  selectionColor={"#18963a"}
+                  textAlignVertical="top"
+                  keyboardType="numeric"
+                />
+              </View>
+
+              <View style={styles.textboxContainer}>
                 <Text style={styles.textboxHeader}>Topic</Text>
                 <TextInput
                   style={[styles.input, { height: 50 }]}
-                  onChangeText={changedTitle}
+                  onChangeText={(text) => changeTitle(text)}
                   value={title}
                   placeholder="Write the topic of complaint here"
                   autoCorrect={true}
@@ -84,7 +102,7 @@ const ReportScreen = () => {
                 <Text style={styles.textboxHeader}>feedback</Text>
                 <TextInput
                   style={[styles.input, { height: 200 }]}
-                  onChangeText={changefeedback}
+                  onChangeText={(text) => changeFeedback(text)}
                   value={feedback}
                   placeholder="Write a descriptive complaint here"
                   multiline
@@ -118,7 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "green",
     marginTop: 75,
-    marginBottom: 50,
+    marginBottom: 20,
     textAlign: "center",
   },
   textboxHeader: {
