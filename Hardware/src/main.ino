@@ -22,8 +22,10 @@ DHT dht(26, DHT11);
 #define ledPin 13 
 
 // ultrasonic sensors
-#define echoPin 23
-#define trigPin 22
+#define echoPin1 23
+#define trigPin1 22
+#define echoPin2 23
+#define trigPin2 22
 bool isConnected = false;
 #define led1Pin 16
 #define led2Pin 17
@@ -31,26 +33,27 @@ bool isConnected = false;
 #define led4Pin 19
 
 // Define variables for temperature and humidity
-float duration, distance , temperature;
+float duration1, distance1, duration2, distance2, temperature;
 float gpsLatitude = 7.253988930424021;
 float gpsLongitude =  80.59166442208883;
 
 // Define relay and door lock pins
 #define relayPin 5
 
-
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(921600);
   Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
   connectToWifi();
-  connectTOAws();
+  //connectTOAws();
 
   dht.begin();
   delay(1000);
 
   // ultrasonic sensors
-  pinMode(trigPin, OUTPUT);
-  pinMode(echoPin, INPUT);
+  pinMode(trigPin1, OUTPUT);
+  pinMode(echoPin1, INPUT);
+  pinMode(trigPin2, OUTPUT);
+  pinMode(echoPin2, INPUT);
   delay(500);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(ledPin, OUTPUT); 
@@ -62,8 +65,7 @@ void setup() {
   // Define relay and door lock pins
   pinMode(relayPin, OUTPUT);
 
-
-  }
+}
 
 void connectTOAws() 
 {
@@ -112,36 +114,55 @@ void loop() {
     digitalWrite(ledPin, LOW); // Turn off the LED
   }
 
-  // Triggering the ultrasonic sensor
-  digitalWrite(trigPin, LOW);
+  // Triggering the ultrasonic sensors
+  digitalWrite(trigPin1, LOW);
   delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
+  digitalWrite(trigPin1, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);
-  duration = pulseIn(echoPin, HIGH);
-  distance = duration / 58.2;
+  digitalWrite(trigPin1, LOW);
+  duration1 = pulseIn(echoPin1, HIGH);
+  distance1 = duration1 / 58.2;
+
+  digitalWrite(trigPin2, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin2, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin2, LOW);
+  duration2 = pulseIn(echoPin2, HIGH);
+  distance2 = duration2 / 58.2;
+
+  // Averaging the distance readings
+  float averageDistance = (distance1 + distance2) / 2;
+
   // Displaying the distance
-  Serial.print("Distance: ");
-  Serial.print(distance);
+  Serial.print("Distance 1: ");
+  Serial.print(distance1);
   Serial.println(" cm");
+  Serial.print("Distance 2: ");
+  Serial.print(distance2);
+  Serial.println(" cm");
+  Serial.print("Average Distance: ");
+  Serial.print(averageDistance);
+  Serial.println(" cm");
+
   Serial.println("latitude: ");
   Serial.println(gpsLatitude,6);
   Serial.println("longitude: ");
   Serial.println(gpsLongitude,6);
   // Update garbage level LEDs based on distance
-  if (distance <= 5 ){
+  if (averageDistance <= 5 ){
     digitalWrite(led1Pin, HIGH);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, LOW);
-  } else if (distance <= 10) {
+  } else if (averageDistance <= 10) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, HIGH);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, HIGH);
-  } else if (distance <= 15) {
+  } else if (averageDistance <= 15) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, HIGH);
@@ -183,8 +204,8 @@ void readGPSData()
 void sendStatsTOAWS()
 {
   StaticJsonDocument<200> doc;
-  doc["temperature"] = temperature;
-  doc["distance"] = distance;
+  doc["Bin Temparature"] = temperature;
+  doc["Bin Level"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
   doc["longitude"] = gpsLongitude;
 
