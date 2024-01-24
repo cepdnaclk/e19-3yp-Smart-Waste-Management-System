@@ -3,8 +3,8 @@ require("dotenv").config();
 
 // Initialize the AWS SDK and create an IoT object
 AWS.config.update({
-  accessKeyId: "",
-  secretAccessKey: "",
+  accessKeyId: "AKIAW3MEAH5IOXT7DIT6",
+  secretAccessKey: "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",
   region: "us-east-1",
 });
 
