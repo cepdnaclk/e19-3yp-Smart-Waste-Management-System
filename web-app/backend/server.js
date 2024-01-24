@@ -42,6 +42,24 @@ mongoose.connect(DB_URL, {
   useUnifiedTopology: true,
 });
 
+// IoT connection BEGIN
+
+const http = require("http");
+const socketIo = require("socket.io");
+const iotRoutes = require("./routes/iotRoutes");
+
+const server = http.createServer(app);
+const io = socketIo(server);
+
+app.use((req, res, next) => {
+  req.app.set("socketio", io);
+  next();
+});
+
+app.use("/iot", iotRoutes);
+
+// IoT connection END
+
 mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
