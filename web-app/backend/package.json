@@ -13,6 +13,8 @@
   "dependencies": {
     "@aws-sdk/client-iot": "^3.496.0",
     "@aws-sdk/client-iot-data-plane": "^3.496.0",
+    "@aws-sdk/middleware-sdk-s3": "^3.496.0",
+    "@aws-sdk/middleware-signing": "^3.496.0",
     "aws-sdk": "^2.1541.0",
     "axios": "^1.6.5",
     "bcrypt": "^5.1.1",
