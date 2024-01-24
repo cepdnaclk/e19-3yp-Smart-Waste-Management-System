@@ -46,12 +46,12 @@ export default App;
 //   return (
 //     <div>
 //       <BrowserRouter>
-//         <Routes>         
+//         <Routes>
 //           <Route
 //             path="/bins"
 //             element={user ? <Bin /> : <Navigate to="/login" replace />}
 //             exact
-//           />          
+//           />
 //           <Route
 //             path="/collectors"
 //             element={user ? <Collectors /> : <Navigate to="/login" replace />}
@@ -69,10 +69,10 @@ export default App;
 //             path="/feedback"
 //             element={user ? <Feedback /> : <Navigate to="/login" />}
 //           />
-//           {/* <Route
-//             path="/settings"
-//             element={user ? <Settings /> : <Navigate to="/login" />}
-//           /> */}
+//           <Route
+//             path="/schedule"
+//             element={user ? <Schedule /> : <Navigate to="/login" />}
+//           />
 //           <Route
 //             path="/dashboard"
 //             element={user ? <Dashboard /> : <Navigate to="/login" />}
