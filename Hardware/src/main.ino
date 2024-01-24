@@ -8,14 +8,15 @@
 #include <MQTTClient.h>
 #include <WiFiClientSecure.h>
 #include <TinyGPS++.h>
+#include <HTTPClient.h>
 
 
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(256);
 TinyGPSPlus gps;
 
-#define AWS_IOT_SUBSCRIBE_TOPIC "thing/3YP-ESP/sub"
-#define AWS_IOT_PUBLISH_TOPIC "thing/3YP-ESP/pub"
+#define AWS_IOT_SUBSCRIBE_TOPIC "thing/Bin_001/sub"
+#define AWS_IOT_PUBLISH_TOPIC "thing/Bin_001/pub"
 
 //define DHT11 pin
 DHT dht(26, DHT11);
@@ -45,7 +46,7 @@ void setup() {
   Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
   connectToWifi();
   //connectTOAws();
-
+  
   dht.begin();
   delay(1000);
 
@@ -94,7 +95,7 @@ void connectTOAws()
 void loop() {
 
   //dh11
-  //temperature = dht.readTemperature();
+  temperature = dht.readTemperature();
   //humidity and temperature
   if (isnan(temperature) )  // Check if any reads failed and exit early (to try again).
   {
@@ -205,8 +206,6 @@ void sendStatsTOAWS()
 {
   StaticJsonDocument<200> doc;
   doc["temperature"] = temperature;
-  doc["distance1"] = distance1;
-  doc["distance2"] = distance2;
   doc["averageDistance"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
   doc["longitude"] = gpsLongitude;
@@ -240,3 +239,4 @@ void connectToWifi()
 
   Serial.println("Connected to the WiFi network");
 }
+
