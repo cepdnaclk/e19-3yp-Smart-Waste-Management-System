@@ -27,27 +27,20 @@ const userPublicSchema = new mongoose.Schema(
         },
         confirmPassword: {
             type: String,
-            required: true
+            required: false
         }
     },
     {collection: "public-data"}
 );
 
 userPublicSchema.pre('save', function (next) {
-    if (this.isModified('password') || this.isModified('confirmPassword')) {
+    if (this.isModified('password')) {
         bcrypt.hash(this.password, 8, (err, hashPassword) => {
             if (err) return next(err);
 
             this.password = hashPassword;
-            
+            next();  
         })
-        bcrypt.hash(this.confirmPassword, 8, (err, hashConfirmPassword) => {
-            if (err) return next(err);
-
-            this.confirmPassword = hashConfirmPassword;
-            next();
-        })
-
     }
 })
 

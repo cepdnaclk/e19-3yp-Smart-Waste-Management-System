@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, Ke
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
+import client from "../api/client";
 
 const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
@@ -22,9 +23,8 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
     return regx.test(email);
   }
 
-    
-  // Login logic to be implemented
-  const handleLogin = () => {
+  
+  const handleLogin = async () => {
     //Validate email
     if (!isValidEmail(email)) {
       return updateError('Invalid Email!', setError);
@@ -32,11 +32,29 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
 
     //Validate password
     if (!password.trim() || password.length < 8) {
-      return updateError('Wrong password!', setError);
+      return updateError('Invalid Password!', setError);
     }
 
-    navigation.navigate("PublicHomeScreen")
-
+    try {
+      await client
+        .post('/sign-in-public', {
+          email,
+          password
+        })
+        .then(res => {
+          console.log(res.data);
+          if (res.data.status) {
+            navigation.navigate('PublicHomeScreen');
+          }
+          else {
+              Alert.alert(res.data.message, 'Sign in again');
+            }
+        })
+      
+    } catch (error) {
+      // Handle error
+      console.error('Error while login:', error.message, error.response);
+    }
   };
   
 

@@ -27,7 +27,7 @@ const userCollectorSchema = new mongoose.Schema(
         },
         confirmPassword: {
             type: String,
-            required: true
+            required: false
         },
         activeAccount: {
             type: Boolean,
@@ -37,24 +37,17 @@ const userCollectorSchema = new mongoose.Schema(
     {collection: "collector-data"}
 );
 
+
 userCollectorSchema.pre('save', function (next) {
-    if (this.isModified('password') || this.isModified('confirmPassword')) {
+    if (this.isModified('password')) {
         bcrypt.hash(this.password, 8, (err, hashPassword) => {
             if (err) return next(err);
 
             this.password = hashPassword;
-            
+            next();  
         })
-        bcrypt.hash(this.confirmPassword, 8, (err, hashConfirmPassword) => {
-            if (err) return next(err);
-
-            this.confirmPassword = hashConfirmPassword;
-            next();
-        })
-
     }
 })
-
 
 userCollectorSchema.methods.comparePassword = async function (password) {
     if (!password) throw new Error("Password is missing, cannot compare!");

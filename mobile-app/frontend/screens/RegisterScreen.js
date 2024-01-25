@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 
 import client from "../api/client";
@@ -88,7 +87,7 @@ const RegisterScreen = () => {
             mobile,
             email,
             password,
-            confirmPassword})
+          })
           .then(res => {
             console.log(res.data);
             if (res.data.status) {

@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, Ke
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
+import client from "../api/client";
 
 const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
@@ -22,8 +23,7 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
   }
 
     
-  // Login logic to be implemented
-  const handleLogin = () => {
+  const handleLogin = async () => {
     //Validate email
     if (!isValidEmail(email)) {
       return updateError('Invalid Email!', setError);
@@ -31,11 +31,29 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
 
     //Validate password
     if (!password.trim() || password.length < 8) {
-      return updateError('Wrong password!', setError);
+      return updateError('Invalid Password!', setError);
     }
 
-    navigation.navigate("CollectorHomeScreen")
-
+    try {
+      await client
+        .post('/sign-in-collector', {
+          email,
+          password
+        })
+        .then(res => {
+          console.log(res.data);
+          if (res.data.status) {
+            navigation.navigate('CollectorHomeScreen');
+          }
+          else {
+              Alert.alert(res.data.message, 'Sign in again');
+            }
+        })
+      
+    } catch (error) {
+      // Handle error
+      console.error('Error while login:', error.message, error.response);
+    }
   };
   
 
