@@ -9,14 +9,15 @@
 #include <WiFiClientSecure.h>
 #include <TinyGPS++.h>
 #include <HTTPClient.h>
+#include <time.h>
 
 
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(256);
 TinyGPSPlus gps;
 
-#define AWS_IOT_SUBSCRIBE_TOPIC "thing/Bin_001/sub"
-#define AWS_IOT_PUBLISH_TOPIC "thing/Bin_001/pub"
+#define AWS_IOT_SUBSCRIBE_TOPIC "Bin_001/sub"
+#define AWS_IOT_PUBLISH_TOPIC "Bin_001/pub"
 
 //define DHT11 pin
 DHT dht(26, DHT11);
@@ -41,11 +42,33 @@ float gpsLongitude =  80.59166442208883;
 // Define relay and door lock pins
 #define relayPin 13
 
+time_t now;
+time_t nowish = 1510592825;
+struct tm timeinfo;
+
+void NTPConnect(void)
+{
+  Serial.print("Setting time using SNTP");
+  configTime(TIME_ZONE * 3600, 0 * 3600, "pool.ntp.org", "time.nist.gov");
+  now = time(nullptr);
+  while (now < nowish)
+  {
+    delay(500);
+    Serial.print(".");
+    now = time(nullptr);
+  }
+  Serial.println("done!");
+
+  gmtime_r(&now, &timeinfo);
+  Serial.print("Current time: ");
+  Serial.print(asctime(&timeinfo));
+}
+
 void setup() {
-  Serial.begin(921600);
+  Serial.begin(115200);
   Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
   connectToWifi();
-  //connectTOAws();
+  connectTOAws();
   
   dht.begin();
   delay(1000);
@@ -80,7 +103,7 @@ void connectTOAws()
 
   while (!client.connect(THINGNAME)) {
     Serial.print(".");
-    delay(500);
+    delay(700);
   }
 
   if(!client.connected()){
@@ -102,6 +125,9 @@ void loop() {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
   }
+
+  Serial.print("Current time: ");
+  Serial.print(asctime(&timeinfo));
   Serial.print("Temperature: ");
   Serial.print(temperature);
   Serial.println(" *C");
@@ -178,9 +204,11 @@ void loop() {
   }
 
   sendStatsTOAWS();
-  sendRelayStatusToAWS(); // Publish relay pin status to AWS IoT Core
+  //sendRelayStatusToAWS(); // Publish relay pin status to AWS IoT Core
   client.loop();
-  delay(1000);
+  delay(5000);
+
+  now = time(nullptr);
 }
 
 void readGPSData()
@@ -205,6 +233,7 @@ void readGPSData()
 void sendStatsTOAWS()
 {
   StaticJsonDocument<200> doc;
+  doc["TimeStamp"] = asctime(&timeinfo);
   doc["temperature"] = temperature;
   doc["averageDistance"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
@@ -233,9 +262,11 @@ void connectToWifi()
   Serial.println("Connecting to WiFi..");
 
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    delay(700);
     Serial.print(".");
   }
+
+  NTPConnect();
 
   Serial.println("Connected to the WiFi network");
 }
