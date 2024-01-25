@@ -45,7 +45,14 @@ exports.createUser = async (req, res) => {
     }
 
     await userData.save();
-    return res.send({status: true, message:'Registration Succesfull'});
+
+    const tokenRegister = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    )
+
+    return res.send({status: true, message:'Registration Succesfull', user, tokenRegister});
 };
 
 exports.userSignInPublic = async (req, res) => {
@@ -57,7 +64,7 @@ exports.userSignInPublic = async (req, res) => {
             status: false,
             message: 'User not found'
         });
-    }  
+    }; 
     
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -66,18 +73,20 @@ exports.userSignInPublic = async (req, res) => {
             message: 'Password does not match'
         });
     }
-    else {
-        return res.json({
-            status: true,
-            message: 'login successful'
-        });
-    }
-        
     
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
-        
+    const tokenPublic = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+
+    return res.json({
+        status: true,
+        message: 'login successful',
+        user,
+        tokenPublic
+    });
     
-    res.json({ success: true, user, token });
 };
 
 
@@ -108,16 +117,18 @@ exports.userSignInCollector = async (req, res) => {
             message: 'Your account is not activated'
         })
     }
-    else {
-        return res.json({
-            status: true,
-            message: 'login successful'
-        });
-    }
-        
     
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
-        
-    
-    res.json({ success: true, user, token });
+
+    const tokenCollector = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+
+    return res.json({
+        status: true,
+        message: 'login successful',
+        user,
+        tokenCollector
+    });
 };
