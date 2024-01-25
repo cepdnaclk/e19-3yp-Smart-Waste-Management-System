@@ -12,6 +12,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   Keyboard,
+  TouchableOpacity,
 } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -226,21 +227,23 @@ const RegisterScreen = () => {
         
 
             <View style={styles.buttonContainer}>
-              <Pressable
+
+              <TouchableOpacity
                 onPress={handleRegister}
                 style={styles.registerButton}
+                activeOpacity={0.7}
               >
                 <Text style={styles.registerButtonText}>Register</Text>
-              </Pressable>
+              </TouchableOpacity>
 
-              <Pressable
+              <TouchableOpacity
                 onPress={() => navigation.navigate("LoginScreen")}
                 style={styles.loginLink}
               >
                 <Text style={styles.loginLinkText}>
                   Already have an account? Login
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

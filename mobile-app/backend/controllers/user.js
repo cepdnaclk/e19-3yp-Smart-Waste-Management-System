@@ -21,7 +21,6 @@ exports.createUser = async (req, res) => {
 
         userData = new CollectorData({
             name,
-            role,
             mobile,
             email,
             password,
@@ -36,7 +35,6 @@ exports.createUser = async (req, res) => {
 
         userData = new PublicData({
             name,
-            role,
             mobile,
             email,
             password,
@@ -100,6 +98,15 @@ exports.userSignInCollector = async (req, res) => {
             status: false,
             message: 'Password does not match'
         });
+    }
+    
+    const isActive = user.activeAccount;
+
+    if (!isActive) {
+        return res.json({
+            status: false,
+            message: 'Your account is not activated'
+        })
     }
     else {
         return res.json({

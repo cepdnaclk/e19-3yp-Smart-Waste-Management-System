@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, Keyboard, Dimensions} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput,  Alert, Keyboard, TouchableOpacity, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
@@ -45,6 +45,8 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
           console.log(res.data);
           if (res.data.status) {
             navigation.navigate('PublicHomeScreen');
+            setEmail("");
+            setPassword("");
           }
           else {
               Alert.alert(res.data.message, 'Sign in again');
@@ -61,22 +63,25 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
         <View style={styles.roleIndicator}>
-          <Pressable
-              onPress={onPressPublic}
+          <TouchableOpacity
+              
+          activeOpacity={0.7}
+          onPress={onPressPublic}
               style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
               <Text style={[styles.button, {color: 'white'}]}>
                 PUBLIC
               </Text>
-          </Pressable>
-          <Pressable
-              onPress={onPressCollector}
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={onPressCollector}
+          activeOpacity={0.7}
               style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
                 COLLECTOR
               </Text>
-          </Pressable>
+          </TouchableOpacity>
           
         </View>
         
@@ -124,13 +129,16 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
               <Text style={styles.additionalInfoText}>Forgot Password</Text>
             </View>
 
-            <Pressable onPress={handleLogin} style={styles.loginButton}>
+          <TouchableOpacity activeOpacity={0.7} onPress={ handleLogin} style={styles.loginButton}>
               <Text style={styles.loginButtonText}>Login</Text>
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => {
+            navigation.navigate("RegisterScreen"), setEmail(""), setPassword("")
+          }}
+            style={styles.signupLink}>
               <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
-          </Pressable>
+          </TouchableOpacity>
           </ScrollView>
         </View>  
     </SafeAreaView>

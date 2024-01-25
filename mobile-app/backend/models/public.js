@@ -9,7 +9,7 @@ const userPublicSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            required: true
+            required: false
             
         },
         mobile: {
