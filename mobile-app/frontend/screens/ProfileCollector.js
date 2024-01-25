@@ -47,7 +47,7 @@ const ProfileGarbageCollector = () => {
       }
 
       const response = await fetch(
-        "http://3.228.104.45:1337/api/collector-details"
+        "http://localhost:1337/api/collector-details"
       );
 
       if (!response.ok) {
@@ -70,7 +70,7 @@ const ProfileGarbageCollector = () => {
     try {
       // Replace this with your actual API endpoint and logic to change the password
       const response = await fetch(
-        "http://3.228.104.45:1337/api/collector-details/change-password",
+        "http://localhost:1337/api/collector-details/change-password",
         {
           method: "PUT",
           headers: {
