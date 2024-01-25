@@ -21,7 +21,7 @@ function ScheduleComponent() {
   const fetchCollectors = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/collector-details"
+        "http://3.228.104.45:1337/api/collector-details"
       );
       setCollectors(response.data);
     } catch (error) {
@@ -32,7 +32,7 @@ function ScheduleComponent() {
   const fetchSchedule = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/scheduleCollection"
+        "http://3.228.104.45:1337/api/scheduleCollection"
       );
       setSchedule(response.data);
     } catch (error) {
@@ -43,7 +43,7 @@ function ScheduleComponent() {
   const handleScheduleTrip = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:1337/api/scheduleCollection",
+        "http://3.228.104.45:1337/api/scheduleCollection",
         {
           location,
           workingHours,
