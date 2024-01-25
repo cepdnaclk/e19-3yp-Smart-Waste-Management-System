@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -5,7 +6,6 @@ import {
   View,
   SafeAreaView,
   Image,
-  KeyboardAvoidingView,
   TextInput,
   Pressable,
   Alert,
@@ -13,287 +13,328 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
-import { Feather } from "@expo/vector-icons";
 
+import client from "../api/client";
 
 const RegisterScreen = () => {
   const [name, setName] = useState("");
-  const [nameVerify, setNameVerify] = useState(false);
+  const [role, setRole] = useState("public");
+  const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
-  const [emailVerify, setEmailVerify] = useState(false);
   const [password, setPassword] = useState("");
-  const [passwordVerify, setPasswordVerify] = useState("");
-  const [selectedRole, setSelectedRole] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState('');
   const navigation = useNavigation();
 
   const handleTouchablePress = () => {
     Keyboard.dismiss();
   };
 
-  const handleName = (e) => {
-    const nameVar = e.nativeEvent.text;
-    setName(nameVar);
-    if (nameVar.length > 1 ) {
-      setNameVerify(true);
-    }
+  const updateError = (error, stateUpdater) => {
+    stateUpdater(error);
+    setTimeout(() => {
+      stateUpdater('')
+    }, 2500);
   }
 
-  const handleRegister = () => {
-    const user = { name, selectedRole, email, password };
-    // send a POST  request to the backend API to register the user
-    axios
-      .post("http://10.0.2.2:8000/api/collector/signup", user)
-      .then((response) => {
-        console.log(response);
-        Alert.alert(
-          "Registration successful",
-          "You have been registered Successfully"
-        );
-        setName("");
-        setSelectedRole("houseOwner");
-        setEmail("");
-        setPassword("");
+  const isValidNumber = (number) => {
+    const regx = /^0\d{9}$/;
+    return regx.test(number);
+  }
 
-        // Navigate based on selectedRole
-        const role = response.data.role;
-        if (role === "GarbageCollector") {
-          navigation.navigate("GarbageCollectorHomeScreen");
-        } else if (role === "HouseOwner") {
-          navigation.navigate("HouseOwnerHomeScreen");
-        }
-      })
-      .catch((error) => {
-        Alert.alert(
-          "Registration Error",
-          "An error occurred while registering"
-        );
-        console.log("registration failed", error);
-      });
+  const isValidEmail = (email) => {
+    const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return regx.test(email);
+  }
+
+  const isValidForm = ({ name, mobile, email, password, confirmPassword }) => {
+    //Validate name
+    if (!name.trim() || name.length < 5) {
+      return updateError('Name should contain atleast 5 letters!', setError);
+    }
+    //Validate mobile number
+    if (!isValidNumber(mobile.trim())) {
+      return updateError('Invalid mobile number!', setError);
+    }
+
+    //Validate email
+    if (!isValidEmail(email)) {
+      return updateError('Invalid Email!', setError);
+    }
+
+    //Validate password
+    if (!password.trim() || password.length < 8) {
+      return updateError('Password should contain atleast 8 letters!', setError);
+    }
+    if (password != confirmPassword) {
+      return updateError('Password does not match', setError);
+    }
+
+    return true;
+  }
+
+  const handleRegister = async () => {
+    
+    try {
+      if (isValidForm({ name, mobile, email, password, confirmPassword })) {
+        await client
+          .post('/create-user', {
+            name,
+            role,
+            mobile,
+            email,
+            password,
+            confirmPassword})
+          .then(res => {
+            console.log(res.data);
+            if (res.data.status) {
+              Alert.alert(res.data.message);
+              if (role === 'public') {
+                navigation.navigate('LoginScreen');
+              }
+              else if (role === 'collector') {
+                navigation.navigate('LoginScreen');
+              }
+            }
+            else {
+              Alert.alert(res.data.message, 'Register with another email');
+            }
+          })
+      
+      // Handle success
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Error creating user:', error.message, error.response);
+    }
   };
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: "white",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: 0,
-      }}
-    >
+    <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={handleTouchablePress}>
-      <View>
-      <View>
-        <Image
-          style={{ marginTop: 40, width: 250, height: 150 }}
-          source={require("../assets/LoginScreen/head.png")}
-        />
-      </View>
-
-      <View style={[{ alignItems: "center" },{paddingBottom:20}]}>
-          <Text
-            style={{
-              marginTop: 5,
-              fontSize: 20,
-              fontWeight: "bold",
-              color: "green",
-            }}
-          >
-            Register To Your Account
-          </Text>
-        </View>
-
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-      >
+        <View>
         
-        <View style={{ marginTop: 10 }}>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              gap: -10,
-              backgroundColor: "#D0D0D0",
-              paddingVertical: 10,
-              borderRadius: 10,
-            }}
-          >
-            <Ionicons
-              name="person"
-              style={{ marginLeft: 8 }}
-              size={30}
-              color="green"
-            />
-            <TextInput
-              value={name}
-              style={{
-                color: "green",
-                marginVertical: 10,
-                marginHorizontal: 18,
-                width: 265,
-                fontSize: name ? 16 : 16,
-              }}
-              placeholder="Enter your Name" 
-              onChange = {e => handleName(e)}
-            />
-             {nameVerify ? (
-              <Feather name="check-circle" color="green" size={20} />
-            ) : (
-              <AntDesign name="closecircleo" color="red" size={20} />
-            )}
-          </View>
-        </View>
-
-        <View style={{ marginTop: 20 }}>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 10,
-              backgroundColor: "#D0D0D0",
-              paddingVertical: 10,
-              borderRadius: 8,
-            }}
-          >
-            <MaterialIcons
-              name="person-search"
-              style={{ marginLeft: 8 }}
-              size={30}
-              color="green"
-            />
-
-            {<Picker
-              selectedValue={selectedRole}
-              style={{ height: 40, width: 300, color: "green", marginLeft:-18 }}
-              onValueChange={(itemValue) => setSelectedRole(itemValue)}
-            >
-              <Picker.Item label="House Owner" value="houseOwner" />
-              <Picker.Item label="Garbage Collector" value="garbageCollector" />
-            </Picker>}
-          </View>
-        </View>
-
-        <View style={{ marginTop: 20 }}>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 10,
-              backgroundColor: "#D0D0D0",
-              paddingVertical: 10,
-              borderRadius: 8,
-            }}
-          >
-            <MaterialIcons
-              style={{ marginLeft: 8 }}
-              name="email"
-              size={30}
-              color="green"
-            />
-            <TextInput
-              value={email}
-              onChangeText={(text) => setEmail(text)}
-              style={{
-                color: "green",
-                marginVertical: 10,
-                width: 300,
-                fontSize: email ? 16 : 16,
-              }}
-              placeholder="Enter your Email"
+          <View style={styles.imageContainer}>
+            <Image
+              style={styles.image}
+              source={require("../assets/LoginScreen/head.png")}
             />
           </View>
-        </View>
 
-        <View style={{ marginTop: 20 }}>
-          <View
-            style={{
-              alignItems: "center",
-              flexDirection: "row",
-              gap: 10,
-              backgroundColor: "#D0D0D0",
-              paddingVertical: 10,
-              borderRadius: 8,
-            }}
-          >
-            <AntDesign
-              style={{ marginLeft: 8 }}
-              name="lock"
-              size={30}
-              color="green"
-            />
-            <TextInput
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-              secureTextEntry={true}
-              style={{
-                color: "green",
-                marginVertical: 10,
-                width: 300,
-                fontSize: password ? 16 : 16,
-              }}
-              placeholder="Enter your Password"
-            />
+          <View style={styles.headingContainer}>
+            <Text style={styles.heading}>Create a New Account</Text>
           </View>
-        </View>
-
-        <View style={{ marginTop: 30}} />
-        <Pressable
-          onPress={handleRegister}
-          style={{
-            width: 300,
-            height:50,
-            backgroundColor: "green",
-            borderRadius: 10,
-            marginLeft: "auto",
-            marginRight: "auto",
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderWidth: 2,
-            borderColor:"#59de71"
-          }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontSize: 20,
-              fontWeight: "bold",
-            }}
+          {error ? <Text style={{color:'red', textAlign:'center'}}>{error}</Text>:null}
+          <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
           >
-            Register
-          </Text>
-        </Pressable>
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <Ionicons name="person" size={30} color="green" />
+                <TextInput
+                  value={name}
+                  style={styles.input}
+                  placeholder="Enter your Name"
+                  onChangeText={(name) => setName(name)}
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
 
-        <Pressable
-          onPress={() => navigation.navigate("LoginScreen")}
-          style={{ marginTop: 12 }}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "green",
-              fontSize: 16,
-            }}
-          >
-            Already have an account? Login
-          </Text>
-        </Pressable>
-      
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <MaterialIcons
+                  name="person-search"
+                  size={30}
+                  color="green"
+                />
+                <Picker
+                  selectedValue={role}
+                  style={styles.picker}
+                  onValueChange={(itemValue) => setRole(itemValue)}
+                >
+                  <Picker.Item
+                    label="Public"
+                    value="public"
+                  />
+                  <Picker.Item
+                    label="Collector"
+                    value="collector"
+                  />
+                </Picker>
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <AntDesign name="mobile1" size={30} color="green" />
+                <TextInput
+                  value={mobile}
+                  onChangeText={(text) => setMobile(text)}
+                  style={styles.input}
+                  placeholder="Enter your mobile number"
+                  keyboardType="numeric"
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <MaterialIcons name="email" size={30} color="green" />
+                <TextInput
+                  value={email}
+                  onChangeText={(text) => setEmail(text)}
+                  style={styles.input}
+                  placeholder="Enter your Email"
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <AntDesign name="lock" size={30} color="green" />
+                <TextInput
+                  value={password}
+                  onChangeText={(text) => setPassword(text)}
+                  secureTextEntry={true}
+                  style={styles.input}
+                  placeholder="Enter the Password"
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <View style={styles.inputWrapper}>
+                <AntDesign name="lock" size={30} color="green" />
+                <TextInput
+                  value={confirmPassword}
+                  onChangeText={(text) => setConfirmPassword(text)}
+                  secureTextEntry={true}
+                  style={styles.input}
+                  placeholder="Confirm Password"
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
+        
+
+            <View style={styles.buttonContainer}>
+              <Pressable
+                onPress={handleRegister}
+                style={styles.registerButton}
+              >
+                <Text style={styles.registerButtonText}>Register</Text>
+              </Pressable>
+
+              <Pressable
+                onPress={() => navigation.navigate("LoginScreen")}
+                style={styles.loginLink}
+              >
+                <Text style={styles.loginLinkText}>
+                  Already have an account? Login
+                </Text>
+              </Pressable>
+            </View>
           </ScrollView>
-          </View>
+        </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
+  },
+  imageContainer: {
+    marginTop: 40,
+    alignItems: "center",
+  },
+  image: {
+    width: 250,
+    height: 150,
+  },
+    headingContainer: {
+    alignItems: "center",
+    paddingBottom: 10,
+  },
+  heading: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "green",
+  },
+  inputContainer: {
+    marginTop: 5,
+  },
+  inputWrapper: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: -10,
+    backgroundColor: "#D0D0D0",
+    paddingVertical: 10,
+    borderRadius: 10,
+    
+  },
+  input: {
+    color: "green",
+    marginVertical: 10,
+    marginHorizontal: 18,
+    width: 265,
+    fontSize: 16,
+    
+  },
+  picker: {
+    height: 40,
+    width: 300,
+    color: "green",
+  },
+  buttonContainer: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  registerButton: {
+    width: 300,
+    height: 50,
+    backgroundColor: "green",
+    borderRadius: 10,
+    marginLeft: "auto",
+    marginRight: "auto",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 2,
+    borderColor: "#59de71",
+  },
+  registerButtonText: {
+    textAlign: "center",
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  loginLink: {
+    marginTop: 5,
+  },
+  loginLinkText: {
+    textAlign: "center",
+    color: "green",
+    fontSize: 16,
+  },
+});
+
 export default RegisterScreen;
 
-const styles = StyleSheet.create({});
+ 

@@ -10,12 +10,29 @@ import ProfileCollector from './screens/ProfileCollector';
 import ReportScreen from './screens/ReportScreen';
 import BinMap from './screens/BinMap';
 import LoginScreen from './screens/LoginScreen';
+import axios from 'axios';
 
 
 const Stack = createNativeStackNavigator();
 
 
 const App = () => {
+
+  const fetchApi = async () => {
+
+    try {
+      const res = await axios.get('http://192.168.185.229:8000/');
+      console.log(res.data);
+    } catch (error) {
+      console.log(error.message);
+    }
+    
+  };
+
+  React.useEffect(() => {
+    fetchApi()
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>

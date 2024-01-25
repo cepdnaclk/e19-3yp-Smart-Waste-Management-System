@@ -7,90 +7,113 @@ import { AntDesign } from "@expo/vector-icons";
 const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  //Login logic to be implemented
-  const handleLogin = async () => {
+  const updateError = (error, stateUpdater) => {
+    stateUpdater(error);
+    setTimeout(() => {
+      stateUpdater('')
+    }, 2500);
+  }
+
+  const isValidEmail = (email) => {
+    const regx = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    return regx.test(email);
+  }
+
+    
+  // Login logic to be implemented
+  const handleLogin = () => {
+    //Validate email
+    if (!isValidEmail(email)) {
+      return updateError('Invalid Email!', setError);
+    }
+
+    //Validate password
+    if (!password.trim() || password.length < 8) {
+      return updateError('Wrong password!', setError);
+    }
+
     navigation.navigate("CollectorHomeScreen")
 
   };
-  const handleTouchablePress = () => {
-    // Dismiss the keyboard when the user presses outside the TextInput
-    Keyboard.dismiss();
-  }
+  
 
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]}>
-        <View style={styles.roleIndicator}>
-          <Pressable
-              onPress={onPressPublic}
-              style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
-            >
-              <Text style={[styles.button, {color: 'green'}]}>
-                PUBLIC
-              </Text>
-          </Pressable>
-          <Pressable
-              onPress={onPressCollector}
-              style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
-            >
-              <Text style={[styles.button, {color: 'white'}]}>
-                COLLECTOR
-              </Text>
-          </Pressable>
+      <View style={styles.roleIndicator}>
+        <Pressable
+            onPress={onPressPublic}
+            style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
+          >
+            <Text style={[styles.button, {color: 'green'}]}>
+              PUBLIC
+            </Text>
+        </Pressable>
+        <Pressable
+            onPress={onPressCollector}
+            style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
+          >
+            <Text style={[styles.button, {color: 'white'}]}>
+              COLLECTOR
+            </Text>
+        </Pressable>
+        
+      </View>
+      <View style ={styles.keyboardAvoidingContainer}>        
           
+        <Image
+          style={styles.image}
+          source={require("../assets/LoginScreen/head.png")}
+        />
+
+        <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
+          <Text style={styles.heading}>Login as </Text>
+          <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>COLLECTOR</Text>
         </View>
-        <View style ={styles.keyboardAvoidingContainer}>        
-            
-            <Image
-              style={styles.image}
-              source={require("../assets/LoginScreen/head.png")}
-            />
+        {error ? <Text style={{color:'red', textAlign:'center'}}>{error}</Text>:null}
 
-            <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
-              <Text style={styles.heading}>Login as </Text>
-              <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>COLLECTOR</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.inputContainer}>
+            <View style={styles.inputWrapper}>
+              <MaterialIcons name="email" size={30} color="green" />
+              <TextInput
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+                style={styles.input}
+                placeholder="Enter your Email"
+                autoCapitalize="none"
+              />
             </View>
-          <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.inputContainer}>
-              <View style={styles.inputWrapper}>
-                <MaterialIcons name="email" size={30} color="green" />
-                <TextInput
-                  value={email}
-                  onChangeText={(text) => setEmail(text)}
-                  style={styles.input}
-                  placeholder="Enter your Email"
-                />
-              </View>
+          </View>
+
+          <View style={styles.inputContainer}>
+            <View style={styles.inputWrapper}>
+              <AntDesign name="lock" size={30} color="green" />
+              <TextInput
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+                secureTextEntry={true}
+                style={styles.input}
+                placeholder="Enter your Password"
+                autoCapitalize="none"
+              />
             </View>
+          </View>
 
-            <View style={styles.inputContainer}>
-              <View style={styles.inputWrapper}>
-                <AntDesign name="lock" size={30} color="green" />
-                <TextInput
-                  value={password}
-                  onChangeText={(text) => setPassword(text)}
-                  secureTextEntry={true}
-                  style={styles.input}
-                  placeholder="Enter your Password"
-                />
-              </View>
-            </View>
+          <View style={styles.additionalInfoContainer}>
+            <Text style={styles.additionalInfoText}>Forgot Password</Text>
+          </View>
 
-            <View style={styles.additionalInfoContainer}>
-              <Text style={styles.additionalInfoText}>Forgot Password</Text>
-            </View>
+          <Pressable onPress={handleLogin} style={styles.loginButton}>
+            <Text style={styles.loginButtonText}>Login</Text>
+          </Pressable>
 
-            <Pressable onPress={handleLogin} style={styles.loginButton}>
-              <Text style={styles.loginButtonText}>Login</Text>
-            </Pressable>
-
-            <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
-              <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
-            </Pressable>
+          <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
+            <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
+          </Pressable>
         </ScrollView>  
       </View>
-      
     </SafeAreaView>
   );
 };
