@@ -1,43 +1,42 @@
-const AWS = require("aws-sdk");
-require("dotenv").config();
+const { IoTClient, SubscribeToTopicCommand } = require("@aws-sdk/client-iot");
 
-// Initialize the AWS SDK and create an IoT object
-AWS.config.update({
-  accessKeyId: "AKIAW3MEAH5IOXT7DIT6",
-  secretAccessKey: "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",
-  region: "us-east-1",
+const customEndpoint = process.env.AWS_CUSTOM_END_POINT;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const region = process.env.AWS_REGION;
+const topic = "3yp/Area001/Bin_001";
+
+const client = new IoTClient({
+  region,
+  credentials: { accessKeyId, secretAccessKey },
 });
 
-const iot = new AWS.Iot();
+const subscribeToIoTData = async () => {
+  try {
+    const command = new SubscribeToTopicCommand({ topic });
+    const response = await client.send(command);
 
-const subscribeToIoTData = (io) => {
-  const policyParams = {
-    policyName: "bridgeMQTT",
-    principal:
-      "arn:aws:iot:us-east-1:471112630096:cert/78f51c49e22d9ccf2f04725fb50cad5ea4f85da0838fa109b7c849e536ac302e", // Replace with your actual principal (usually a certificate ARN)
-  };
-
-  // Attach the policy to the principal
-  iot.attachPrincipalPolicy(policyParams, (err, data) => {
-    if (err) {
-      console.error("Error attaching policy:", err);
-      return;
-    }
-
-    console.log("Attached policy:", data);
-
-    // Handle incoming messages
-    iot.on("message", (event) => {
-      const topic = event.topic;
-      const payload = event.payload.toString();
-      console.log(`Received message on topic ${topic}: ${payload}`);
-
-      // Emit the IoT data to your application
-      io.emit("iotData", payload);
-    });
-
-    console.log("Subscribed to IoT messages");
-  });
+    console.log("Subscribed to topic:", response);
+  } catch (error) {
+    console.error("Error subscribing to topic:", error);
+  }
 };
 
-module.exports = { subscribeToIoTData };
+// Handle incoming messages
+client.middlewareStack.add(
+  (next) => async (args) => {
+    if (args.request.input instanceof SubscribeToTopicCommand) {
+      client.on("message", (event) => {
+        const { topic, payload } = event;
+        const message = payload.toString();
+        console.log(`Received message on topic ${topic}: ${message}`);
+        // Handle the IoT data as needed
+      });
+    }
+
+    return next(args);
+  },
+  { step: "initialize", tags: ["SubscribeToTopicCommand"] }
+);
+
+module.exports = { client, subscribeToIoTData };
