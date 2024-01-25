@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Modal, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+  Modal,
+  Alert,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 // Import useIsFocused from react-navigation/native
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from "@react-navigation/native";
 import GarbageCollectorHomeScreen from "./CollectorHomeScreen";
 
 const ProfileGarbageCollector = () => {
   const [collectorDetails, setCollectorDetails] = useState({});
-  const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+  const [changePasswordModalVisible, setChangePasswordModalVisible] =
+    useState(false);
   const [newPassword, setNewPassword] = useState("");
   const navigation = useNavigation();
 
@@ -31,54 +40,59 @@ const ProfileGarbageCollector = () => {
   const fetchCollectorDetailsFromDatabase = async () => {
     try {
       console.log("Fetching collector details...");
-  
+
       if (!isFocused) {
         console.log("Component is not focused. Skipping fetch.");
         return;
       }
-  
-      const response = await fetch("http://localhost:1337/api/collector-details");
-  
+
+      const response = await fetch(
+        "http://localhost:1337/api/collector-details"
+      );
+
       if (!response.ok) {
         throw new Error("Failed to fetch collector details");
       }
-  
+
       const data = await response.json();
-  
+
       console.log("Collector details response:", response);
       console.log("Collector details data:", data);
-  
+
       setCollectorDetails(data);
     } catch (error) {
       console.error("Error fetching collector details:", error.message);
       // Handle the error (e.g., show an error message to the user)
     }
   };
-  
 
   const handleChangePassword = async () => {
     try {
       // Replace this with your actual API endpoint and logic to change the password
-      const response = await fetch("http://localhost:1337/api/collector-details/change-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ newPassword }),
-      });
+      const response = await fetch(
+        "http://localhost:1337/api/collector-details/change-password",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ newPassword }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to change password");
       }
 
       setChangePasswordModalVisible(false);
-      Alert.alert("Password Changed", "Your password has been changed successfully!");
+      Alert.alert(
+        "Password Changed",
+        "Your password has been changed successfully!"
+      );
     } catch (error) {
       console.error("Error changing password:", error.message);
       // Handle the error (e.g., show an error message to the user)
     }
-
-    
   };
 
   return (
@@ -89,7 +103,9 @@ const ProfileGarbageCollector = () => {
         <View style={styles.profileDetailsContainer}>
           <Text style={styles.detailText}>Name: {collectorDetails.name}</Text>
           <Text style={styles.detailText}>Email: {collectorDetails.email}</Text>
-          <Text style={styles.detailText}>Status: {collectorDetails.status}</Text>
+          <Text style={styles.detailText}>
+            Status: {collectorDetails.status}
+          </Text>
         </View>
       ) : (
         <Text>Loading collector details...</Text>
@@ -116,10 +132,15 @@ const ProfileGarbageCollector = () => {
               value={newPassword}
               onChangeText={(text) => setNewPassword(text)}
             />
-            <TouchableOpacity style={styles.confirmButton} onPress={handleChangePassword}>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={handleChangePassword}
+            >
               <Text style={styles.confirmButtonText}>Confirm</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setChangePasswordModalVisible(false)}>
+            <TouchableOpacity
+              onPress={() => setChangePasswordModalVisible(false)}
+            >
               <Text style={styles.cancelButton}>Cancel</Text>
             </TouchableOpacity>
           </View>
@@ -127,7 +148,10 @@ const ProfileGarbageCollector = () => {
       </Modal>
 
       {/* Back Button */}
-      <TouchableOpacity onPress={() => navigation.navigate(GarbageCollectorHomeScreen)} style={styles.backButton}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(GarbageCollectorHomeScreen)}
+        style={styles.backButton}
+      >
         <AntDesign name="arrowleft" size={24} color="#4CAF50" />
       </TouchableOpacity>
     </View>
@@ -156,7 +180,7 @@ const styles = StyleSheet.create({
   },
   changePasswordButton: {
     fontSize: 18,
-    color: "#006400", 
+    color: "#006400",
     textDecorationLine: "underline",
     marginBottom: 30,
   },
@@ -197,7 +221,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cancelButton: {
-    color: "#006400", 
+    color: "#006400",
     textDecorationLine: "underline",
   },
   backButton: {

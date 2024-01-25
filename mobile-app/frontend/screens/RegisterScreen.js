@@ -18,9 +18,11 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { Picker } from "@react-native-picker/picker";
 
+import client from "../api/client";
+
 const RegisterScreen = () => {
   const [name, setName] = useState("");
-  const [selectedRole, setRole] = useState(false);
+  const [role, setRole] = useState("public");
   const [mobile, setMobile] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -75,40 +77,40 @@ const RegisterScreen = () => {
     return true;
   }
 
-  const handleRegister = () => {
-    if (isValidForm({ name, mobile, email, password, confirmPassword })) {
-
-      console.log(name, selectedRole, email,password, confirmPassword)
-      //submit form
+  const handleRegister = async () => {
+    
+    try {
+      if (isValidForm({ name, mobile, email, password, confirmPassword })) {
+        await client
+          .post('/create-user', {
+            name,
+            role,
+            mobile,
+            email,
+            password,
+            confirmPassword})
+          .then(res => {
+            console.log(res.data);
+            if (res.data.status) {
+              Alert.alert(res.data.message);
+              if (role === 'public') {
+                navigation.navigate('LoginScreen');
+              }
+              else if (role === 'collector') {
+                navigation.navigate('LoginScreen');
+              }
+            }
+            else {
+              Alert.alert(res.data.message, 'Register with another email');
+            }
+          })
+      
+      // Handle success
+      }
+    } catch (error) {
+      // Handle error
+      console.error('Error creating user:', error.message, error.response);
     }
-  //   const user = { name, selectedRole, email, password };
-  //   axios
-  //     .post("http://10.0.2.2:8000/api/collector/signup", user)
-  //     .then((response) => {
-  //       console.log(response);
-  //       Alert.alert(
-  //         "Registration successful",
-  //         "You have been registered Successfully"
-  //       );
-  //       setName("");
-  //       setSelectedRole("public");
-  //       setEmail("");
-  //       setPassword("");
-
-  //       const role = response.data.role;
-  //       if (role === "collector") {
-  //         navigation.navigate("collectorHomeScreen");
-  //       } else if (role === "public") {
-  //         navigation.navigate("publicHomeScreen");
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       Alert.alert(
-  //         "Registration Error",
-  //         "An error occurred while registering"
-  //       );
-  //       console.log("registration failed", error);
-  //     });
   };
 
   return (
@@ -153,7 +155,7 @@ const RegisterScreen = () => {
                   color="green"
                 />
                 <Picker
-                  selectedValue={selectedRole}
+                  selectedValue={role}
                   style={styles.picker}
                   onValueChange={(itemValue) => setRole(itemValue)}
                 >
