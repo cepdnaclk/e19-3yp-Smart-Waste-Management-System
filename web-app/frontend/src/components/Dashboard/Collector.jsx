@@ -11,7 +11,7 @@ function Collector() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:1337/api/collector-details"
+          "http://3.228.104.45:1337/api/collector-details"
         );
         setCollectorData(response.data);
       } catch (error) {
@@ -25,7 +25,9 @@ function Collector() {
   const handleDelete = async (id) => {
     try {
       // Send a request to delete the collector with the specified ID
-      await axios.delete(`http://localhost:1337/api/collector-details/${id}`);
+      await axios.delete(
+        `http://3.228.104.45:1337/api/collector-details/${id}`
+      );
 
       // Update the state to remove the deleted collector
       setCollectorData((prevData) =>
@@ -41,7 +43,7 @@ function Collector() {
       const newStatus = currentStatus === "Active" ? "Not Active" : "Active";
 
       // Send a request to update the collector status
-      await axios.put(`http://localhost:1337/api/collector-details/${id}`, {
+      await axios.put(`http://3.228.104.45:1337/api/collector-details/${id}`, {
         status: newStatus,
       });
 

@@ -20,7 +20,7 @@ function FormContainer() {
     await login(email, password);
 
     // try {
-    //   const response = await fetch("http://localhost:1337/api/", {
+    //   const response = await fetch("http://3.228.104.45:1337/api/", {
     //     method: "POST",
     //     headers: { "Content-Type": "application/json" },
     //     body: JSON.stringify({ email, password }),

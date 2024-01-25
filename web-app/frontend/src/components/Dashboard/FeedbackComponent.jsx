@@ -8,7 +8,9 @@ function FeedbackComponent() {
     // Fetch data from MongoDB here
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:1337/api/feedback");
+        const response = await axios.get(
+          "http://3.228.104.45:1337/api/feedback"
+        );
         setFeedback(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

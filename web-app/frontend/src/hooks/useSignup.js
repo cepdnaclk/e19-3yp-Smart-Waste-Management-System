@@ -5,13 +5,13 @@ export const useSignup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Setting initial loading state to false
 
-  const { dispatch } = useAuthContext(); 
+  const { dispatch } = useAuthContext();
 
   const signup = async (name, email, password) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("http://localhost:1337/api/user/signup", {
+      const response = await fetch("http://3.228.104.45:1337/api/user/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
