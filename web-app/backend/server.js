@@ -19,15 +19,6 @@ const path = require("path");
 const _dirname = path.dirname("");
 const buildPath = path.join(_dirname, "../frontend/build");
 
-app.use(express.static(buildPath));
-
-app.get("/*", function (req, res) {
-  res.sendFile(path.resolve(buildPath, "index.html"), function (err) {
-    if (err) {
-      res.status(500).send(err);
-    }
-  });
-});
 // Deployment END
 
 app.use(cors());
@@ -67,6 +58,16 @@ mongoose.connection.on("connected", () => {
 
 mongoose.connection.on("error", (err) => {
   console.error("MongoDB connection error:", err);
+});
+
+app.use(express.static(buildPath));
+
+app.get("/*", function (req, res) {
+  res.sendFile(path.resolve(buildPath, "index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
 });
 
 server.listen(PORT, () => {
