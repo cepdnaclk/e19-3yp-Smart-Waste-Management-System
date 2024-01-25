@@ -3,10 +3,10 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const collectorRoute = require("./routes/collector");
 const userRoute = require("./routes/users");
+require("dotenv").config();
 const feedbackRoute = require("./routes/feedback");
 const authUserRoute = require("./routes/authUser");
 const scheduleRoute = require("./routes/schedule");
-require("dotenv").config();
 const DB_URL = process.env.DB_URL;
 const path = require("path");
 
