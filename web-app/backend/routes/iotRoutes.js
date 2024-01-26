@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { subscribeToIoTData } = require("../controller/iotController");
+const { setSocketIO } = require("../controller/iotController");
 
+// Route to subscribe and get the latest MQTT data
 router.get("/subscribe", (req, res) => {
-  const io = req.app.get("socketio");
-  subscribeToIoTData(io);
+  // Set the Socket.IO instance in the iotController
+  setSocketIO(io);
 
-  res.status(200).json({ message: "Subscribed to IoT data" });
+  // Respond with the latest MQTT data in JSON format
+  res.json({ mqttData: latestMqttData });
 });
-
 module.exports = router;
