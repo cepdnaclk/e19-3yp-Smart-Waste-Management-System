@@ -8,12 +8,20 @@ const socket = io("http://localhost:1337/iot/subscribe");
 
 function Home() {
   const [mqttData, setMqttData] = useState(null);
+  const [totalUsers, setTotalUsers] = useState(null);
 
   useEffect(() => {
     socket.on("mqttData", (data) => {
       console.log("Received MQTT data:", data);
       setMqttData(data);
     });
+
+    fetch("http://localhost:1337/api/user-details")
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalUsers(data.totalUsers);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
 
     return () => {
       socket.disconnect();
@@ -29,7 +37,7 @@ function Home() {
         <br />
         <div className="row justify-content-center">
           <div className="col-md-4 box" style={style.box}>
-            <FontAwesomeIcon icon={faUsers} /> Users: 100
+            <FontAwesomeIcon icon={faUsers} /> Users: {totalUsers}
           </div>
           <div className="col-md-4 box" style={style.box}>
             <FontAwesomeIcon icon={faTrash} /> Bins: 50
