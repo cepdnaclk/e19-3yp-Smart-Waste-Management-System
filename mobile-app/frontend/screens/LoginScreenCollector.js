@@ -156,7 +156,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   button: {
     textAlign: "center",
@@ -227,7 +236,17 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
+    
   },
   loginButtonText: {
     textAlign: "center",
