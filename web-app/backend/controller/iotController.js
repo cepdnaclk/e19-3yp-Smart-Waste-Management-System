@@ -1,3 +1,4 @@
+// iotController.js
 const mqtt = require("mqtt");
 const fs = require("fs");
 
@@ -6,7 +7,9 @@ const awsIotEndpoint = process.env.AWS_MQTT_END_POINT;
 const awsIotTopic = "3yp/Area001/Bin_001";
 const clientId = "mqqt-client";
 
-// MQTT client setup
+// Socket.IO setup
+let io;
+
 const mqttClient = mqtt.connect(awsIotEndpoint, {
   clientId: clientId,
   clean: true,
@@ -16,7 +19,6 @@ const mqttClient = mqtt.connect(awsIotEndpoint, {
   ca: fs.readFileSync("./controller/cert/AmazonRootCA1.pem"),
 });
 
-// MQTT subscription setup
 mqttClient.on("connect", () => {
   console.log("Connected to MQTT broker");
   mqttClient.subscribe(awsIotTopic, (err) => {
@@ -27,6 +29,31 @@ mqttClient.on("connect", () => {
 });
 
 mqttClient.on("message", (topic, message) => {
-  console.log(`Received message on topic '${topic}': ${message.toString()}`);
+  const payload = message.toString();
+  console.log(`Received message on topic '${topic}': ${payload}`);
+
+  // Parse payload as JSON
+  let jsonData;
+  try {
+    jsonData = JSON.parse(payload);
+  } catch (error) {
+    console.error("Error parsing MQTT payload as JSON:", error);
+    return;
+  }
+
+  // Emit the MQTT data to connected clients through Socket.IO
+  if (io) {
+    io.emit("mqttData", jsonData);
+  }
+
   // Add your own logic to handle the received message
 });
+
+// Function to set the Socket.IO instance
+const setSocketIO = (socketIOInstance) => {
+  io = socketIOInstance;
+};
+
+module.exports = {
+  setSocketIO,
+};
