@@ -1,7 +1,7 @@
 # SMART WASTE MANAGEMENT SYSTEM 
 
 <div align="center">
-  <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="1000" height="500"/>
+<img src="./docs/assets/readme/1.jpg" width="10000" height="500">
 </div>
 
 ## Project Overview
@@ -12,29 +12,29 @@ Our project is a smart waste management system that aims to make the process of 
 - Hardware setup: Bins with level measuring sensors and temperature sensors, with proper power supply system connected to LEDs.
   
 <div align="center">
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
+  <img src="./docs/assets/readme/2.png" width="500" height="300">
+  <img src="./docs/assets/readme/3.png" width="500" height="300">
 </div>
 
 - Software setup: Mobile application for house owners and garbage collectors; Web application for municipal authorities.
   
 <div align="center">
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
+  <img src="./docs/assets/readme/2.png" width="500" height="300">
+  <img src="./docs/assets/readme/3.png" width="500" height="300">
 </div>
 
 - AWS Server: Hosting the website, data storing and database hosting.
   
 <div align="center">
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
+  <img src="./docs/assets/readme/2.png" width="500" height="300">
+  <img src="./docs/assets/readme/3.png" width="500" height="300">
 </div>
 
 ## Key Features
 
 <div align="center">
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
-    <img src="https://storage.ning.com/topology/rest/1.0/file/get/9615690882?profile=RESIZE_930x&width=800" width="500" height="500"/>
+  <img src="./docs/assets/readme/2.png" width="500" height="300">
+  <img src="./docs/assets/readme/3.png" width="500" height="300">
 </div>
 
 - User-friendly web-based interface for administrators and mobile application for house owners and garbage collectors.
