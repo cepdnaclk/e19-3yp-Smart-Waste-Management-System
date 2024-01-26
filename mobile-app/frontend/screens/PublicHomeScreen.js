@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, BackHandler } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler } from "react-native";
 import { AuthContext } from "../context/AuthContext";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 const PublicHomeScreen = ({ navigation }) => {
@@ -28,8 +29,14 @@ const PublicHomeScreen = ({ navigation }) => {
 
 
   return (
-    <View style={styles.buttonContainer}>
-      <Text style={styles.title}>Public Home Screen</Text>
+    <SafeAreaView style={styles.buttonContainer}>
+      <Text style={styles.title}>Welcome Back</Text>
+      <View style={styles.container}>
+        <Image
+          source={require("../assets/LoginScreen/head.png")}
+          style={styles.image}
+        />
+      </View>
       <TouchableOpacity
         style={styles.button}
         onPress={viewMap}
@@ -49,7 +56,8 @@ const PublicHomeScreen = ({ navigation }) => {
       >
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
+    
   );
 };
 
@@ -67,6 +75,11 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     marginTop: 10,
     color: "green"
+  },
+  image: {
+    marginTop: 10,
+    width: 350,
+    height: 150
   },
   button: {
     alignItems: "center",

@@ -7,26 +7,47 @@ export const AuthProvider = ({ children }) => {
     
     const [isLoading, setIsLoading] = useState(false);
     const [publicUserToken, setPublicUserToken] = useState(null);
+    // const [userName, setUserName] = useState(null);
+    // const [userEmail, setEmail] = useState(null);
 
-    const login = async (token) => {
+    const login = async (token, name, email) => {
         setIsLoading(true);
         setPublicUserToken(token);
-        await AsyncStorage.setItem('publicUserToken', token);
+        // setUserName(name);
+        // setEmail(email);
 
-        try {
-            const publicUserToken = await AsyncStorage.getItem('publicUserToken');
-            console.log('Public User Token (login):', publicUserToken);
-        } catch (error) {
-            console.error('Error retrieving Public User Token:', error);
-        }
+        console.log(await AsyncStorage.getItem('publicUserToken'));
+        console.log(await AsyncStorage.getItem('name'));
+        console.log(await AsyncStorage.getItem('email'));
+
+        await AsyncStorage.setItem('publicUserToken', token);
+        await AsyncStorage.setItem('name', name);
+        await AsyncStorage.setItem('email', email);
+
+        // console.log(await AsyncStorage.getItem('publicUserToken'));
+        // console.log(await AsyncStorage.getItem('name'));
+        // console.log(await AsyncStorage.getItem('email'));
+
+
+        // try {
+        //     const publicUserToken = await AsyncStorage.getItem('publicUserToken');
+        //     console.log('Public User Token (login):', publicUserToken);
+        // } catch (error) {
+        //     console.error('Error retrieving Public User Token:', error);
+        // }
         setIsLoading(false);
     };
 
     const  logout = async () => {
         setIsLoading(true);
-        console.log('Public User Token (logout):' + await AsyncStorage.getItem('publicUserToken'));
+        //console.log('Public User Token (logout):' + await AsyncStorage.getItem('publicUserToken'));
         await AsyncStorage.removeItem('publicUserToken');
-        console.log('Public User Token (logout):' + await AsyncStorage.getItem('publicUserToken'));
+        await AsyncStorage.removeItem('name');
+        await AsyncStorage.removeItem('email');
+        //console.log('Public User Token (logout):' + await AsyncStorage.getItem('publicUserToken'));
+        // console.log(await AsyncStorage.getItem('publicUserToken'));
+        // console.log(await AsyncStorage.getItem('name'));
+        // console.log(await AsyncStorage.getItem('email'));
         setIsLoading(false);
     };
 
