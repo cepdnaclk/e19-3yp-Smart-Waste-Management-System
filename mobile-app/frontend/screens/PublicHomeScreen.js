@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler } from "react-native";
+import React, { useContext, useEffect } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler, Alert } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -9,6 +9,18 @@ const PublicHomeScreen = ({ navigation }) => {
   const { logoutPublic } = useContext(AuthContext);
 
 
+  const exitApp = async () => {
+    Alert.alert('LOGOUT', 'Do you want to log-out from your account?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutPublic(); } },
+      ]); 
+  };
+
+
   const viewMap = () => {
     navigation.navigate("BinMap");
   };
@@ -16,13 +28,6 @@ const PublicHomeScreen = ({ navigation }) => {
   const reportIssues = () => {
     navigation.navigate("ReportScreen");
   };
-
-  const exitApp = () => {
-    logoutPublic().then(() => {
-      BackHandler.exitApp();
-    })
-  };
-
 
 
   return (

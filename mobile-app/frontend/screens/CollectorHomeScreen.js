@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions, BackHandler} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions, BackHandler, Alert} from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
 import { AuthContext } from "../context/AuthContext";
@@ -28,11 +28,15 @@ const CollectorHomeScreen = ({ navigation }) => {
     return () => clearInterval(interval);
   }, [availableBins]);
 
-  const exitApp = () => {
-    logoutCollector().then(() => {
-      BackHandler.exitApp();
-    })
-    
+  const exitApp = async () => {
+    Alert.alert('LOGOUT', 'Do you want to log-out from your account?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutCollector(); } },
+      ]); 
   };
 
 
