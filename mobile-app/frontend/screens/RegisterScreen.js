@@ -239,6 +239,8 @@ const RegisterScreen = () => {
               <TouchableOpacity
                 onPress={() => navigation.navigate("LoginScreen")}
                 style={styles.loginLink}
+                activeOpacity={0.7}
+                
               >
                 <Text style={styles.loginLinkText}>
                   Already have an account? Login

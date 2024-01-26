@@ -1,7 +1,13 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import React, { useContext } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, BackHandler } from "react-native";
+import { AuthContext } from "../context/AuthContext";
 
-const HouseOwnerHomeScreen = ({ navigation }) => {
+
+const PublicHomeScreen = ({ navigation }) => {
+
+  const { logout } = useContext(AuthContext);
+
+
   const viewMap = () => {
     navigation.navigate("BinMap");
   };
@@ -11,8 +17,15 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
   };
 
   const goBackToLoginPage = () => {
-    navigation.navigate("LoginScreenPublic");
+    
+    
+    logout().then(() => {
+      BackHandler.exitApp();
+    })
+    
   };
+
+
 
   return (
     <View style={styles.buttonContainer}>
@@ -32,7 +45,7 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={goBackToLoginPage}
+        onPress={ goBackToLoginPage }
       >
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>
@@ -40,7 +53,7 @@ const HouseOwnerHomeScreen = ({ navigation }) => {
   );
 };
 
-export default HouseOwnerHomeScreen;
+export default PublicHomeScreen;
 
 const styles = StyleSheet.create({
   buttonContainer: {

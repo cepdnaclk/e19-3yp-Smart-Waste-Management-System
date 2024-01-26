@@ -4,7 +4,7 @@ import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
 
-const GarbageCollectorHomeScreen = () => {
+const CollectorHomeScreen = () => {
   const [availableBins, setAvailableBins] = useState(0);
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [optionsModalVisible, setOptionsModalVisible] = useState(false);
@@ -369,4 +369,4 @@ const GarbageCollectorHomeScreen = () => {
   );
 };
 
-export default GarbageCollectorHomeScreen;
+export default CollectorHomeScreen;
