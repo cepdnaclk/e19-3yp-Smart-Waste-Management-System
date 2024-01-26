@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions, BackHandler} from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
+import { AuthContext } from "../context/AuthContext";
 
-const CollectorHomeScreen = () => {
+const CollectorHomeScreen = ({ navigation }) => {
+  
+    const { logoutCollector } = useContext(AuthContext);
+
+
   const [availableBins, setAvailableBins] = useState(0);
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [optionsModalVisible, setOptionsModalVisible] = useState(false);
@@ -24,7 +28,13 @@ const CollectorHomeScreen = () => {
     return () => clearInterval(interval);
   }, [availableBins]);
 
-  const navigation = useNavigation();
+  const exitApp = () => {
+    logoutCollector().then(() => {
+      BackHandler.exitApp();
+    })
+    
+  };
+
 
   const handleProfileOption = (option) => {
     closeModals();
@@ -33,7 +43,7 @@ const CollectorHomeScreen = () => {
       // Use 'replace' instead of 'navigate' to avoid stacking the same screen in the navigation stack
       navigation.replace("ProfileGarbageCollectors");
     } else if (option === "Logout") {
-      navigation.replace("LoginScreen");
+      exitApp();
     }
 
     openProfileModal();
