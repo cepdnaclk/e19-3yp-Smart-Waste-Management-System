@@ -8,10 +8,14 @@ const PublicHomeScreen = ({ navigation }) => {
 
   const { logoutPublic } = useContext(AuthContext);
 
+  const [storedName, setStoredName] = useState('');
+
   useEffect(() => {
     const fetchUserName = async () => {
-      const storedName = await AsyncStorage.getItem('name');
+      const name = await AsyncStorage.getItem('name');
+      setStoredName(name || '');
     };
+    
 
     fetchUserName();
   }, []);
