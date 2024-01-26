@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const PublicHomeScreen = ({ navigation }) => {
 
-  const { logout } = useContext(AuthContext);
+  const { logoutPublic } = useContext(AuthContext);
 
 
   const viewMap = () => {
@@ -17,13 +17,10 @@ const PublicHomeScreen = ({ navigation }) => {
     navigation.navigate("ReportScreen");
   };
 
-  const goBackToLoginPage = () => {
-    
-    
-    logout().then(() => {
+  const exitApp = () => {
+    logoutPublic().then(() => {
       BackHandler.exitApp();
     })
-    
   };
 
 
@@ -52,7 +49,7 @@ const PublicHomeScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
-        onPress={ goBackToLoginPage }
+        onPress={ exitApp }
       >
         <Text style={styles.buttonText}>Log out</Text>
       </TouchableOpacity>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput,  Alert, Keyboard, TouchableOpacity, Dimensions, ActivityIndicator} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput,  Alert, Keyboard, TouchableOpacity, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
@@ -11,7 +11,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
 
-  const { login } = useContext(AuthContext);
+  const { loginPublic } = useContext(AuthContext);
 
 
 
@@ -46,12 +46,11 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
           password
         })
         .then(res => {
-  
           //console.log(res.data);
           if (res.data.status) {
             navigation.navigate('PublicHomeScreen1');
             
-            login(res.data.tokenPublic, res.data.name, res.data.email);
+            loginPublic(res.data.tokenPublic, res.data.name, res.data.email);
             setEmail("");
             setPassword("");
           }

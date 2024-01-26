@@ -130,7 +130,8 @@ exports.userSignInCollector = async (req, res) => {
     return res.json({
         status: true,
         message: 'login successful',
-        user,
+        name : user.name,
+        email : user.email,
         tokenCollector
     });
 };

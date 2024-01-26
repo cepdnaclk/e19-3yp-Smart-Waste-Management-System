@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 const AppNavigation = () => {
 
-  const { isLoading, publicUserToken } = useContext(AuthContext);
+  const { isLoading, publicUserToken, collectorUserToken } = useContext(AuthContext);
 
   if (isLoading) {
     return (
@@ -31,10 +31,16 @@ const AppNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {publicUserToken === null ? (
+        {(publicUserToken === null && collectorUserToken === null) ? (
           <Stack.Screen
             name="LoginScreen"
             component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+        ) : (publicUserToken === null && collectorUserToken !== null) ? (
+          <Stack.Screen
+            name="CollectorHomeScreen"
+            component={CollectorHomeScreen}
             options={{ headerShown: false }}
           />
         ) : (
@@ -57,11 +63,6 @@ const AppNavigation = () => {
         <Stack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CollectorHomeScreen"
-          component={CollectorHomeScreen}
           options={{ headerShown: false }}
         />
         
@@ -89,7 +90,12 @@ const AppNavigation = () => {
             name="PublicHomeScreen1"
             component={PublicHomeScreen}
             options={{ headerShown: false }}
-          />
+        />
+        <Stack.Screen
+          name="CollectorHomeScreen1"
+          component={CollectorHomeScreen}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
     
