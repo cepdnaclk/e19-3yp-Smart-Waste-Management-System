@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const http = require("http");
+
 const collectorRoute = require("./routes/collector");
 const userRoute = require("./routes/users");
 const feedbackRoute = require("./routes/feedback");
@@ -10,6 +12,7 @@ require("dotenv").config();
 const DB_URL = process.env.DB_URL;
 
 const app = express();
+const server = http.createServer(app);
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
 const PORT = 1337;
@@ -36,11 +39,9 @@ mongoose.connect(DB_URL, {
 
 // IoT connection BEGIN
 
-const http = require("http");
 const socketIo = require("socket.io");
 const iotRoutes = require("./routes/iotRoutes");
 
-const server = http.createServer(app);
 const io = socketIo(server);
 
 app.use((req, res, next) => {
