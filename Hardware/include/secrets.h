@@ -2,9 +2,8 @@
 #include <cstdint>
 #define SECRET
  
-#define SECRET
-#define THINGNAME "Bin_001"                         //change this
-int8_t TIME_ZONE = -5;                              //NYC(USA): -5 UTC
+ #define THINGNAME "Bin_001"                         //change this
+//int8_t TIME_ZONE = -5;                              //NYC(USA): -5 UTC
  
 const char WIFI_SSID[] = "Dialog 4G 555";               //change this
 const char WIFI_PASSWORD[] = "5d56C7D3";          //change this
