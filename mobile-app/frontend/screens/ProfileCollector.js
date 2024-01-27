@@ -14,7 +14,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useIsFocused } from "@react-navigation/native";
 import GarbageCollectorHomeScreen from "./CollectorHomeScreen";
 
-const ProfileGarbageCollector = () => {
+const ProfileCollector = () => {
   const [collectorDetails, setCollectorDetails] = useState({});
   const [changePasswordModalVisible, setChangePasswordModalVisible] =
     useState(false);
@@ -231,4 +231,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileGarbageCollector;
+export default ProfileCollector;

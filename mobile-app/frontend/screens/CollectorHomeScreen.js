@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions } from "react-native";
+import React, { useState, useEffect, useContext } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image, Modal, Pressable, Dimensions, BackHandler, Alert} from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { RFPercentage } from "react-native-responsive-fontsize"; // Import RFPercentage
+import { AuthContext } from "../context/AuthContext";
 
-const GarbageCollectorHomeScreen = () => {
+const CollectorHomeScreen = ({ navigation }) => {
+  
+    const { logoutCollector } = useContext(AuthContext);
+
+
   const [availableBins, setAvailableBins] = useState(0);
   const [profileModalVisible, setProfileModalVisible] = useState(false);
   const [optionsModalVisible, setOptionsModalVisible] = useState(false);
@@ -24,7 +28,17 @@ const GarbageCollectorHomeScreen = () => {
     return () => clearInterval(interval);
   }, [availableBins]);
 
-  const navigation = useNavigation();
+  const exitApp = async () => {
+    Alert.alert('LOGOUT', 'Do you want to log-out from your account?', [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutCollector(); } },
+      ]); 
+  };
+
 
   const handleProfileOption = (option) => {
     closeModals();
@@ -33,7 +47,7 @@ const GarbageCollectorHomeScreen = () => {
       // Use 'replace' instead of 'navigate' to avoid stacking the same screen in the navigation stack
       navigation.replace("ProfileGarbageCollectors");
     } else if (option === "Logout") {
-      navigation.replace("LoginScreen");
+      exitApp();
     }
 
     openProfileModal();
@@ -369,4 +383,4 @@ const GarbageCollectorHomeScreen = () => {
   );
 };
 
-export default GarbageCollectorHomeScreen;
+export default CollectorHomeScreen;

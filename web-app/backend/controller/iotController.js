@@ -1,42 +1,59 @@
-const { IoTClient, SubscribeToTopicCommand } = require("@aws-sdk/client-iot");
+// iotController.js
+const mqtt = require("mqtt");
+const fs = require("fs");
 
-const customEndpoint = process.env.AWS_CUSTOM_END_POINT;
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-const region = process.env.AWS_REGION;
-const topic = "3yp/Area001/Bin_001";
+// AWS IoT configuration
+const awsIotEndpoint = process.env.AWS_MQTT_END_POINT;
+const awsIotTopic = "3yp/Area001/Bin_001";
+const clientId = "mqqt-client";
 
-const client = new IoTClient({
-  region,
-  credentials: { accessKeyId, secretAccessKey },
+// Socket.IO setup
+let io;
+
+const mqttClient = mqtt.connect(awsIotEndpoint, {
+  clientId: clientId,
+  clean: true,
+  // Add your AWS IoT certificate options here
+  key: fs.readFileSync("./controller/cert/private.pem.key"),
+  cert: fs.readFileSync("./controller/cert/client-certificate.pem.crt"),
+  ca: fs.readFileSync("./controller/cert/AmazonRootCA1.pem"),
 });
 
-const subscribeToIoTData = async () => {
-  try {
-    const command = new SubscribeToTopicCommand({ topic });
-    const response = await client.send(command);
+mqttClient.on("connect", () => {
+  console.log("Connected to MQTT broker");
+  mqttClient.subscribe(awsIotTopic, (err) => {
+    if (!err) {
+      console.log(`Subscribed to topic: ${awsIotTopic}`);
+    }
+  });
+});
 
-    console.log("Subscribed to topic:", response);
+mqttClient.on("message", (topic, message) => {
+  const payload = message.toString();
+  console.log(`Received message on topic '${topic}': ${payload}`);
+
+  // Parse payload as JSON
+  let jsonData;
+  try {
+    jsonData = JSON.parse(payload);
   } catch (error) {
-    console.error("Error subscribing to topic:", error);
+    console.error("Error parsing MQTT payload as JSON:", error);
+    return;
   }
+
+  // Emit the MQTT data to connected clients through Socket.IO
+  if (io) {
+    io.emit("mqttData", jsonData);
+  }
+
+  // Add your own logic to handle the received message
+});
+
+// Function to set the Socket.IO instance
+const setSocketIO = (socketIOInstance) => {
+  io = socketIOInstance;
 };
 
-// Handle incoming messages
-client.middlewareStack.add(
-  (next) => async (args) => {
-    if (args.request.input instanceof SubscribeToTopicCommand) {
-      client.on("message", (event) => {
-        const { topic, payload } = event;
-        const message = payload.toString();
-        console.log(`Received message on topic ${topic}: ${message}`);
-        // Handle the IoT data as needed
-      });
-    }
-
-    return next(args);
-  },
-  { step: "initialize", tags: ["SubscribeToTopicCommand"] }
-);
-
-module.exports = { client, subscribeToIoTData };
+module.exports = {
+  setSocketIO,
+};

@@ -1,13 +1,18 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, Keyboard, Dimensions} from "react-native";
+import React, { useContext, useState } from "react";
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput,  Alert, Keyboard, TouchableOpacity, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
+import client from "../api/client";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
+
+  const { loginPublic } = useContext(AuthContext);
+
 
 
   const updateError = (error, stateUpdater) => {
@@ -22,9 +27,8 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
     return regx.test(email);
   }
 
-    
-  // Login logic to be implemented
-  const handleLogin = () => {
+  
+  const handleLogin = async () => {
     //Validate email
     if (!isValidEmail(email)) {
       return updateError('Invalid Email!', setError);
@@ -32,33 +36,58 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
 
     //Validate password
     if (!password.trim() || password.length < 8) {
-      return updateError('Wrong password!', setError);
+      return updateError('Invalid Password!', setError);
     }
 
-    navigation.navigate("PublicHomeScreen")
-
+    try {
+      await client
+        .post('/sign-in-public', {
+          email,
+          password
+        })
+        .then(res => {
+          //console.log(res.data);
+          if (res.data.status) {
+            navigation.navigate('PublicHomeScreen1');
+            
+            loginPublic(res.data.tokenPublic, res.data.name, res.data.email);
+            setEmail("");
+            setPassword("");
+          }
+          else {
+              Alert.alert(res.data.message, 'Sign in again');
+            }
+        })
+      
+    } catch (error) {
+      // Handle error
+      console.error('Error while login:', error.message, error.response);
+    }
   };
   
 
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
         <View style={styles.roleIndicator}>
-          <Pressable
-              onPress={onPressPublic}
+          <TouchableOpacity
+              
+          activeOpacity={0.7}
+          onPress={onPressPublic}
               style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
             >
               <Text style={[styles.button, {color: 'white'}]}>
                 PUBLIC
               </Text>
-          </Pressable>
-          <Pressable
-              onPress={onPressCollector}
+          </TouchableOpacity>
+          <TouchableOpacity
+          onPress={onPressCollector}
+          activeOpacity={0.7}
               style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
             >
               <Text style={[styles.button, {color: 'green'}]}>
                 COLLECTOR
               </Text>
-          </Pressable>
+          </TouchableOpacity>
           
         </View>
         
@@ -106,13 +135,16 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
               <Text style={styles.additionalInfoText}>Forgot Password</Text>
             </View>
 
-            <Pressable onPress={handleLogin} style={styles.loginButton}>
+          <TouchableOpacity activeOpacity={0.7} onPress={ handleLogin} style={styles.loginButton}>
               <Text style={styles.loginButtonText}>Login</Text>
-            </Pressable>
+            </TouchableOpacity>
 
-            <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => {
+            navigation.navigate("RegisterScreen"), setEmail(""), setPassword("")
+          }}
+            style={styles.signupLink}>
               <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
-          </Pressable>
+          </TouchableOpacity>
           </ScrollView>
         </View>  
     </SafeAreaView>
@@ -130,12 +162,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   button: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   container: {
     flex: 1,
@@ -201,7 +242,16 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   loginButtonText: {
     textAlign: "center",

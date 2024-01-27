@@ -4,7 +4,9 @@ const user = require("../models/user");
 const getUsers = async (req, res) => {
   try {
     const users = await user.find();
-    res.json(users);
+    // Count the total number of users
+    const totalUsers = await user.countDocuments();
+    res.json({ users, totalUsers });
   } catch (error) {
     console.error("Error fetching user details:", error);
     res.status(500).send("Internal Server Error");
