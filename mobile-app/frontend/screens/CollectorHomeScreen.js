@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const PublicHomeScreen = ({ navigation }) => {
 
-  const { logoutPublic } = useContext(AuthContext);
+  const { logoutCollector } = useContext(AuthContext);
 
   const [storedName, setStoredName] = useState('');
 
@@ -29,7 +29,7 @@ const PublicHomeScreen = ({ navigation }) => {
           onPress: () => null,
           style: 'cancel',
         },
-      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutPublic(); } },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutCollector(); } },
       ]); 
   };
 
