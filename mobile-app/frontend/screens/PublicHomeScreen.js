@@ -57,7 +57,7 @@ const PublicHomeScreen = ({ navigation }) => {
       </View>
       <TouchableOpacity
         activeOpacity={0.7}
-        style={styles.button}
+        style={[styles.button, { backgroundColor: "#1bb56b" }]}
         onPress={viewMap}
       >
         <Text style={styles.buttonText}>GET UPDATES</Text>
@@ -65,14 +65,14 @@ const PublicHomeScreen = ({ navigation }) => {
       
       <TouchableOpacity
         activeOpacity={0.7}
-        style={styles.button}
+        style={[styles.button, { backgroundColor: "#1b8cb5" }]}
         onPress={reportIssues}
       >
         <Text style={styles.buttonText}>REPORT</Text>
       </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.7}
-        style={styles.button}
+        style={[styles.button, { backgroundColor: "#d9c10b" }]}
         onPress={ exitApp }
       >
         <Text style={styles.buttonText}>LOG OUT</Text>
@@ -93,45 +93,36 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#105716",
+    color: "green",
     paddingRight:5
   },
   name: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "white",
-    backgroundColor: '#105716',
-    paddingVertical: 14,
+    color: "#105716",
     
   },
   titleContainer: {
     marginTop:10,
     flexDirection: 'row',
-    backgroundColor: "#59de71",
-    paddingHorizontal: 60,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderStyle: 'dotted',
     alignContent: 'center',
     alignItems: 'center',
     height: 60,
     justifyContent:'center'
   },
   image: {
-    marginTop: 70,
-    marginBottom: 70,
+    marginTop: 20,
     width: 350,
     height: 200
   },
   button: {
     alignItems: "center",
-    backgroundColor: "#105716",
+    alignContent:'center',
     padding: 15,
-    width: 250,
+    width: "90%",
+    height:"18%",
     borderRadius: 20,
-    margin: 10,
-    borderColor: '#59de71',
-    borderWidth:2,
+    margin: 5,
     elevation: 5,
     shadowOffset: {
         width: 100,
