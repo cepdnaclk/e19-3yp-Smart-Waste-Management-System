@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUsers, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:1337/iot/subscribe");
+const socket = io("http://localhost:1337");
 
 function Home() {
   const [mqttData, setMqttData] = useState(null);
-  const [totalUsers, setTotalUsers] = useState(null);
 
   useEffect(() => {
     socket.on("mqttData", (data) => {
@@ -16,17 +15,27 @@ function Home() {
       setMqttData(data);
     });
 
-    fetch("http://localhost:1337/api/user-details")
-      .then((response) => response.json())
-      .then((data) => {
-        setTotalUsers(data.totalUsers);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-
     return () => {
       socket.disconnect();
     };
   }, []);
+
+  useEffect(() => {
+    fetchMqttData();
+  }, []);
+
+  const fetchMqttData = async () => {
+    try {
+      const response = await fetch("http://localhost:1337/iot/subscribe");
+      if (!response.ok) {
+        throw new Error("Failed to fetch MQTT data");
+      }
+      const data = await response.json();
+      setMqttData(data);
+    } catch (error) {
+      console.error("Error fetching MQTT data:", error);
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -36,10 +45,10 @@ function Home() {
         <br />
         <br />
         <div className="row justify-content-center">
-          <div className="col-md-4 box" style={style.box}>
-            <FontAwesomeIcon icon={faUsers} /> Users: {totalUsers}
+          <div className="col-md-6 box" style={style.box}>
+            Bins: 50
           </div>
-          <div className="col-md-4 box" style={style.box}>
+          <div className="col-md-6 box" style={style.box}>
             <FontAwesomeIcon icon={faTrash} /> Bins: 50
           </div>
           <div className="col-md-4 box" style={style.box}>
@@ -91,8 +100,8 @@ function Home() {
 
 const style = {
   box: {
-    width: "200px",
-    height: "80px",
+    width: "300px",
+    height: "100px",
     backgroundColor: "green",
     padding: "10px",
     display: "flex",
@@ -102,6 +111,7 @@ const style = {
     color: "white",
     borderRadius: "5px",
     margin: "10px",
+    fontSize: "20px",
   },
   table: {
     tableLayout: "fixed",

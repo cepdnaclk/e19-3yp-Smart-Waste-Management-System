@@ -39,16 +39,7 @@ mongoose.connect(DB_URL, {
 
 // IoT connection BEGIN
 
-const socketIo = require("socket.io");
 const iotRoutes = require("./routes/iotRoutes");
-
-const io = socketIo(server);
-
-app.use((req, res, next) => {
-  req.app.set("socketio", io);
-  next();
-});
-
 app.use("/iot", iotRoutes);
 
 // IoT connection END
