@@ -46,19 +46,20 @@ exports.createUser = async (req, res) => {
 
     await userData.save();
 
-    const tokenRegister = jwt.sign(
-        { userId: user._id },
-        process.env.JWT_SECRET,
-        { expiresIn: '2h' }
-    )
+    // const tokenRegister = jwt.sign(
+    //     { userId: user._id },
+    //     process.env.JWT_SECRET,
+    //     { expiresIn: '2h' }
+    // )
 
-    return res.send({status: true, message:'Registration Succesfull', user, tokenRegister});
+    return res.send({status: true, message:'Registration Succesfull'});
 };
 
 exports.userSignInPublic = async (req, res) => {
     const { email, password } = req.body;
     
     const user = await PublicData.findOne({ email });
+    
     if (!user) {
         return res.json({
             status: false,
@@ -83,7 +84,8 @@ exports.userSignInPublic = async (req, res) => {
     return res.json({
         status: true,
         message: 'login successful',
-        user,
+        name : user.name,
+        email : user.email,
         tokenPublic
     });
     
@@ -128,7 +130,8 @@ exports.userSignInCollector = async (req, res) => {
     return res.json({
         status: true,
         message: 'login successful',
-        user,
+        name : user.name,
+        email : user.email,
         tokenCollector
     });
 };

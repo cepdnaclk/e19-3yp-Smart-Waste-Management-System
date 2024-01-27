@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Keyboard, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
 import client from "../api/client";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
+
+  const { loginCollector } = useContext(AuthContext);
+
 
   const updateError = (error, stateUpdater) => {
     stateUpdater(error);
@@ -41,9 +45,10 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
           password
         })
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           if (res.data.status) {
-            navigation.navigate('CollectorHomeScreen');
+            navigation.navigate('CollectorHomeScreen1');
+            loginCollector(res.data.tokenCollector, res.data.name, res.data.email);
             setEmail("");
             setPassword("");
           }
@@ -151,7 +156,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   button: {
     textAlign: "center",
@@ -222,7 +236,17 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
+    
   },
   loginButtonText: {
     textAlign: "center",

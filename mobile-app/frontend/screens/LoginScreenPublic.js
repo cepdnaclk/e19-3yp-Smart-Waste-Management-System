@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput,  Alert, Keyboard, TouchableOpacity, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
 import client from "../api/client";
+import { AuthContext } from "../context/AuthContext";
 
 const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('');
+
+  const { loginPublic } = useContext(AuthContext);
+
 
 
   const updateError = (error, stateUpdater) => {
@@ -42,9 +46,11 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
           password
         })
         .then(res => {
-          console.log(res.data);
+          //console.log(res.data);
           if (res.data.status) {
-            navigation.navigate('PublicHomeScreen');
+            navigation.navigate('PublicHomeScreen1');
+            
+            loginPublic(res.data.tokenPublic, res.data.name, res.data.email);
             setEmail("");
             setPassword("");
           }
@@ -156,12 +162,21 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   button: {
     textAlign: "center",
     fontSize: 20,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   container: {
     flex: 1,
@@ -227,7 +242,16 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     marginTop: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    elevation: 5,
+    shadowOffset: {
+        width: 100,
+        height:100
+    },
+
+    shadowColor: '#105716',
+    shadowOpacity: 1,
+    shadowRadius: 8
   },
   loginButtonText: {
     textAlign: "center",
