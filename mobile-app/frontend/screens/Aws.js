@@ -8,7 +8,7 @@ const Aws = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.1.179:8000/iot/subscribe');
+        const response = await axios.get('http://192.168.181.130:8000/iot/subscribe');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
