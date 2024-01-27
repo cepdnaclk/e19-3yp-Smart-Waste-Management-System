@@ -97,8 +97,9 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
               style={styles.image}
               source={require("../assets/LoginScreen/head.png")}
             />
-
+          <Text style={{textAlign:'center', color:'grey'}}>Welcome to GREEN BIN TECH</Text>
           <View style={[{flexDirection:'row'},{justifyContent:'center'}]}>
+          
             <Text style={styles.heading}>Login as </Text>
             <Text style={[styles.heading,{color:'#105716'}, {fontWeight:'800'}]}>PUBLIC</Text>
           </View>
@@ -138,12 +139,12 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
           <TouchableOpacity activeOpacity={0.7} onPress={ handleLogin} style={styles.loginButton}>
               <Text style={styles.loginButtonText}>Login</Text>
             </TouchableOpacity>
-
+          <Text style={styles.signupText}>Don't have an account?</Text>
           <TouchableOpacity activeOpacity={0.7} onPress={() => {
             navigation.navigate("RegisterScreen"), setEmail(""), setPassword("")
           }}
             style={styles.signupLink}>
-              <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
+              <Text style={styles.signupLinkText}>Sign Up</Text>
           </TouchableOpacity>
           </ScrollView>
         </View>  
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "100%",
     backgroundColor: "green",
-    borderRadius: 10,
+    borderRadius: 30,
     borderWidth: 2,
     borderColor:"#59de71",
     marginLeft: "auto",
@@ -259,11 +260,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  signupText: {
+    textAlign: 'center',
+    color: 'grey',
+    marginTop: 10,
+    fontSize: 16
+  },
   signupLink: {
-    marginTop: 15,
+    marginTop: 5,
   },
   signupLinkText: {
     textAlign: "center",
+    fontWeight:"bold",
     color: "gray",
     fontSize: 16,
     color: "green",

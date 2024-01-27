@@ -1,11 +1,13 @@
 #include <pgmspace.h>
- 
+#include <cstdint>
 #define SECRET
-#define THINGNAME "3YP-ESP"                         //change this
+ 
+ #define THINGNAME "Bin_001"                         //change this
+//int8_t TIME_ZONE = -5;                              //NYC(USA): -5 UTC
  
 const char WIFI_SSID[] = "Dialog 4G 555";               //change this
 const char WIFI_PASSWORD[] = "5d56C7D3";          //change this
-const char AWS_IOT_ENDPOINT[] = "a1vv3453z3am5v-ats.iot.eu-north-1.amazonaws.com";       //change this
+const char AWS_IOT_ENDPOINT[] = "a2jsyapr1lx107-ats.iot.us-east-1.amazonaws.com";       //change this
  
 // Amazon Root CA 1
 static const char AWS_CERT_CA[] PROGMEM = R"EOF(
@@ -34,24 +36,24 @@ rqXRfboQnoZsG4q5WTP468SQvvG5
 // Device Certificate                                               //change this
 static const char AWS_CERT_CRT[] PROGMEM = R"KEY(
 -----BEGIN CERTIFICATE-----
-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
+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
 -----END CERTIFICATE-----
  
  
