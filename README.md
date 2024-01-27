@@ -86,11 +86,11 @@ We are eagerly planning to make it more automated using Machine Learning feature
 
 ## Project presentations
 
-- [Project Proposal Presentation](https://www.canva.com/design/DAF0WkLwZAc/GI9yocjhA9moiz78CJPeHw/edit)
+- [Sweet Spot of Strategy](https://drive.google.com/file/d/1_iim-TmS1jCIfwZ9MfVkiFRLbPNmxw5q/view?usp=drive_link)
 
-- [Mid Evaluvation Presentation](https://www.canva.com/design/DAF2iiM23Ew/CAewlkRqYrKuJ0fa5CZIYw/edit)
+- [2nd Evaluvation Presentation](https://drive.google.com/file/d/1Vvn-2brWBArEeAGV8kTvu1PFv8DZbGrH/view?usp=drive_link)
 
-- [3rd Evaluvation Presentation](https://www.canva.com/design/DAF5XAKPmbw/J6u0HV1oTwy9k0tVrOK4mA/edit)
+- [3rd Evaluvation Presentation](https://drive.google.com/file/d/1_iim-TmS1jCIfwZ9MfVkiFRLbPNmxw5q/view?usp=drive_link)
 
 
 ## Our Team - Group 13
