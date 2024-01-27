@@ -15,6 +15,7 @@
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
+    "mqtt": "^5.3.5",
     "nodejs": "^0.0.0",
     "nodemon": "^3.0.3"
   }
