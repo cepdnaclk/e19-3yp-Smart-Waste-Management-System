@@ -58,3 +58,34 @@ exports.validateUserSignIn = [
         .withMessage('email/password is required!')
     
 ];
+
+exports.validateUserReport = [
+    check('name')
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("name cannot be empty!")
+        .withMessage("invalid name!")
+        .isLength({ min: 5 })
+        .withMessage("name must contain atleast 5 letters!"),
+    check('number')
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("mobile number cannot be empty!")
+        .withMessage("invalid number!")
+        .isLength({ min: 10, max:10 })
+        .withMessage("number must contain 10 digits!"),
+    check('title')
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("title cannot be empty!")
+        .withMessage("invalid title!"),
+    check('feedback')
+        .trim()
+        .not()
+        .isEmpty()
+        .withMessage("feedback cannot be empty!")
+        .withMessage("invalid feedback!")
+];

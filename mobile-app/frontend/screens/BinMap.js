@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View, Pressable} from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'; 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Icon, AntDesign } from 'react-native-vector-icons';
+import { AntDesign } from 'react-native-vector-icons';
 
 
 
