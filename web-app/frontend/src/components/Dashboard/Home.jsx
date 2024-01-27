@@ -5,6 +5,7 @@ import { faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:1337");
+const height = 50;
 
 function Home() {
   const [mqttData, setMqttData] = useState(null);
@@ -60,7 +61,6 @@ function Home() {
       console.error("Error fetching MQTT data:", error);
     }
   };
-
   return (
     <div className="container-fluid">
       <h3 style={style.header}>Overview</h3>
@@ -104,7 +104,7 @@ function Home() {
               {mqttData ? (
                 <tr>
                   <td>{mqttData.binId}</td>
-                  <td>{mqttData.filledLevel}</td>
+                  <td>{(mqttData.filledLevel / height) * 100} %</td>
                   <td>{mqttData.temperature}</td>
                   <td>{mqttData.latitude}</td>
                   <td>{mqttData.longitude}</td>
