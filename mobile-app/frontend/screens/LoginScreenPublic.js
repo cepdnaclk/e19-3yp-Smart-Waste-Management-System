@@ -69,8 +69,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]} >
         <View style={styles.roleIndicator}>
-          <TouchableOpacity
-              
+          <TouchableOpacity   
           activeOpacity={0.7}
           onPress={onPressPublic}
               style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}

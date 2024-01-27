@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const PublicData = require('../models/public');
 const CollectorData = require('../models/collector');
+const ReportData = require('../models/report');
 
 
 exports.createUser = async (req, res) => {
@@ -86,7 +87,8 @@ exports.userSignInPublic = async (req, res) => {
         message: 'login successful',
         name : user.name,
         email : user.email,
-        tokenPublic
+        tokenPublic,
+        userId: user._id
     });
     
 };
@@ -132,6 +134,29 @@ exports.userSignInCollector = async (req, res) => {
         message: 'login successful',
         name : user.name,
         email : user.email,
-        tokenCollector
+        tokenCollector,
+        userId: user._id
     });
+};
+
+exports.reportUser = async (req, res) => {
+    const { name, number, title, feedback } = req.body;
+    
+    const reportData = new ReportData({
+        name,
+        number,
+        title,
+        feedback,
+    });
+
+    try {
+        await reportData.save();
+        return res.send({status: true, message:'Complaint succesfull'});
+    } catch (error) {
+        return res.json({
+            status: false,
+            message: error.message
+        });
+    }
+    
 };

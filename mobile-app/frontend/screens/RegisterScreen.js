@@ -93,19 +93,12 @@ const RegisterScreen = () => {
             console.log(res.data);
             if (res.data.status) {
               Alert.alert(res.data.message);
-              if (role === 'public') {
-                navigation.navigate('LoginScreen');
-              }
-              else if (role === 'collector') {
-                navigation.navigate('LoginScreen');
-              }
+              navigation.navigate('LoginScreen');
             }
             else {
               Alert.alert(res.data.message, 'Register with another email');
             }
           })
-      
-      // Handle success
       }
     } catch (error) {
       // Handle error
