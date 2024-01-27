@@ -20,10 +20,15 @@ function ScheduleComponent() {
 
   const fetchCollectors = async () => {
     try {
-      const response = await axios.get(
+      const response = await fetch(
         "http://localhost:1337/api/collector-details"
       );
-      setCollectors(response.data);
+      if (response.ok) {
+        const CollectorData = await response.json();
+        setCollectors(CollectorData.collectors);
+      } else {
+        console.error("Failed to fetch collectors:", response.statusText);
+      }
     } catch (error) {
       console.error("Error fetching collectors:", error);
     }

@@ -1,19 +1,43 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:1337");
 
 function Home() {
   const [mqttData, setMqttData] = useState(null);
+  const [totalUsers, setTotalUsers] = useState(null);
+  const [totalBins, setTotalBins] = useState(null);
+  const [totalCollectors, setTotalCollectors] = useState(null);
 
   useEffect(() => {
     socket.on("mqttData", (data) => {
       console.log("Received MQTT data:", data);
       setMqttData(data);
     });
+
+    fetch("http://localhost:1337/api/user-details")
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalUsers(data.totalUsers);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+
+    fetch("http://localhost:1337/api/bins")
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalBins(data.totalBins);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+
+    fetch("http://localhost:1337/api/collector-details")
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalCollectors(data.totalCollectors);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
 
     return () => {
       socket.disconnect();
@@ -45,14 +69,14 @@ function Home() {
         <br />
         <br />
         <div className="row justify-content-center">
-          <div className="col-md-6 box" style={style.box}>
-            Bins: 50
-          </div>
-          <div className="col-md-6 box" style={style.box}>
-            <FontAwesomeIcon icon={faTrash} /> Bins: 50
+          <div className="col-md-4 box" style={style.box}>
+            <FontAwesomeIcon icon={faUsers} /> Users: {totalUsers}
           </div>
           <div className="col-md-4 box" style={style.box}>
-            <FontAwesomeIcon icon={faStar} /> Rating: 4.5
+            <FontAwesomeIcon icon={faTrash} /> Bins: {totalBins}
+          </div>
+          <div className="col-md-4 box" style={style.box}>
+            <FontAwesomeIcon icon={faUsers} /> Collectors: {totalCollectors}
           </div>
         </div>
       </div>

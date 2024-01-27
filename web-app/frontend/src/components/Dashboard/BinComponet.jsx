@@ -1,37 +1,129 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
 
-function BinComponet() {
+const BinComponent = () => {
+  const [binId, setBinId] = useState("");
+  const [area, setArea] = useState("");
+  const [height, setHeight] = useState("");
+  const [bins, setBins] = useState([]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const binData = {
+      binId,
+      area,
+      height,
+    };
+
+    try {
+      const response = await fetch("http://localhost:1337/api/bins", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(binData),
+      });
+
+      if (response.ok) {
+        const newBin = await response.json();
+        setBins([...bins, newBin]);
+      } else {
+        console.error("Failed to create bin:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error creating bin:", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchBins = async () => {
+      try {
+        const response = await fetch("http://localhost:1337/api/bins");
+        if (response.ok) {
+          const binsData = await response.json();
+          setBins(binsData.bin);
+        } else {
+          console.error("Failed to fetch bins:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching bins:", error);
+      }
+    };
+
+    fetchBins();
+  }, []);
+
   return (
-    <div style={style.AddBinContainer}>
-      <button style={style.AddBinButton} className="AddBinButton">
-        + Add a Bin
-      </button>
+    <div className="container">
+      <h2>Create a New Bin</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="binId" className="form-label">
+            Bin ID:
+          </label>
+          <input
+            type="text"
+            id="binId"
+            className="form-control"
+            value={binId}
+            onChange={(e) => setBinId(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="area" className="form-label">
+            Area:
+          </label>
+          <input
+            type="text"
+            id="area"
+            className="form-control"
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="height" className="form-label">
+            Height:
+          </label>
+          <input
+            type="number"
+            id="height"
+            className="form-control"
+            value={height}
+            onChange={(e) => setHeight(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Create Bin
+        </button>
+      </form>
+      <br />
+      <br />
+      <h2>Bin Details</h2>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Bin ID</th>
+            <th>Area</th>
+            <th>Height</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bins.map((bin) => (
+            <tr key={bin._id}>
+              <td>{bin.binId}</td>
+              <td>{bin.area}</td>
+              <td>{bin.height}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
-}
-
-const style = {
-  AddBinContainer: {
-    top: "10px",
-    right: "30px",
-    marginLeft: "30px",
-    marginTop: "30px",
-  },
-
-  AddBinButton: {
-    backgroundColor: "#4caf50",
-    color: "white",
-    padding: "10px 15px",
-    fontSize: "16px",
-    border: "none",
-    cursor: "pointer",
-    transition: "background-color 0.3s",
-    borderRadius: "5px",
-  },
-
-  AddBinButtonHover: {
-    backgroundColor: "#45a049",
-  },
 };
 
-export default BinComponet;
+export default BinComponent;

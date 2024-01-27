@@ -7,6 +7,7 @@ const collectorRoute = require("./routes/collector");
 const userRoute = require("./routes/users");
 require("dotenv").config();
 const feedbackRoute = require("./routes/feedback");
+const binRoutes = require("./routes/bins");
 const authUserRoute = require("./routes/authUser");
 const scheduleRoute = require("./routes/schedule");
 const DB_URL = process.env.DB_URL;
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use("/api", collectorRoute);
 app.use("/api", userRoute);
 app.use("/api", feedbackRoute);
+app.use("/api", binRoutes);
 app.use("/api/user", authUserRoute);
 app.use("/api", scheduleRoute);
 
