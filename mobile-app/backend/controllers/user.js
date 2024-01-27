@@ -4,7 +4,7 @@ const CollectorData = require('../models/collector');
 
 
 exports.createUser = async (req, res) => {
-    const { name, role, mobile, email, password, confirmPassword } = req.body;
+    const { name, role, mobile, email, password } = req.body;
     
     let isNewUser
     let userData;
@@ -21,11 +21,9 @@ exports.createUser = async (req, res) => {
 
         userData = new CollectorData({
             name,
-            role,
             mobile,
             email,
             password,
-            confirmPassword,
             activeAccount
         });
     } else if (role === 'public') {
@@ -37,11 +35,9 @@ exports.createUser = async (req, res) => {
 
         userData = new PublicData({
             name,
-            role,
             mobile,
             email,
             password,
-            confirmPassword
         });
     } else {
         // Handle unsupported roles or provide a default collection
@@ -49,29 +45,90 @@ exports.createUser = async (req, res) => {
     }
 
     await userData.save();
-    return res.send({status: true, message:'Registration Succesfull'});
+
+    const tokenRegister = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    )
+
+    return res.send({status: true, message:'Registration Succesfull', user, tokenRegister});
 };
 
-exports.userSignIn = async (req, res) => {
+exports.userSignInPublic = async (req, res) => {
     const { email, password } = req.body;
     
-    const user = await User.findOne({ email });
-    if (!user)
+    const user = await PublicData.findOne({ email });
+    if (!user) {
         return res.json({
-            success: false,
-            message: 'user not found, with the given email'
+            status: false,
+            message: 'User not found'
         });
+    }; 
     
     const isMatch = await user.comparePassword(password);
-    if (!isMatch)
+    if (!isMatch) {
         return res.json({
-            success: false,
-            message: 'email/password does not match'
+            status: false,
+            message: 'Password does not match'
         });
+    }
     
-    const token = jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
-        
+    const tokenPublic = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+
+    return res.json({
+        status: true,
+        message: 'login successful',
+        user,
+        tokenPublic
+    });
     
-    res.json({ success: true, user, token });
 };
 
+
+exports.userSignInCollector = async (req, res) => {
+    const { email, password } = req.body;
+    
+    const user = await CollectorData.findOne({ email });
+    if (!user) {
+        return res.json({
+            status: false,
+            message: 'User not found'
+        });
+    }  
+    
+    const isMatch = await user.comparePassword(password);
+    if (!isMatch) {
+        return res.json({
+            status: false,
+            message: 'Password does not match'
+        });
+    }
+    
+    const isActive = user.activeAccount;
+
+    if (!isActive) {
+        return res.json({
+            status: false,
+            message: 'Your account is not activated'
+        })
+    }
+    
+
+    const tokenCollector = jwt.sign(
+        { userId: user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+
+    return res.json({
+        status: true,
+        message: 'login successful',
+        user,
+        tokenCollector
+    });
+};

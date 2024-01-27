@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, Pressable, Alert, Keyboard, Dimensions} from "react-native";
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Keyboard, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
 import { AntDesign } from "@expo/vector-icons";
+import client from "../api/client";
 
 const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");
@@ -22,8 +23,7 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
   }
 
     
-  // Login logic to be implemented
-  const handleLogin = () => {
+  const handleLogin = async () => {
     //Validate email
     if (!isValidEmail(email)) {
       return updateError('Invalid Email!', setError);
@@ -31,33 +31,55 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
 
     //Validate password
     if (!password.trim() || password.length < 8) {
-      return updateError('Wrong password!', setError);
+      return updateError('Invalid Password!', setError);
     }
 
-    navigation.navigate("CollectorHomeScreen")
-
+    try {
+      await client
+        .post('/sign-in-collector', {
+          email,
+          password
+        })
+        .then(res => {
+          console.log(res.data);
+          if (res.data.status) {
+            navigation.navigate('CollectorHomeScreen');
+            setEmail("");
+            setPassword("");
+          }
+          else {
+              Alert.alert(res.data.message, 'Sign in again');
+            }
+        })
+      
+    } catch (error) {
+      // Handle error
+      console.error('Error while login:', error.message, error.response);
+    }
   };
   
 
   return (
     <SafeAreaView style={[styles.container, {width: Dimensions.get('window').width}]}>
       <View style={styles.roleIndicator}>
-        <Pressable
-            onPress={onPressPublic}
+        <TouchableOpacity
+          onPress={onPressPublic}
+          activeOpacity={0.7}
             style={[styles.buttonContainer, {backgroundColor: 'white'}, {borderTopLeftRadius: 10}, {borderBottomLeftRadius: 10}]}
           >
             <Text style={[styles.button, {color: 'green'}]}>
               PUBLIC
             </Text>
-        </Pressable>
-        <Pressable
-            onPress={onPressCollector}
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={onPressCollector}
+          activeOpacity={0.7}
             style={[styles.buttonContainer, {backgroundColor: 'green'}, {borderTopRightRadius:10}, {borderBottomRightRadius:10}]}
           >
             <Text style={[styles.button, {color: 'white'}]}>
               COLLECTOR
             </Text>
-        </Pressable>
+        </TouchableOpacity>
         
       </View>
       <View style ={styles.keyboardAvoidingContainer}>        
@@ -105,13 +127,13 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
             <Text style={styles.additionalInfoText}>Forgot Password</Text>
           </View>
 
-          <Pressable onPress={handleLogin} style={styles.loginButton}>
+          <TouchableOpacity activeOpacity={0.7} onPress={handleLogin} style={styles.loginButton}>
             <Text style={styles.loginButtonText}>Login</Text>
-          </Pressable>
+          </TouchableOpacity>
 
-          <Pressable onPress={() => navigation.navigate("RegisterScreen")} style={styles.signupLink}>
+          <TouchableOpacity activeOpacity={0.7} onPress={() => { navigation.navigate("RegisterScreen"), setEmail(""), setPassword("") }} style={styles.signupLink}>
             <Text style={styles.signupLinkText}>Don't have an account? Sign Up</Text>
-          </Pressable>
+          </TouchableOpacity>
         </ScrollView>  
       </View>
     </SafeAreaView>

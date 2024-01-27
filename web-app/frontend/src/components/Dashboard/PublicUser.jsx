@@ -13,7 +13,7 @@ function PublicUser() {
         const response = await axios.get(
           "http://localhost:1337/api/user-details"
         );
-        setUserData(response.data);
+        setUserData(response.data.users);
       } catch (error) {
         console.error("Error fetching data:", error);
       }

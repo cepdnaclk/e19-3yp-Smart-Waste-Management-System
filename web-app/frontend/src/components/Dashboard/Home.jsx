@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:1337/iot/subscribe");
 
 function Home() {
+  const [mqttData, setMqttData] = useState(null);
+  const [totalUsers, setTotalUsers] = useState(null);
+
+  useEffect(() => {
+    socket.on("mqttData", (data) => {
+      console.log("Received MQTT data:", data);
+      setMqttData(data);
+    });
+
+    fetch("http://localhost:1337/api/user-details")
+      .then((response) => response.json())
+      .then((data) => {
+        setTotalUsers(data.totalUsers);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   return (
     <div className="container-fluid">
       <h3 style={style.header}>Overview</h3>
@@ -13,7 +37,7 @@ function Home() {
         <br />
         <div className="row justify-content-center">
           <div className="col-md-4 box" style={style.box}>
-            <FontAwesomeIcon icon={faUsers} /> Users: 100
+            <FontAwesomeIcon icon={faUsers} /> Users: {totalUsers}
           </div>
           <div className="col-md-4 box" style={style.box}>
             <FontAwesomeIcon icon={faTrash} /> Bins: 50
@@ -36,19 +60,27 @@ function Home() {
           >
             <thead>
               <tr>
-                <th>Bin ID</th>
-                <th>Filled Level</th>
+                <th>BinID</th>
+                <th>Filled_Level</th>
                 <th>Temperature</th>
-                <th>Status</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>B001</td>
-                <td>60 %</td>
-                <td>27</td>
-                <td>Open</td>
-              </tr>
+              {mqttData ? (
+                <tr>
+                  <td>{mqttData.binId}</td>
+                  <td>{mqttData.filledLevel}</td>
+                  <td>{mqttData.temperature}</td>
+                  <td>{mqttData.latitude}</td>
+                  <td>{mqttData.longitude}</td>
+                </tr>
+              ) : (
+                <tr>
+                  <td colSpan="5">No data available</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
