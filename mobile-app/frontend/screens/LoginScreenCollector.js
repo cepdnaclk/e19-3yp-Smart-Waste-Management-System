@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, Image, KeyboardAvoidingView, TextInput, TouchableOpacity, Alert, Keyboard, Dimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { MaterialIcons } from "@expo/vector-icons";  // Make sure this import is correct
+import { MaterialIcons } from "@expo/vector-icons";  
 import { AntDesign } from "@expo/vector-icons";
 import client from "../api/client";
 import { AuthContext } from "../context/AuthContext";
