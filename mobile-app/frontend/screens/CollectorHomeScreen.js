@@ -38,10 +38,6 @@ const PublicHomeScreen = ({ navigation }) => {
     navigation.navigate("BinMap");
   };
 
-  const reportIssues = () => {
-    navigation.navigate("ProfileCollector");
-  };
-
 
   return (
     <SafeAreaView style={styles.buttonContainer}>
@@ -63,13 +59,6 @@ const PublicHomeScreen = ({ navigation }) => {
         <Text style={styles.buttonText}>BIN STATUS</Text>
       </TouchableOpacity>
       
-      <TouchableOpacity
-        activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#1b8cb5" }]}
-        onPress={reportIssues}
-      >
-        <Text style={styles.buttonText}>PROFILE DETAILS</Text>
-      </TouchableOpacity>
       <TouchableOpacity
         activeOpacity={0.7}
         style={[styles.button, { backgroundColor: "#d9c10b" }]}
