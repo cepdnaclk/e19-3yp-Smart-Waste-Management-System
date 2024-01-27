@@ -7,6 +7,7 @@ import CollectorHomeScreen from '../screens/CollectorHomeScreen'
 import RegisterScreen from '../screens/RegisterScreen'
 import ReportScreen from '../screens/ReportScreen'
 import BinMap from '../screens/BinMap'
+import Aws from '../screens/Aws'
 import ProfileCollector from '../screens/ProfileCollector'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
@@ -80,6 +81,11 @@ const AppNavigation = () => {
           name="BinMap"
           component={BinMap}
           options={{ headerShown: false }}
+        />
+        <Stack.Screen
+            name="Aws"
+            component={Aws}
+            options={{ headerShown: false }}
         />
         <Stack.Screen
             name="LoginScreen1"
