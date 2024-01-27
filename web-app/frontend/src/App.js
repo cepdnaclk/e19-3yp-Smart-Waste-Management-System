@@ -11,7 +11,7 @@ import Feedback from "./pages/Feedback";
 import Map from "./pages/Map";
 import Schedule from "./pages/Schedule";
 import "./App.css";
-//import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom"; //
 
 const App = () => {
   const { user } = useAuthContext();

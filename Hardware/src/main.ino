@@ -8,24 +8,27 @@
 #include <MQTTClient.h>
 #include <WiFiClientSecure.h>
 #include <TinyGPS++.h>
+#include <HTTPClient.h>
 
 
 WiFiClientSecure net = WiFiClientSecure();
 MQTTClient client = MQTTClient(256);
 TinyGPSPlus gps;
 
-#define AWS_IOT_SUBSCRIBE_TOPIC "thing/3YP-ESP/sub"
-#define AWS_IOT_PUBLISH_TOPIC "thing/3YP-ESP/pub"
+
+#define AWS_IOT_SUBSCRIBE_TOPIC "Bin_001/sub"
+#define AWS_IOT_PUBLISH_TOPIC "Bin_001/pub"
+
 
 //define DHT11 pin
 DHT dht(26, DHT11);
-#define ledPin 13 
+#define ledPin 5
 
 // ultrasonic sensors
 #define echoPin1 23
 #define trigPin1 22
-#define echoPin2 23
-#define trigPin2 22
+#define echoPin2 27
+#define trigPin2 25
 bool isConnected = false;
 #define led1Pin 16
 #define led2Pin 17
@@ -37,24 +40,27 @@ float duration1, distance1, duration2, distance2, temperature;
 float gpsLatitude = 7.253988930424021;
 float gpsLongitude =  80.59166442208883;
 
+unsigned long lastPublishTime = 0;
+const unsigned long publishInterval = 5000; // Publish data every 5 seconds
+
+
 // Define relay and door lock pins
-#define relayPin 5
+#define relayPin 13
+
+
 
 void setup() {
-  Serial.begin(921600);
-  Serial2.begin(9600, SERIAL_8N1, 16, 17);//rx,tx
+  Serial.begin(115200);
+  Serial2.begin(9600, SERIAL_8N1, 14, 15); // rx, tx  
   connectToWifi();
-  //connectTOAws();
-
+  connectTOAws();
+  
   dht.begin();
-  delay(1000);
-
   // ultrasonic sensors
   pinMode(trigPin1, OUTPUT);
   pinMode(echoPin1, INPUT);
   pinMode(trigPin2, OUTPUT);
   pinMode(echoPin2, INPUT);
-  delay(500);
   pinMode(LED_BUILTIN, OUTPUT);
   pinMode(ledPin, OUTPUT); 
   pinMode(led1Pin, OUTPUT);
@@ -64,7 +70,6 @@ void setup() {
 
   // Define relay and door lock pins
   pinMode(relayPin, OUTPUT);
-
 }
 
 void connectTOAws() 
@@ -93,6 +98,8 @@ void connectTOAws()
 
 void loop() {
 
+  //GPS
+  readGPSData();
   //dh11
   temperature = dht.readTemperature();
   //humidity and temperature
@@ -101,6 +108,7 @@ void loop() {
     Serial.println(F("Failed to read from DHT sensor!"));
     return;
   }
+  // Display the temperature in Serial Monitor
   Serial.print("Temperature: ");
   Serial.print(temperature);
   Serial.println(" *C");
@@ -131,7 +139,7 @@ void loop() {
   duration2 = pulseIn(echoPin2, HIGH);
   distance2 = duration2 / 58.2;
 
-  // Averaging the distance readings
+  //Averaging the distance readings
   float averageDistance = (distance1 + distance2) / 2;
 
   // Displaying the distance
@@ -150,19 +158,19 @@ void loop() {
   Serial.println("longitude: ");
   Serial.println(gpsLongitude,6);
   // Update garbage level LEDs based on distance
-  if (averageDistance <= 5 ){
+  if (averageDistance <= 10 ){
     digitalWrite(led1Pin, HIGH);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
-    digitalWrite(relayPin, LOW);
-  } else if (averageDistance <= 10) {
+    digitalWrite(relayPin,LOW);
+  } else if (averageDistance <= 20) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, HIGH);
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, HIGH);
-  } else if (averageDistance <= 15) {
+  } else if (averageDistance <= 35) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, HIGH);
@@ -177,9 +185,8 @@ void loop() {
   }
 
   sendStatsTOAWS();
-  sendRelayStatusToAWS(); // Publish relay pin status to AWS IoT Core
   client.loop();
-  delay(1000);
+  delay(500);
 }
 
 void readGPSData()
@@ -203,25 +210,17 @@ void readGPSData()
 
 void sendStatsTOAWS()
 {
-  StaticJsonDocument<200> doc;
-  doc["Bin Temparature"] = temperature;
-  doc["Bin Level"] = (distance1 + distance2) / 2;
+  StaticJsonDocument<128> doc;
+  doc["temperature"] = temperature;
+  doc["averageDistance"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
   doc["longitude"] = gpsLongitude;
 
-  char jsonBuffer[512];
+  char jsonBuffer[256];
   serializeJson(doc, jsonBuffer);
-  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
-}
-
-void sendRelayStatusToAWS()
-{
-  StaticJsonDocument<100> doc;
-  doc["relayStatus"] = digitalRead(relayPin);
-
-  char jsonBuffer[128];
-  serializeJson(doc, jsonBuffer);
-  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+  if (client.connected()) { // Check if client is connected
+      client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
+  }
 }
 
 void connectToWifi() 
@@ -235,6 +234,6 @@ void connectToWifi()
     delay(500);
     Serial.print(".");
   }
-
   Serial.println("Connected to the WiFi network");
 }
+
