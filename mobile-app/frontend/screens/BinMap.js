@@ -37,7 +37,7 @@ const BinMap = ({ navigation }) => {
     ])
 
     const handleNavigation = () => {
-        navigation.navigate("PublicHomeScreen")
+        navigation.goBack();
     }
 
     return(
