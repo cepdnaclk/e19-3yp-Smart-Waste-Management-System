@@ -7,15 +7,19 @@ function Collector() {
   const [collectorData, setCollectorData] = useState([]);
 
   useEffect(() => {
-    // Fetch data from MongoDB here
     const fetchData = async () => {
       try {
-        const response = await axios.get(
+        const response = await fetch(
           "http://localhost:1337/api/collector-details"
         );
-        setCollectorData(response.data);
+        if (response.ok) {
+          const CollectorData = await response.json();
+          setCollectorData(CollectorData.collectors);
+        } else {
+          console.error("Failed to fetch collectors:", response.statusText);
+        }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching collectors:", error);
       }
     };
 
