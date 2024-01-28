@@ -10,7 +10,7 @@ function Collector() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "http://localhost:1337/api/collector-details"
+          "http://52.74.74.48:1337/api/collector-details"
         );
         if (response.ok) {
           const CollectorData = await response.json();
@@ -29,7 +29,7 @@ function Collector() {
   const handleDelete = async (id) => {
     try {
       // Send a request to delete the collector with the specified ID
-      await axios.delete(`http://localhost:1337/api/collector-details/${id}`);
+      await axios.delete(`http://52.74.74.48:1337/api/collector-details/${id}`);
 
       // Update the state to remove the deleted collector
       setCollectorData((prevData) =>
@@ -42,17 +42,19 @@ function Collector() {
 
   const handleUpdateStatus = async (id, currentStatus) => {
     try {
-      const newStatus = currentStatus === "Active" ? "Not Active" : "Active";
+      const newStatus = currentStatus === true ? false : true;
 
       // Send a request to update the collector status
-      await axios.put(`http://localhost:1337/api/collector-details/${id}`, {
-        status: newStatus,
+      await axios.put(`http://52.74.74.48:1337/api/collector-details/${id}`, {
+        activeAccount: newStatus,
       });
 
       // Update the state to reflect the updated status
       setCollectorData((prevData) =>
         prevData.map((collector) =>
-          collector._id === id ? { ...collector, status: newStatus } : collector
+          collector._id === id
+            ? { ...collector, activeAccount: newStatus }
+            : collector
         )
       );
     } catch (error) {
@@ -72,7 +74,7 @@ function Collector() {
           <tr>
             <th style={style.label}>Collector Name</th>
             <th style={style.label}>E-mail</th>
-            <th style={style.label}>Status</th>
+            <th style={style.label}>Account status</th>
             <th style={style.label}>Actions</th>
             <th style={style.label}>Actions</th>
           </tr>
@@ -82,12 +84,13 @@ function Collector() {
             <tr key={collector._id}>
               <td>{collector.name}</td>
               <td>{collector.email}</td>
-              <td>{collector.status}</td>
+              <td>{collector.activeAccount ? "Active" : "Not Active"}</td>{" "}
+              {/* Update this line */}
               <td>
                 <button
                   className="btn btn-primary"
                   onClick={() =>
-                    handleUpdateStatus(collector._id, collector.status)
+                    handleUpdateStatus(collector._id, collector.activeAccount)
                   }
                 >
                   Active/Not Active

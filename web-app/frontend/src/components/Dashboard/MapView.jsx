@@ -1,5 +1,10 @@
-import React from "react";
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import React, { useState } from "react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 
 const libraries = ["places"];
 const mapContainerStyle = {
@@ -8,8 +13,13 @@ const mapContainerStyle = {
 };
 
 const center = {
-  lat: 7.2905715,
-  lng: 80.6337262,
+  lat: 7.2538,
+  lng: 80.5916,
+};
+
+const specificLocation = {
+  lat: 7.2538,
+  lng: 80.5916,
 };
 
 const MapView = () => {
@@ -17,6 +27,8 @@ const MapView = () => {
     googleMapsApiKey: "AIzaSyDfO-cbObfcLzAwzjpI9qZG-w_aDHmJ5Dk",
     libraries,
   });
+
+  const [showInfo, setShowInfo] = useState(false);
 
   if (loadError) {
     return <div>Error loading maps</div>;
@@ -30,10 +42,21 @@ const MapView = () => {
     <div style={{ width: "100%", height: "100vh" }}>
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={10}
+        zoom={12}
         center={center}
       >
-        <Marker position={center} />
+        <Marker position={specificLocation} onClick={() => setShowInfo(true)} />
+        {showInfo && (
+          <InfoWindow
+            position={specificLocation}
+            onCloseClick={() => setShowInfo(false)}
+          >
+            <div>
+              <h3>Bin_001</h3>
+              <p>Description: Add your description here</p>
+            </div>
+          </InfoWindow>
+        )}
       </GoogleMap>
     </div>
   );

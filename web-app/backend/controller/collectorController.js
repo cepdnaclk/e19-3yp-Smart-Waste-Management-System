@@ -37,7 +37,7 @@ const deleteCollector = async (req, res) => {
 
 const updateCollectorStatus = async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { activeAccount } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Invalid ID." });
@@ -46,7 +46,7 @@ const updateCollectorStatus = async (req, res) => {
   try {
     const collector = await Collector.findByIdAndUpdate(
       id,
-      { status },
+      { activeAccount },
       { new: true }
     );
 

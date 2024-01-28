@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 
-const socket = io("http://localhost:1337");
+const socket = io("http://52.74.74.48:1337");
 const height = 50;
 
 function Home() {
@@ -19,21 +19,21 @@ function Home() {
       setMqttData(data);
     });
 
-    fetch("http://localhost:1337/api/user-details")
+    fetch("http://52.74.74.48:1337/api/user-details")
       .then((response) => response.json())
       .then((data) => {
         setTotalUsers(data.totalUsers);
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    fetch("http://localhost:1337/api/bins")
+    fetch("http://52.74.74.48:1337/api/bins")
       .then((response) => response.json())
       .then((data) => {
         setTotalBins(data.totalBins);
       })
       .catch((error) => console.error("Error fetching data:", error));
 
-    fetch("http://localhost:1337/api/collector-details")
+    fetch("http://52.74.74.48:1337/api/collector-details")
       .then((response) => response.json())
       .then((data) => {
         setTotalCollectors(data.totalCollectors);
@@ -51,7 +51,7 @@ function Home() {
 
   const fetchMqttData = async () => {
     try {
-      const response = await fetch("http://localhost:1337/iot/subscribe");
+      const response = await fetch("http://52.74.74.48:1337/iot/subscribe");
       if (!response.ok) {
         throw new Error("Failed to fetch MQTT data");
       }
@@ -104,7 +104,9 @@ function Home() {
               {mqttData ? (
                 <tr>
                   <td>{mqttData.binId}</td>
-                  <td>{(mqttData.filledLevel / height) * 100} %</td>
+                  <td>
+                    {((mqttData.filledLevel / height) * 100).toFixed(2)} %
+                  </td>
                   <td>{mqttData.temperature}</td>
                   <td>{mqttData.latitude}</td>
                   <td>{mqttData.longitude}</td>
