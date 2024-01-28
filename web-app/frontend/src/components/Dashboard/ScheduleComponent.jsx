@@ -10,18 +10,18 @@ function ScheduleComponent() {
   const [selectedCollector, setSelectedCollector] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
   const [schedule, setSchedule] = useState(null);
+  const [mqttData, setMqttData] = useState(null);
 
   useEffect(() => {
-    // Fetch collectors when the component mounts
     fetchCollectors();
-    // Fetch schedule when the component mounts
     fetchSchedule();
+    fetchMqttData(); // Fetch MQTT data on component mount
   }, []);
 
   const fetchCollectors = async () => {
     try {
       const response = await fetch(
-        "http://localhost:1337/api/collector-details"
+        "http://52.74.74.48:1337/api/collector-details"
       );
       if (response.ok) {
         const CollectorData = await response.json();
@@ -37,7 +37,7 @@ function ScheduleComponent() {
   const fetchSchedule = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:1337/api/scheduleCollection"
+        "http://52.74.74.48:1337/api/scheduleCollection"
       );
       setSchedule(response.data);
     } catch (error) {
@@ -45,23 +45,49 @@ function ScheduleComponent() {
     }
   };
 
-  const handleScheduleTrip = async () => {
+  const fetchMqttData = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:1337/api/scheduleCollection",
-        {
-          location,
-          workingHours,
-          collectorID: selectedCollector,
-        }
-      );
-
-      setResponseMessage(response.data.message);
-
-      // Fetch the updated schedule after scheduling the trip
-      fetchSchedule();
+      const response = await fetch("http://52.74.74.48:1337/iot/subscribe");
+      if (!response.ok) {
+        throw new Error("Failed to fetch MQTT data");
+      }
+      const data = await response.json();
+      setMqttData(data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching MQTT data:", error);
+    }
+  };
+
+  const handleScheduleTrip = async () => {
+    // Check if all required fields are filled
+    if (
+      !location ||
+      !workingHours.start ||
+      !workingHours.end ||
+      !selectedCollector
+    ) {
+      setResponseMessage("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      // Check if mqttData exists and filledLevel is higher than 30
+      if (mqttData && mqttData.filledLevel > 30) {
+        const response = await axios.post(
+          "http://52.74.74.48:1337/api/scheduleCollection",
+          {
+            location,
+            workingHours,
+            collectorID: selectedCollector,
+          }
+        );
+        setResponseMessage(response.data.message);
+        fetchSchedule(); // Fetch the updated schedule after scheduling the trip
+      } else {
+        setResponseMessage("Cannot schedule: Bins are not filled.");
+      }
+    } catch (error) {
+      console.error("Error scheduling collection trip:", error);
       setResponseMessage("Error scheduling collection trip.");
     }
   };
