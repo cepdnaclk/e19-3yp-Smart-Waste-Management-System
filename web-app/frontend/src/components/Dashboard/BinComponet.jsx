@@ -17,7 +17,7 @@ const BinComponent = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:1337/api/bins", {
+      const response = await fetch("http://52.74.74.48:1337/api/bins", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const BinComponent = () => {
   useEffect(() => {
     const fetchBins = async () => {
       try {
-        const response = await fetch("http://localhost:1337/api/bins");
+        const response = await fetch("http://52.74.74.48:1337/api/bins");
         if (response.ok) {
           const binsData = await response.json();
           setBins(binsData.bin);
