@@ -5,6 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import client from "../api/client";
 import { AuthContext } from "../context/AuthContext";
+import axios from 'axios';
 
 const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) => {
   const [email, setEmail] = useState("");

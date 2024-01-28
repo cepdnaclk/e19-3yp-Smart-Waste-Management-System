@@ -1,39 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import axios from 'axios'; 
+// Notification.js
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import Aws from './Aws'; // Assuming both files are in the same directory
 
-const Aws = () => {
+const Notification = () => {
   const [data, setData] = useState(null);
+  const [warnings, setWarnings] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://192.168.182.130:8000/iot/subscribe');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
-
-    // // Clean up function to clear the interval when component unmounts
-    // return () => clearInterval(interval);
+    // Fetch data from the Aws component
+    // You can modify the logic based on your actual data structure
+    setData({
+      binId: 'ExampleBin',
+      filledLevel: 95, // Assuming the filledLevel is a percentage
+      temperature: 65, // Assuming the temperature is in degrees
+      latitude: 0,
+      longitude: 0,
+    });
   }, []);
+
+  useEffect(() => {
+    // Check conditions for displaying warning messages
+    if (data && data.filledLevel > 90) {
+      showBinLevelWarning();
+    }
+
+    if (data && data.temperature > 60) {
+      showTemperatureWarning();
+    }
+  }, [data]);
+
+  const showBinLevelWarning = () => {
+    const timestamp = new Date().toLocaleString();
+    const warningMessage = `Bin level is greater than 90%. (${timestamp})`;
+
+    setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
+  };
+
+  const showTemperatureWarning = () => {
+    const timestamp = new Date().toLocaleString();
+    const warningMessage = `Temperature is greater than 60 degrees. (${timestamp})`;
+
+    setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
+  };
 
   return (
     <View style={styles.container}>
-      {data ? (
-        <View>
-          <Text>Bin ID: {data.binId}</Text>
-          <Text>Filled Level: {data.filledLevel}</Text>
-          <Text>Temperature: {data.temperature}</Text>
-          <Text>Latitude: {data.latitude}</Text>
-          <Text>Longitude: {data.longitude}</Text>
-        </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
+      <Aws setData={setData} /> {/* Pass setData function as a prop to update data */}
+      <ScrollView>
+        {warnings.map((warning, index) => (
+          <Text key={index} style={styles.warningText}>
+            {warning}
+          </Text>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -44,6 +64,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  warningText: {
+    marginVertical: 5,
+    fontSize: 16,
+    color: 'red',
+  },
 });
 
-export default Aws;
+export default Notification;
