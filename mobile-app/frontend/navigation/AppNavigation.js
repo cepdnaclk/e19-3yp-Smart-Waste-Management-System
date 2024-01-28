@@ -9,6 +9,7 @@ import ReportScreen from '../screens/ReportScreen'
 import BinMap from '../screens/BinMap'
 import Aws from '../screens/Aws'
 import ProfileCollector from '../screens/ProfileCollector'
+import PublicDetails from '../screens/PublicDetails'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthContext } from '../context/AuthContext'
@@ -100,6 +101,11 @@ const AppNavigation = () => {
         <Stack.Screen
           name="CollectorHomeScreen1"
           component={CollectorHomeScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PublicDetails"
+          component={PublicDetails}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

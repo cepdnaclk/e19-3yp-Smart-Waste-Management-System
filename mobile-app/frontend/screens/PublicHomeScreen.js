@@ -3,12 +3,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler, Alert } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Entypo, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo, Octicons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 
 const PublicHomeScreen = ({ navigation }) => {
 
   const { logoutPublic } = useContext(AuthContext);
-
   const [storedName, setStoredName] = useState('');
 
   useEffect(() => {
@@ -16,11 +15,8 @@ const PublicHomeScreen = ({ navigation }) => {
       const name = await AsyncStorage.getItem('name');
       setStoredName(name || '');
     };
-    
-
     fetchUserName();
   }, []);
-
 
 
   const exitApp = async () => {
@@ -45,7 +41,7 @@ const PublicHomeScreen = ({ navigation }) => {
 
 
   return (
-    <SafeAreaView style={styles.buttonContainer}>
+    <SafeAreaView style={styles.Container}>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>Welcome Back</Text>
         <Text style={styles.name}> {storedName.toUpperCase()+'!'} </Text>
@@ -98,6 +94,17 @@ const PublicHomeScreen = ({ navigation }) => {
           <MaterialCommunityIcons name="logout" size={50} color="white" />
         </View>
       </TouchableOpacity>
+      <View style={styles.footerContainer}>
+        <TouchableOpacity style={styles.footerItems} onPress={() => navigation.navigate('PublicDetails')}>
+          <MaterialCommunityIcons name="account" size={40} color="#105716"/>
+          <Text style={{fontSize:13, color:'green'}}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.footerItems}>
+          <Ionicons name="notifications" size={30} color="#105716"/>
+          <Text style={{fontSize:13, color:'green'}}>Notifications</Text>
+        </TouchableOpacity>
+        
+      </View>
     </SafeAreaView>
     
   );
@@ -107,7 +114,7 @@ export default PublicHomeScreen;
 
 const styles = StyleSheet.create({
   
-  buttonContainer: {
+  Container: {
     justifyContent: "center",
     alignItems: "center",
   },
@@ -142,9 +149,9 @@ const styles = StyleSheet.create({
     alignContent:'center',
     padding: 15,
     width: "90%",
-    height:120,
+    height:110,
     borderRadius: 20,
-    margin: 5,
+    margin: 3,
     elevation: 5,
     shadowOffset: {
         width: 100,
@@ -165,7 +172,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent:'space-between'
   },
-  icon: {
+  footerContainer: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems:'center',
+    justifyContent: 'space-around',
+    marginTop: 20,
+    width: "90%",
+    height:40
   
+  },
+
+  footerItems: {
+    alignContent: 'center',
+    alignItems:'center'
   }
 });
