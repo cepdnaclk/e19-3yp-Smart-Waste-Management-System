@@ -48,7 +48,7 @@ body {
 #sidebar {
   grid-area: sidebar;
   height: 100%;
-  background-color: #206027;
+  background-color: #25742f;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -80,16 +80,17 @@ body {
 .sidebar-list-item {
   padding: 20px 20px 20px 20px;
   font-size: 18px;
+  color: rgb(255, 255, 255);
 }
 
 .sidebar-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(48, 38, 38, 0.2);
   cursor: pointer;
 }
 
 .sidebar-list-item > a {
   text-decoration: none;
-  color: #9e9ea4;
+  color: #000000;
 }
 
 .sidebar-responsive {
@@ -101,5 +102,9 @@ body {
     on small screens
   */
   z-index: 12 !important;
+}
+
+.sidebar-brand {
+  color: rgb(146, 146, 141);
 }
 /* Sidebar css End */
