@@ -15,10 +15,10 @@ const Aws = () => {
       }
     };
 
-    // const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
 
-    // // Clean up function to clear the interval when component unmounts
-    // return () => clearInterval(interval);
+    // Clean up function to clear the interval when the component unmounts
+    return () => clearInterval(interval);
   }, []);
 
   return (
