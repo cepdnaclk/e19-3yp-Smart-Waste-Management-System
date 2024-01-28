@@ -10,13 +10,14 @@ export const AuthProvider = ({ children }) => {
     const [collectorUserToken, setCollectorUserToken] = useState(null);
 
 
-    const loginPublic = async (token, name, email) => {
+    const loginPublic = async (token, name, email, mobile) => {
         setIsLoading(true);
         setPublicUserToken(token);
 
         await AsyncStorage.setItem('publicUserToken', token);
         await AsyncStorage.setItem('name', name);
         await AsyncStorage.setItem('email', email);
+        await AsyncStorage.setItem('mobile', mobile);
 
         setIsLoading(false);
     };
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }) => {
         await AsyncStorage.removeItem('publicUserToken');
         await AsyncStorage.removeItem('name');
         await AsyncStorage.removeItem('email');
+        await AsyncStorage.removeItem('mobile');
         
         setIsLoading(false);
     };

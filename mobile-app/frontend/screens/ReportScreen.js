@@ -136,7 +136,7 @@ const ReportScreen = ({ navigation }) => {
                   style={styles.input}
                   onChangeText={(text) => changeName(text)}
                   value={name}
-                  placeholder="Ex: Appuhamy"
+                  placeholder="Ex: Perera"
                   selectionColor={"green"}
                   textAlignVertical="top"
                 />
@@ -148,7 +148,7 @@ const ReportScreen = ({ navigation }) => {
                   style={styles.input}
                   onChangeText={(text) => changeNumber(text)}
                   value={number}
-                  placeholder="Ex: 07X 1234567"
+                  placeholder="Ex: 0781234567"
                   selectionColor={"green"}
                   textAlignVertical="top"
                   keyboardType="numeric"
@@ -202,7 +202,6 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   icon: {
-    flex: 1,
     alignSelf: 'flex-start',
     paddingLeft: 10,
     paddingTop:20
