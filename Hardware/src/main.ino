@@ -16,8 +16,8 @@ MQTTClient client = MQTTClient(256);
 TinyGPSPlus gps;
 
 
-#define AWS_IOT_SUBSCRIBE_TOPIC "Bin_001/sub"
-#define AWS_IOT_PUBLISH_TOPIC "Bin_001/pub"
+#define AWS_IOT_SUBSCRIBE_TOPIC "3yp/Area001/Bin_001"
+#define AWS_IOT_PUBLISH_TOPIC "3yp/Area001/Bin_001"
 
 
 //define DHT11 pin
@@ -39,6 +39,7 @@ bool isConnected = false;
 float duration1, distance1, duration2, distance2, temperature;
 float gpsLatitude = 7.253988930424021;
 float gpsLongitude =  80.59166442208883;
+String binid = "Bin_001";
 
 unsigned long lastPublishTime = 0;
 const unsigned long publishInterval = 5000; // Publish data every 5 seconds
@@ -211,8 +212,9 @@ void readGPSData()
 void sendStatsTOAWS()
 {
   StaticJsonDocument<128> doc;
+  doc["binId"] = binid;
+  doc["filledLevel"] = (distance1 + distance2) / 2;
   doc["temperature"] = temperature;
-  doc["averageDistance"] = (distance1 + distance2) / 2;
   doc["latitude"] = gpsLatitude;
   doc["longitude"] = gpsLongitude;
 
