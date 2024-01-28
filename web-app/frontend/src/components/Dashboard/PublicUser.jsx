@@ -11,7 +11,7 @@ function PublicUser() {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://52.74.74.48:1337/api/user-details"
+          "http://localhost:1337/api/user-details"
         );
         setUserData(response.data.users);
       } catch (error) {
@@ -25,7 +25,7 @@ function PublicUser() {
   const handleDelete = async (id) => {
     try {
       // Send a request to delete the users with the specified ID
-      await axios.delete(`http://52.74.74.48:1337/api/user-details/${id}`);
+      await axios.delete(`http://localhost:1337/api/user-details/${id}`);
 
       // Update the state to remove the deleted users
       setUserData((prevData) => prevData.filter((users) => users._id !== id));

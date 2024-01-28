@@ -256,6 +256,7 @@ const RegisterScreen = () => {
                 
               >
                 <Text style={styles.loginLinkText}>
+                  
                   Already have an account? Login
                 </Text>
               </TouchableOpacity>

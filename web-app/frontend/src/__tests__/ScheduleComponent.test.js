@@ -21,13 +21,13 @@ const sampleSchedule = [
 
 // Mocking the API responses
 mockAxios
-  .onGet("http://52.74.74.48:1337/api/collector-details")
+  .onGet("http://localhost:1337/api/collector-details")
   .reply(200, sampleCollectors);
 mockAxios
-  .onGet("http://52.74.74.48:1337/api/scheduleCollection")
+  .onGet("http://localhost:1337/api/scheduleCollection")
   .reply(200, sampleSchedule);
 mockAxios
-  .onPost("http://52.74.74.48:1337/api/scheduleCollection")
+  .onPost("http://localhost:1337/api/scheduleCollection")
   .reply(200, { message: "Schedule generated successfully." });
 
 test("renders ScheduleComponent and handles schedule generation", async () => {

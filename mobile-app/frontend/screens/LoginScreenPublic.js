@@ -48,7 +48,7 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
           if (res.data.status) {
             navigation.navigate('PublicHomeScreen1');
             
-            loginPublic(res.data.tokenPublic, res.data.name, res.data.email);
+            loginPublic(res.data.tokenPublic, res.data.name, res.data.email, res.data.mobile);
             setEmail("");
             setPassword("");
           }
