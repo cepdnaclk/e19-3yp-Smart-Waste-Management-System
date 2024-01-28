@@ -64,23 +64,28 @@ const RegisterScreen = () => {
   const isValidForm = ({ name, mobile, email, password, confirmPassword }) => {
     //Validate name
     if (!name.trim() || name.length < 5) {
+      setIsLoading(false);
       return updateError('Name should contain atleast 5 letters!', setError);
     }
     //Validate mobile number
     if (!isValidNumber(mobile.trim())) {
+      setIsLoading(false);
       return updateError('Invalid mobile number!', setError);
     }
 
     //Validate email
     if (!isValidEmail(email)) {
+      setIsLoading(false);
       return updateError('Invalid Email!', setError);
     }
 
     //Validate password
     if (!password.trim() || password.length < 8) {
+      setIsLoading(false);
       return updateError('Password should contain atleast 8 letters!', setError);
     }
     if (password != confirmPassword) {
+      setIsLoading(false);
       return updateError('Password does not match', setError);
     }
 
