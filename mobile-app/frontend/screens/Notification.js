@@ -1,34 +1,39 @@
-// Notification.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
-import Aws from './Aws'; // Assuming both files are in the same directory
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import Aws from './Aws';
 
-const Notification = () => {
-  const [data, setData] = useState(null);
+const Notification = ({ navigation }) => {
   const [warnings, setWarnings] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the Aws component
-    // You can modify the logic based on your actual data structure
-    setData({
-      binId: 'ExampleBin',
-      filledLevel: 95, // Assuming the filledLevel is a percentage
-      temperature: 65, // Assuming the temperature is in degrees
-      latitude: 0,
-      longitude: 0,
-    });
+    const fetchData = async () => {
+      try {
+        // Assuming Aws component has a state variable named 'data'
+        const newData = Aws.data;
+
+        if (newData) {
+          // Check conditions for displaying warning messages
+          if (newData.filledLevel > 90) {
+            showBinLevelWarning();
+          }
+
+          if (newData.temperature > 60) {
+            showTemperatureWarning();
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); // Call the fetchData function
+
+    // Set an interval to fetch data every 5 seconds
+    const interval = setInterval(fetchData, 5000);
+
+    // Clean up function to clear the interval when component unmounts
+    return () => clearInterval(interval);
   }, []);
-
-  useEffect(() => {
-    // Check conditions for displaying warning messages
-    if (data && data.filledLevel > 90) {
-      showBinLevelWarning();
-    }
-
-    if (data && data.temperature > 60) {
-      showTemperatureWarning();
-    }
-  }, [data]);
 
   const showBinLevelWarning = () => {
     const timestamp = new Date().toLocaleString();
@@ -46,14 +51,21 @@ const Notification = () => {
 
   return (
     <View style={styles.container}>
-      <Aws setData={setData} /> {/* Pass setData function as a prop to update data */}
-      <ScrollView>
-        {warnings.map((warning, index) => (
-          <Text key={index} style={styles.warningText}>
-            {warning}
-          </Text>
-        ))}
-      </ScrollView>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Text style={styles.backButtonText}>{'< Back'}</Text>
+      </TouchableOpacity>
+      <View style={styles.squareArea}>
+        <ScrollView>
+          {warnings.map((warning, index) => (
+            <Text key={index} style={styles.warningText}>
+              {warning}
+            </Text>
+          ))}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -61,8 +73,32 @@ const Notification = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    padding: 20,
+  },
+  squareArea: {
+    width: '100%',
+    height: '90%', // Capture the screen height
+    borderColor: 'rgba(0, 0, 0, 0.5)', // Slightly transparent border color
+    borderWidth: 2,
+    borderRadius: 10,
+    padding: 10,
+    margin: 'auto', // Center the square area
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent white background
+    marginTop: 80, // Adjusted marginTop to create space below the button
+  },
+  backButton: {
+    position: 'absolute',
+    top: 40,
+    left: 20,
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 5,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: 'white',
   },
   warningText: {
     marginVertical: 5,
