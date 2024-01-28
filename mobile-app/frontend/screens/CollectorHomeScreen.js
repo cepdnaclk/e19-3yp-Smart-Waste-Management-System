@@ -39,7 +39,7 @@ const PublicHomeScreen = ({ navigation }) => {
   };
 
   const viewWarning = () => {
-    navigation.navigate("BinMap");
+    navigation.navigate("Notification");
   };
 
   return (
@@ -56,7 +56,7 @@ const PublicHomeScreen = ({ navigation }) => {
       </View>
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#1bb56b" }]}
+        style={[styles.button, { backgroundColor: "#2E8B57" }]}
         onPress={viewMap}
       >
         <View style={styles.buttonItems}>
@@ -70,21 +70,21 @@ const PublicHomeScreen = ({ navigation }) => {
 
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#1bb56b" }]}
+        style={[styles.button, { backgroundColor: "#228B22" }]}
         onPress={viewWarning}
       >
         <View style={styles.buttonItems}>
           <View>
-            <Text style={styles.buttonText}>Get Updates</Text>
-            <Text style={{color:'white'}}>View bin locations, filled levels and temperature</Text>
+            <Text style={styles.buttonText}>Get Warnings</Text>
+            <Text style={{color:'white'}}>You will get the warning notifications here when there are any</Text>
           </View>
-          <Entypo name="location" size={40} color="white" style={styles.icon} />
+          <Entypo name="notification" size={40} color="white" style={styles.icon} />
         </View>
       </TouchableOpacity>
         
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#a660d1" }]}
+        style={[styles.button, { backgroundColor: "#556B2F" }]}
         onPress={ exitApp }
       >
         <View style={styles.buttonItems}>
