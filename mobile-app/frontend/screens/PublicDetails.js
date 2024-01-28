@@ -30,19 +30,19 @@ const PublicDetails = ({ navigation }) => {
         }
     };
 
-    const saveUserDetails = async () => {
-        try {
-            // Save updated user details to AsyncStorage
-            await AsyncStorage.setItem('name', name);
-            await AsyncStorage.setItem('mobile', mobile);
-            await AsyncStorage.setItem('email', email);
+    // const saveUserDetails = async () => {
+    //     try {
+    //         // Save updated user details to AsyncStorage
+    //         await AsyncStorage.setItem('name', name);
+    //         await AsyncStorage.setItem('mobile', mobile);
+    //         await AsyncStorage.setItem('email', email);
 
-            // Navigate back to the previous screen
-            navigation.goBack();
-        } catch (error) {
-            console.error('Error saving user details:', error.message);
-        }
-    };
+    //         // Navigate back to the previous screen
+    //         navigation.goBack();
+    //     } catch (error) {
+    //         console.error('Error saving user details:', error.message);
+    //     }
+    // };
 
     return (
         <SafeAreaView style={styles.container}>
