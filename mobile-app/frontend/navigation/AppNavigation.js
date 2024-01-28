@@ -8,7 +8,7 @@ import RegisterScreen from '../screens/RegisterScreen'
 import ReportScreen from '../screens/ReportScreen'
 import BinMap from '../screens/BinMap'
 import Aws from '../screens/Aws'
-import ProfileCollector from '../screens/ProfileCollector'
+import Notification from '../screens/Notification'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { AuthContext } from '../context/AuthContext'
@@ -68,8 +68,8 @@ const AppNavigation = () => {
         />
         
         <Stack.Screen
-          name="ProfileCollector"
-          component={ProfileCollector}
+          name="Notification"
+          component={Notification}
           options={{ headerShown: false }}
         />
         <Stack.Screen
