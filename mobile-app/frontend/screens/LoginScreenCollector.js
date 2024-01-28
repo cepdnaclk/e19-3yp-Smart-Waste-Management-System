@@ -48,6 +48,7 @@ const LoginScreenCollector = ({ navigation, onPressPublic, onPressCollector }) =
         .then(res => {
           //console.log(res.data);
           if (res.data.status) {
+            console.log(res.data);
             navigation.navigate('CollectorHomeScreen1');
             loginCollector(res.data.tokenCollector, res.data.name, res.data.email);
             setEmail("");

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from 'react-native-vector-icons';
@@ -19,6 +19,7 @@ const BinMap = ({ navigation }) => {
                 setData(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                Alert.alert('Error in getting data', 'The reason may be connectivity issues');
             }
         };
 
@@ -40,15 +41,15 @@ const BinMap = ({ navigation }) => {
     return (
         <SafeAreaView>
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => { navigation.navigate('PublicHomeScreen'); }} style={styles.icon} >
+                <TouchableOpacity onPress={() => { navigation.goBack() }} style={styles.icon} >
                     <AntDesign name="left" size={30} color="green" />
                 </TouchableOpacity>
                 <Text style={styles.headingText}>Tap markers to view bin details</Text>
             </View>
-            
+
 
             <View style={styles.container}>
-                
+
                 <View style={styles.mapContainer}>
                     <MapView
                         provider={PROVIDER_GOOGLE}
@@ -59,21 +60,21 @@ const BinMap = ({ navigation }) => {
                             latitudeDelta: 0.1,
                             longitudeDelta: 0.1
                         }}>
-                        {markersList.map(marker => {
-                            return (
-                                <Marker
-                                    key={marker.id}
-                                    coordinate={{
-                                        latitude: marker.latitude,
-                                        longitude: marker.longitude
-                                    }}
-                                    title={"Bin" + marker.id}
-                                    description={'Temperature:' + marker.temperature + 'C'}
-                                />
-                            )
-                        })
+                        {markersList.map((marker) => (
+                            
+                            <Marker
+                                key={marker.id}
+                                coordinate={{
+                                    latitude: marker.latitude,
+                                    longitude: marker.longitude
+                                }}
+                                title={"Filled Level = " + Math.floor(100 * (38 - marker.level + 3.1) / 38)+"%"}
+                                description={"Temperature = " + marker.temperature+ ' C'}
+                                onPress={() => Alert.alert('Bin ID : ' + marker.id, 'Bin Filled Level: ' + Math.floor(100 * (38 - marker.level + 3.1) / 38) + '%\nBin Temperature : ' + marker.temperature+' C')}
+                            />
+                            
+                        ))}
 
-                        }
                     </MapView>
                 </View>
             </View>
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: '#105716',
         fontWeight: '500',
-        marginLeft:20
+        marginLeft: 20
     },
     container: {
         flexDirection: 'column',
@@ -114,6 +115,6 @@ const styles = StyleSheet.create({
     map: {
         ...StyleSheet.absoluteFillObject,
     },
-    
-    
+
+
 })

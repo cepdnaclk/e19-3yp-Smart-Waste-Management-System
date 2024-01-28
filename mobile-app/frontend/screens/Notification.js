@@ -13,11 +13,11 @@ const Notification = ({ navigation }) => {
 
         if (newData) {
           // Check conditions for displaying warning messages
-          if (newData.filledLevel > 90) {
+          if (newData.filledLevel > 75) {
             showBinLevelWarning();
           }
 
-          if (newData.temperature > 60) {
+          if (newData.temperature > 30) {
             showTemperatureWarning();
           }
         }
