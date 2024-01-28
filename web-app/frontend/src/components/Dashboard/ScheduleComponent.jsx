@@ -21,7 +21,7 @@ function ScheduleComponent() {
   const fetchCollectors = async () => {
     try {
       const response = await fetch(
-        "http://52.74.74.48:1337/api/collector-details"
+        "http://localhost:1337/api/collector-details"
       );
       if (response.ok) {
         const CollectorData = await response.json();
@@ -37,7 +37,7 @@ function ScheduleComponent() {
   const fetchSchedule = async () => {
     try {
       const response = await axios.get(
-        "http://52.74.74.48:1337/api/scheduleCollection"
+        "http://localhost:1337/api/scheduleCollection"
       );
       setSchedule(response.data);
     } catch (error) {
@@ -47,7 +47,7 @@ function ScheduleComponent() {
 
   const fetchMqttData = async () => {
     try {
-      const response = await fetch("http://52.74.74.48:1337/iot/subscribe");
+      const response = await fetch("http://localhost:1337/iot/subscribe");
       if (!response.ok) {
         throw new Error("Failed to fetch MQTT data");
       }
@@ -74,7 +74,7 @@ function ScheduleComponent() {
       // Check if mqttData exists and filledLevel is higher than 30
       if (mqttData && mqttData.filledLevel > 30) {
         const response = await axios.post(
-          "http://52.74.74.48:1337/api/scheduleCollection",
+          "http://localhost:1337/api/scheduleCollection",
           {
             location,
             workingHours,

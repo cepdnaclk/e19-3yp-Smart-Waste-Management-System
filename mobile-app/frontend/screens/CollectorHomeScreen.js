@@ -6,9 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Entypo, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-const PublicHomeScreen = ({ navigation }) => {
+const CollectorHomeScreen = ({ navigation }) => {
 
-  const { logoutPublic } = useContext(AuthContext);
+  const { logoutCollector } = useContext(AuthContext);
 
   const [storedName, setStoredName] = useState('');
 
@@ -29,7 +29,7 @@ const PublicHomeScreen = ({ navigation }) => {
           onPress: () => null,
           style: 'cancel',
         },
-      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutPublic(); } },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutCollector(); } },
       ]); 
   };
 
@@ -100,7 +100,7 @@ const PublicHomeScreen = ({ navigation }) => {
   );
 };
 
-export default PublicHomeScreen;
+export default CollectorHomeScreen;
 
 const styles = StyleSheet.create({
   

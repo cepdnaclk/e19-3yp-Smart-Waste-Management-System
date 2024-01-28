@@ -34,7 +34,10 @@ app.use("/api", binRoutes);
 app.use("/api/user", authUserRoute);
 app.use("/api", scheduleRoute);
 
-mongoose.connect(DB_URL, {});
+mongoose.connect(DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // IoT connection BEGIN
 

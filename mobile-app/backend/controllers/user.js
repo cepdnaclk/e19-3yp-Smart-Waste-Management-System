@@ -86,7 +86,8 @@ exports.userSignInPublic = async (req, res) => {
         status: true,
         message: 'login successful',
         name : user.name,
-        email : user.email,
+        email: user.email,
+        mobile: user.mobile,
         tokenPublic,
         userId: user._id
     });
