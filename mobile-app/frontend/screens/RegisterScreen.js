@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons, MaterialIcons, AntDesign, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -29,6 +30,15 @@ const RegisterScreen = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState('');
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return (
+      <View style={[{ flex: 1 }, { justifyContent: 'center' }, { alignItems: 'center' }, {zIndex:1}]}>
+        <ActivityIndicator size='large' />
+      </View>
+    ) 
+  }
 
   const handleTouchablePress = () => {
     Keyboard.dismiss();
@@ -78,6 +88,8 @@ const RegisterScreen = () => {
   }
 
   const handleRegister = async () => {
+
+    setIsLoading(true);
     
     try {
       if (isValidForm({ name, mobile, email, password, confirmPassword })) {
@@ -92,16 +104,19 @@ const RegisterScreen = () => {
           .then(res => {
             console.log(res.data);
             if (res.data.status) {
+              setIsLoading(false);
               Alert.alert(res.data.message);
               navigation.navigate('LoginScreen');
             }
             else {
+              setIsLoading(false);
               Alert.alert(res.data.message, 'Register with another email');
             }
           })
       }
     } catch (error) {
       // Handle error
+      setIsLoading(false);
       console.error('Error creating user:', error.message, error.response);
     }
   };

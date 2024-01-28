@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import axios from 'axios'; // Assuming you're using Axios for HTTP requests
+import axios from 'axios'; 
 
 const Aws = () => {
   const [data, setData] = useState(null);
@@ -8,7 +8,7 @@ const Aws = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.181.130:8000/iot/subscribe');
+        const response = await axios.get('http://192.168.8.100:8000/iot/subscribe');
         setData(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

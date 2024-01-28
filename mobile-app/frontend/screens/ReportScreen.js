@@ -8,7 +8,8 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  Alert
+  Alert,
+  ActivityIndicator
   
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -25,6 +26,16 @@ const ReportScreen = ({ navigation }) => {
   const [feedback, changeFeedback] = useState("");
   const [error, setError] = useState("");
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  if (isLoading) {
+    return (
+      <View style={[{ flex: 1 }, { justifyContent: 'center' }, { alignItems: 'center' }, {zIndex:1}]}>
+        <ActivityIndicator size='large' />
+      </View>
+    ) 
+  }
+
   // const [email, setUserEmail] = useState('');
 
   // useEffect(() => {
@@ -36,6 +47,7 @@ const ReportScreen = ({ navigation }) => {
 
   //   fetchUserEmail();
   // }, []);
+
 
   const updateError = (error, stateUpdater) => {
     stateUpdater(error);
@@ -58,12 +70,15 @@ const ReportScreen = ({ navigation }) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     if (!name.trim() || !number.trim() || !title.trim() || !feedback.trim()) {
+      setIsLoading(false);
       return updateError("Fill all the fields!", setError);
     }
 
     // Validate mobile number
     if (!isValidNumber(number)) {
+      setIsLoading(false);
       return updateError("Invalid mobile number!", setError);
     }
 
@@ -78,6 +93,7 @@ const ReportScreen = ({ navigation }) => {
         .then(res => {
           console.log(res.data);
           if (res.data.status) {
+            setIsLoading(false);
             Alert.alert("Done",res.data.message, [
               {
                 text: 'Ok',
@@ -86,11 +102,13 @@ const ReportScreen = ({ navigation }) => {
             ]); 
           }
           else {
+            setIsLoading(false);
             Alert.alert(res.data.message);
           }
         })
     } catch (error) {
       //Handle error
+      setIsLoading(false);
       console.error('Error reporting',error.message);
     }
   };

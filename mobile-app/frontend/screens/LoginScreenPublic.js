@@ -13,8 +13,6 @@ const LoginScreenPublic = ({ navigation, onPressPublic, onPressCollector }) => {
 
   const { loginPublic } = useContext(AuthContext);
 
-
-
   const updateError = (error, stateUpdater) => {
     stateUpdater(error);
     setTimeout(() => {
