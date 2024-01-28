@@ -5,8 +5,8 @@
  #define THINGNAME "Bin_001"                         //change this
 //int8_t TIME_ZONE = -5;                              //NYC(USA): -5 UTC
  
-const char WIFI_SSID[] = "Dialog 4G 555";               //change this
-const char WIFI_PASSWORD[] = "5d56C7D3";          //change this
+const char WIFI_SSID[] = "SLT-4G_1F60F8";               //change this
+const char WIFI_PASSWORD[] = "EC36A30D";          //change this
 const char AWS_IOT_ENDPOINT[] = "a2jsyapr1lx107-ats.iot.us-east-1.amazonaws.com";       //change this
  
 // Amazon Root CA 1

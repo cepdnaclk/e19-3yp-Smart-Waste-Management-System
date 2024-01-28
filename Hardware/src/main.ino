@@ -171,7 +171,7 @@ void loop() {
     digitalWrite(led3Pin, LOW);
     digitalWrite(led4Pin, LOW);
     digitalWrite(relayPin, HIGH);
-  } else if (averageDistance <= 35) {
+  } else if (averageDistance <= 30) {
     digitalWrite(led1Pin, LOW);
     digitalWrite(led2Pin, LOW);
     digitalWrite(led3Pin, HIGH);
