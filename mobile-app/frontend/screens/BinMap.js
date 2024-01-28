@@ -40,7 +40,7 @@ const BinMap = ({ navigation }) => {
     return (
         <SafeAreaView>
             <View style={styles.headerContainer}>
-                <TouchableOpacity onPress={() => { navigation.navigate('PublicHomeScreen'); }} style={styles.icon} >
+                <TouchableOpacity onPress={() => { navigation.goBack(); }} style={styles.icon} >
                     <AntDesign name="left" size={30} color="green" />
                 </TouchableOpacity>
                 <Text style={styles.headingText}>Tap markers to view bin details</Text>

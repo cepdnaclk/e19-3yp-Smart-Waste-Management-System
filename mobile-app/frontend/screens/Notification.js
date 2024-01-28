@@ -4,20 +4,21 @@ import Aws from './Aws';
 
 const Notification = ({ navigation }) => {
   const [warnings, setWarnings] = useState([]);
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Assuming Aws component has a state variable named 'data'
         const newData = Aws.data;
-
+        console.log('New data:', newData);
+  
         if (newData) {
           // Check conditions for displaying warning messages
           if (newData.filledLevel > 90) {
             showBinLevelWarning();
           }
-
-          if (newData.temperature > 60) {
+  
+          if (newData.temperature > 30) {
             showTemperatureWarning();
           }
         }
@@ -25,29 +26,31 @@ const Notification = ({ navigation }) => {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData(); // Call the fetchData function
-
+  
     // Set an interval to fetch data every 5 seconds
     const interval = setInterval(fetchData, 5000);
-
-    // Clean up function to clear the interval when component unmounts
+  
+    // Clean up function to clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
+  
 
   const showBinLevelWarning = () => {
+    console.log('Bin level warning triggered');
     const timestamp = new Date().toLocaleString();
     const warningMessage = `Bin level is greater than 90%. (${timestamp})`;
-
     setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
   };
-
+  
   const showTemperatureWarning = () => {
+    console.log('Temperature warning triggered');
     const timestamp = new Date().toLocaleString();
-    const warningMessage = `Temperature is greater than 60 degrees. (${timestamp})`;
-
+    const warningMessage = `Temperature is greater than 30 degrees. (${timestamp})`;
     setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
   };
+  
 
   return (
     <View style={styles.container}>
