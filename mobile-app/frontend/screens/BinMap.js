@@ -1,44 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable} from 'react-native'
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'; 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { AntDesign } from 'react-native-vector-icons';
+import axios from 'axios'; 
 
 
 
 
 const BinMap = ({ navigation }) => {
 
-    const [markersList, setMarkersList] = useState([
-        {
-            id: 1,
-            latitude: 7.255826,
-            longitude: 80.594843,
-            Location: "Gymnasium",
-            level: 50,
-            temperature: 32
-        },
-        {
-            id: 2,
-            latitude: 7.252774987876031,
-            longitude: 80.5924139933361,
-            Location: "Engineering Faculty Canteen",
-            level: 75,
-            temperature: 37
-        },
-        {
-            id: 3,
-            latitude: 7.260135853713896,
-            longitude: 80.59645809253395,
-            Location: "Sarasavi Uyana Railway Station",
-            level: 30,
-            temperature: 33
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        const fetchData = async () => {
+        try {
+            const response = await axios.get('http://192.168.182.130:8000/iot/subscribe');
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
         }
-    ])
+        };
+
+        fetchData(); // Call the function to fetch data
+    }, []);
+
+    const markersList = data
+    ? [
+        {
+          id: data.binId,
+          latitude: data.latitude,
+          longitude: data.longitude,
+          level: data.filledLevel,
+          temperature: data.temperature,
+        },
+      ]
+    : [];
+
 
     const handleNavigation = () => {
         navigation.goBack();
     }
+
+    
 
     return(
         <SafeAreaView>

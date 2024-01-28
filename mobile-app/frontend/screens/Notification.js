@@ -1,43 +1,49 @@
-// ProfileCollector.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import axios from 'axios'; 
 
-import React, { useState, useEffect } from "react";
-import { View, Text } from "react-native";
-
-const ProfileCollector = () => {
-  const [collectorDetails, setCollectorDetails] = useState({});
-
-  // Assume you have a function to fetch collector details
-  const fetchCollectorDetails = async () => {
-    // Implement your logic to fetch collector details
-    // ...
-
-    // Example:
-    setCollectorDetails({
-      name: "John Doe",
-      email: "john.doe@example.com",
-      status: "Active",
-    });
-  };
+const Aws = () => {
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetchCollectorDetails();
-  }, []); // Fetch details when the component mounts
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://192.168.182.130:8000/iot/subscribe');
+        setData(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    // const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+
+    // // Clean up function to clear the interval when component unmounts
+    // return () => clearInterval(interval);
+  }, []);
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Collector Profile</Text>
-
-      {Object.keys(collectorDetails).length > 0 ? (
+    <View style={styles.container}>
+      {data ? (
         <View>
-          <Text>Name: {collectorDetails.name}</Text>
-          <Text>Email: {collectorDetails.email}</Text>
-          <Text>Status: {collectorDetails.status}</Text>
+          <Text>Bin ID: {data.binId}</Text>
+          <Text>Filled Level: {data.filledLevel}</Text>
+          <Text>Temperature: {data.temperature}</Text>
+          <Text>Latitude: {data.latitude}</Text>
+          <Text>Longitude: {data.longitude}</Text>
         </View>
       ) : (
-        <Text>Loading collector details...</Text>
+        <Text>Loading...</Text>
       )}
     </View>
   );
 };
 
-export default ProfileCollector;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export default Aws;
