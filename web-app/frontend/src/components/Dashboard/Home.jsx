@@ -104,7 +104,9 @@ function Home() {
               {mqttData ? (
                 <tr>
                   <td>{mqttData.binId}</td>
-                  <td>{(mqttData.filledLevel / height) * 100} %</td>
+                  <td>
+                    {((mqttData.filledLevel / height) * 100).toFixed(2)} %
+                  </td>
                   <td>{mqttData.temperature}</td>
                   <td>{mqttData.latitude}</td>
                   <td>{mqttData.longitude}</td>
