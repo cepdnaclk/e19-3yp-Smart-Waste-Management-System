@@ -3,10 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StyleSheet, Text, View, Image, TouchableOpacity, BackHandler, Alert } from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Entypo, Octicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const PublicHomeScreen = ({ navigation }) => {
 
-  const { logoutCollector } = useContext(AuthContext);
+  const { logoutPublic } = useContext(AuthContext);
 
   const [storedName, setStoredName] = useState('');
 
@@ -20,8 +22,6 @@ const PublicHomeScreen = ({ navigation }) => {
     fetchUserName();
   }, []);
 
-
-
   const exitApp = async () => {
     Alert.alert('LOGOUT', 'Do you want to log-out from your account?', [
         {
@@ -29,7 +29,7 @@ const PublicHomeScreen = ({ navigation }) => {
           onPress: () => null,
           style: 'cancel',
         },
-      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutCollector(); } },
+      { text: 'Yes', onPress: () => { BackHandler.exitApp(), logoutPublic(); } },
       ]); 
   };
 
@@ -38,6 +38,9 @@ const PublicHomeScreen = ({ navigation }) => {
     navigation.navigate("BinMap");
   };
 
+  const viewWarning = () => {
+    navigation.navigate("BinMap");
+  };
 
   return (
     <SafeAreaView style={styles.buttonContainer}>
@@ -47,7 +50,7 @@ const PublicHomeScreen = ({ navigation }) => {
       </View>
       <View style={styles.container}>
         <Image
-          source={require("../assets/LoginScreen/head.png")}
+          source={require("../assets/LoginScreen/img.png")}
           style={styles.image}
         />
       </View>
@@ -56,15 +59,41 @@ const PublicHomeScreen = ({ navigation }) => {
         style={[styles.button, { backgroundColor: "#1bb56b" }]}
         onPress={viewMap}
       >
-        <Text style={styles.buttonText}>BIN STATUS</Text>
+        <View style={styles.buttonItems}>
+          <View>
+            <Text style={styles.buttonText}>Get Updates</Text>
+            <Text style={{color:'white'}}>View bin locations, filled levels and temperature</Text>
+          </View>
+          <Entypo name="location" size={40} color="white" style={styles.icon} />
+        </View>
       </TouchableOpacity>
-      
+
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#d9c10b" }]}
+        style={[styles.button, { backgroundColor: "#1bb56b" }]}
+        onPress={viewWarning}
+      >
+        <View style={styles.buttonItems}>
+          <View>
+            <Text style={styles.buttonText}>Get Updates</Text>
+            <Text style={{color:'white'}}>View bin locations, filled levels and temperature</Text>
+          </View>
+          <Entypo name="location" size={40} color="white" style={styles.icon} />
+        </View>
+      </TouchableOpacity>
+        
+      <TouchableOpacity
+        activeOpacity={0.7}
+        style={[styles.button, { backgroundColor: "#a660d1" }]}
         onPress={ exitApp }
       >
-        <Text style={styles.buttonText}>LOG OUT</Text>
+        <View style={styles.buttonItems}>
+          <View>
+            <Text style={styles.buttonText}>Log Out</Text>
+            <Text style={{color:'white'}}>Logout from your account and exit</Text>
+          </View>
+          <MaterialCommunityIcons name="logout" size={50} color="white" />
+        </View>
       </TouchableOpacity>
     </SafeAreaView>
     
@@ -80,9 +109,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "green",
+    fontSize: 20,
+    fontWeight: '300',
+    color: "grey",
     paddingRight:5
   },
   name: {
@@ -93,7 +122,6 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     marginTop:10,
-    flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
     height: 60,
@@ -101,15 +129,17 @@ const styles = StyleSheet.create({
   },
   image: {
     marginTop: 20,
-    width: 350,
-    height: 200
+    width: 300,
+    height: 250,
+    marginBottom:10
   },
   button: {
+    flexDirection: 'row',
     alignItems: "center",
     alignContent:'center',
     padding: 15,
     width: "90%",
-    height:"18%",
+    height:120,
     borderRadius: 20,
     margin: 5,
     elevation: 5,
@@ -127,4 +157,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
   },
+  buttonItems: {
+    flex:1,
+    flexDirection: 'row',
+    justifyContent:'space-between'
+  },
+  icon: {
+  
+  }
 });
