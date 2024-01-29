@@ -13,8 +13,8 @@ Our project is a smart waste management system that aims to make the process of 
 - Hardware setup: Bins with level measuring sensors and temperature sensors, with proper power supply system connected to LEDs.
   
 <div align="center">
-  <img src="./docs/assets/readme/4.png" width="500" height="300">
-  <img src="./docs/assets/readme/5.png" width="500" height="300">
+  <img src="./docs/assets/readme/4.jpeg" width="500" height="300">
+  <img src="./docs/assets/readme/5.jpeg" width="500" height="300">
 </div>
 
 - Software setup: Mobile application for house owners and garbage collectors; Web application for municipal authorities.
