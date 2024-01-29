@@ -56,7 +56,7 @@ const CollectorHomeScreen = ({ navigation }) => {
       </View>
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#2E8B57" }]}
+        style={[styles.button, { backgroundColor: "#1bb56b" }]}
         onPress={viewMap}
       >
         <View style={styles.buttonItems}>
@@ -70,7 +70,7 @@ const CollectorHomeScreen = ({ navigation }) => {
 
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#228B22" }]}
+        style={[styles.button, { backgroundColor: "#1b8cb5" }]}
         onPress={viewWarning}
       >
         <View style={styles.buttonItems}>
@@ -84,7 +84,7 @@ const CollectorHomeScreen = ({ navigation }) => {
         
       <TouchableOpacity
         activeOpacity={0.7}
-        style={[styles.button, { backgroundColor: "#556B2F" }]}
+        style={[styles.button, { backgroundColor: "#a660d1" }]}
         onPress={ exitApp }
       >
         <View style={styles.buttonItems}>
