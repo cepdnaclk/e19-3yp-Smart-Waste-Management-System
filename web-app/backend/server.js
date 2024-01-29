@@ -57,7 +57,7 @@ mongoose.connection.on("error", (err) => {
 app.use(express.static(buildPath));
 
 app.get("/*", function (req, res) {
-  res.sendFile(path.resolve(buildPath, "index.html"), function (err) {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.js"), function (err) {
     if (err) {
       res.status(500).send(err);
     }
