@@ -27,8 +27,7 @@ Our project is a smart waste management system that aims to make the process of 
 - AWS Server: Hosting the website, data storing and database hosting.
   
 <div align="center">
-  <img src="./docs/assets/readme/2.png" width="500" height="300">
-  <img src="./docs/assets/readme/3.png" width="500" height="300">
+  <img src="./docs/assets/readme/8.png" width="500" height="300">
 </div>
 
 ## Key Features
