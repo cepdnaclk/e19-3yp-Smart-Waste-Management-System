@@ -5,7 +5,7 @@ import { faTrash, faUsers } from "@fortawesome/free-solid-svg-icons";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:1337");
-const height = 50;
+const height = 38;
 
 function Home() {
   const [mqttData, setMqttData] = useState(null);

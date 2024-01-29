@@ -99,11 +99,6 @@ const PublicHomeScreen = ({ navigation }) => {
           <MaterialCommunityIcons name="account" size={40} color="#105716"/>
           <Text style={{fontSize:13, color:'green'}}>Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.footerItems}>
-          <Ionicons name="notifications" size={30} color="#105716"/>
-          <Text style={{fontSize:13, color:'green'}}>Notifications</Text>
-        </TouchableOpacity>
-        
       </View>
     </SafeAreaView>
     

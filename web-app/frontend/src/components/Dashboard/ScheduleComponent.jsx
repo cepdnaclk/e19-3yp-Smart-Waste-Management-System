@@ -59,17 +59,6 @@ function ScheduleComponent() {
   };
 
   const handleScheduleTrip = async () => {
-    // Check if all required fields are filled
-    if (
-      !location ||
-      !workingHours.start ||
-      !workingHours.end ||
-      !selectedCollector
-    ) {
-      setResponseMessage("Please fill in all fields.");
-      return;
-    }
-
     try {
       // Check if mqttData exists and filledLevel is higher than 30
       if (mqttData && mqttData.filledLevel > 30) {
@@ -84,7 +73,7 @@ function ScheduleComponent() {
         setResponseMessage(response.data.message);
         fetchSchedule(); // Fetch the updated schedule after scheduling the trip
       } else {
-        setResponseMessage("Cannot schedule: Bins are not filled.");
+        setResponseMessage("Cannot schedule trip: Bins are not filled.");
       }
     } catch (error) {
       console.error("Error scheduling collection trip:", error);
