@@ -4,7 +4,7 @@ const fs = require("fs");
 // AWS IoT configuration
 const awsIotEndpoint = process.env.AWS_MQTT_END_POINT;
 const awsIotTopic = "3yp/Area001/Bin_001";
-const clientId = "mqqt-client-01";
+const clientId = "mqqt-client-001";
 
 const mqttClient = mqtt.connect(awsIotEndpoint, {
   clientId: clientId,
