@@ -1,71 +1,97 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import Aws from './Aws';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
+import axios from 'axios';
+import { AntDesign } from 'react-native-vector-icons';
 
-const Notification = ({ navigation }) => {
+const Aws = () => {
+  const [data, setData] = useState(null);
   const [warnings, setWarnings] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Assuming Aws component has a state variable named 'data'
-        const newData = Aws.data;
+        const response = await axios.get('http://192.168.1.179:8000/iot/subscribe');
+        setData(response.data);
 
-        if (newData) {
-          // Check conditions for displaying warning messages
-          if (newData.filledLevel > 75) {
-            showBinLevelWarning();
-          }
+        // Check conditions for displaying warning messages
+        if (response.data.filledLevel < 10) {
+          showBinLevelWarning();
+        }
 
-          if (newData.temperature > 30) {
-            showTemperatureWarning();
-          }
+        if (response.data.temperature > 30) {
+          showTemperatureWarning();
         }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
-    fetchData(); // Call the fetchData function
+    const loadStoredWarnings = async () => {
+      try {
+        const storedWarnings = await AsyncStorage.getItem('warnings');
+        if (storedWarnings) {
+          setWarnings(JSON.parse(storedWarnings));
+        }
+      } catch (error) {
+        console.error('Error loading stored warnings:', error);
+      }
+    };
 
-    // Set an interval to fetch data every 5 seconds
-    const interval = setInterval(fetchData, 5000);
+    const saveWarnings = async (updatedWarnings) => {
+      try {
+        await AsyncStorage.setItem('warnings', JSON.stringify(updatedWarnings));
+      } catch (error) {
+        console.error('Error saving warnings:', error);
+      }
+    };
 
-    // Clean up function to clear the interval when component unmounts
+    const interval = setInterval(() => {
+      fetchData(); // Fetch data every 5 seconds
+      loadStoredWarnings(); // Load stored warnings
+    }, 5000);
+
+    // Clean up function to clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);
 
   const showBinLevelWarning = () => {
+    console.log('Bin level warning triggered');
     const timestamp = new Date().toLocaleString();
-    const warningMessage = `Bin level is greater than 90%. (${timestamp})`;
-
-    setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
+    const warningMessage = `Bin level is less than 10 cm. (${timestamp})`;
+    setWarnings((prevWarnings) => {
+      const updatedWarnings = [warningMessage, ...prevWarnings];
+      saveWarnings(updatedWarnings);
+      return updatedWarnings;
+    });
   };
 
   const showTemperatureWarning = () => {
+    console.log('Temperature warning triggered');
     const timestamp = new Date().toLocaleString();
-    const warningMessage = `Temperature is greater than 60 degrees. (${timestamp})`;
-
-    setWarnings((prevWarnings) => [warningMessage, ...prevWarnings]);
+    const warningMessage = `Temperature is greater than 30 degrees. (${timestamp})`;
+    setWarnings((prevWarnings) => {
+      const updatedWarnings = [warningMessage, ...prevWarnings];
+      saveWarnings(updatedWarnings);
+      return updatedWarnings;
+    });
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.backButtonText}>{'< Back'}</Text>
+      <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+        <AntDesign name="arrowleft" size={24} color="white" />
       </TouchableOpacity>
-      <View style={styles.squareArea}>
-        <ScrollView>
-          {warnings.map((warning, index) => (
-            <Text key={index} style={styles.warningText}>
-              {warning}
-            </Text>
-          ))}
-        </ScrollView>
+      <View style={styles.headerContainer}>
+        <Text style={styles.headerText}>Warning Messages</Text>
       </View>
+      <FlatList
+        data={warnings}
+        renderItem={({ item }) => (
+          <Text style={styles.warningText}>{item}</Text>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        inverted={true} // Display the latest messages at the top
+      />
     </View>
   );
 };
@@ -73,38 +99,32 @@ const Notification = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: 20,
-  },
-  squareArea: {
-    width: '100%',
-    height: '90%', // Capture the screen height
-    borderColor: 'rgba(0, 0, 0, 0.5)', // Slightly transparent border color
-    borderWidth: 2,
-    borderRadius: 10,
-    padding: 10,
-    margin: 'auto', // Center the square area
-    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Slightly transparent white background
-    marginTop: 80, // Adjusted marginTop to create space below the button
+    backgroundColor: '#E0F7E0', // Light green background color
   },
   backButton: {
     position: 'absolute',
-    top: 40,
+    top: 20,
     left: 20,
-    backgroundColor: 'green',
+    backgroundColor: '#105716', // Dark green button color
     padding: 10,
     borderRadius: 5,
   },
-  backButtonText: {
-    fontSize: 16,
+  headerContainer: {
+    backgroundColor: '#105716', // Dark green header background color
+    padding: 15,
+    alignItems: 'center',
+  },
+  headerText: {
+    fontSize: 20,
     color: 'white',
+    fontWeight: 'bold',
   },
   warningText: {
-    marginVertical: 5,
     fontSize: 16,
-    color: 'red',
+    color: '#FF0000', // Red warning text color
+    marginVertical: 5,
+    paddingHorizontal: 15,
   },
 });
 
-export default Notification;
+export default Aws;
