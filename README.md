@@ -9,11 +9,12 @@
 Our project is a smart waste management system that aims to make the process of waste collection more efficient. The system utilizes waste bins and manages them through mobile and web applications. With the help of the system, users can easily check the status of the bins and follow a schedule for waste collection based on the bin's status. Our primary focus is on house owners, garbage collectors, and municipal authorities who serve as administrators in the system. The system is designed to make waste management easier and more effective for everyone involved.
 
 ## Project Components
+
 - Hardware setup: Bins with level measuring sensors and temperature sensors, with proper power supply system connected to LEDs.
   
 <div align="center">
-  <img src="./docs/assets/readme/2.png" width="500" height="300">
-  <img src="./docs/assets/readme/3.png" width="500" height="300">
+  <img src="./docs/assets/readme/4.jpeg" width="500" height="300">
+  <img src="./docs/assets/readme/5.jpeg" width="500" height="300">
 </div>
 
 - Software setup: Mobile application for house owners and garbage collectors; Web application for municipal authorities.
@@ -26,16 +27,10 @@ Our project is a smart waste management system that aims to make the process of 
 - AWS Server: Hosting the website, data storing and database hosting.
   
 <div align="center">
-  <img src="./docs/assets/readme/2.png" width="500" height="300">
-  <img src="./docs/assets/readme/3.png" width="500" height="300">
+  <img src="./docs/assets/readme/8.png" width="500" height="300">
 </div>
 
 ## Key Features
-
-<div align="center">
-  <img src="./docs/assets/readme/2.png" width="500" height="300">
-  <img src="./docs/assets/readme/3.png" width="500" height="300">
-</div>
 
 - User-friendly web-based interface for administrators and mobile application for house owners and garbage collectors.
 - Auto-locking system while the wastage filled a certain level.
