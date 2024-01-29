@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native'; // Assuming you are using React Navigation
 import axios from 'axios';
-import { AntDesign } from 'react-native-vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Aws = () => {
+  const navigation = useNavigation();
   const [data, setData] = useState(null);
   const [warnings, setWarnings] = useState([]);
+
+  // Declare saveWarnings outside of loadStoredWarnings
+  const saveWarnings = async (updatedWarnings) => {
+    try {
+      await AsyncStorage.setItem('warnings', JSON.stringify(updatedWarnings));
+    } catch (error) {
+      console.error('Error saving warnings:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,14 +45,6 @@ const Aws = () => {
         }
       } catch (error) {
         console.error('Error loading stored warnings:', error);
-      }
-    };
-
-    const saveWarnings = async (updatedWarnings) => {
-      try {
-        await AsyncStorage.setItem('warnings', JSON.stringify(updatedWarnings));
-      } catch (error) {
-        console.error('Error saving warnings:', error);
       }
     };
 
@@ -79,19 +82,17 @@ const Aws = () => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-        <AntDesign name="arrowleft" size={24} color="white" />
+        <Text style={styles.backButtonText}>Back</Text>
       </TouchableOpacity>
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>Warning Messages</Text>
+      <View style={styles.notificationContainer}>
+        <ScrollView>
+          {warnings.map((warning, index) => (
+            <Text key={index} style={styles.warningText}>
+              {warning}
+            </Text>
+          ))}
+        </ScrollView>
       </View>
-      <FlatList
-        data={warnings}
-        renderItem={({ item }) => (
-          <Text style={styles.warningText}>{item}</Text>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-        inverted={true} // Display the latest messages at the top
-      />
     </View>
   );
 };
@@ -99,31 +100,33 @@ const Aws = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E0F7E0', // Light green background color
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backButton: {
     position: 'absolute',
-    top: 20,
+    top: 40,
     left: 20,
-    backgroundColor: '#105716', // Dark green button color
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 5,
+    zIndex: 1,
   },
-  headerContainer: {
-    backgroundColor: '#105716', // Dark green header background color
-    padding: 15,
-    alignItems: 'center',
-  },
-  headerText: {
-    fontSize: 20,
+  backButtonText: {
     color: 'white',
-    fontWeight: 'bold',
+  },
+  notificationContainer: {
+    marginTop: 90,
+    maxHeight: '80%',
+    width: '80%',
+    borderColor: 'rgba(0, 0, 0, 0.5)',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 10,
   },
   warningText: {
     fontSize: 16,
-    color: '#FF0000', // Red warning text color
-    marginVertical: 5,
-    paddingHorizontal: 15,
+    color: 'red',
   },
 });
 
