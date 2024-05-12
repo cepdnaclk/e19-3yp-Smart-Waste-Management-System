@@ -53,7 +53,7 @@ Our project is a smart waste management system that aims to make the process of 
   - MongoDB for the database.
 
 - **IoT Devices:**
-  - Arduino/Raspberry Pi for smart waste bins.
+  - ESP32 Microcontroller for smart waste bins.
   - MQTT for communication.
 
 - **Authentication:**
